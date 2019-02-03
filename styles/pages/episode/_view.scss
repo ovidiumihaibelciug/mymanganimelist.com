@@ -1,0 +1,121 @@
+.o-episode-view {
+  .anime-poster {
+    background-position: center center;
+    background-size: cover;
+  }
+  .episode-row {
+    display: flex;
+    min-height: 70vh;
+    width: 100%;
+    .leftside {
+      min-height: 500px;
+      height: 100%;
+      width: 100%;
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      flex: 1;
+      -webkit-box-shadow: 0px 0px 28px 1px rgba(0, 0, 0, 0.75);
+      -moz-box-shadow: 0px 0px 28px 1px rgba(0, 0, 0, 0.75);
+      box-shadow: 0px 0px 28px 1px rgba(0, 0, 0, 0.75);
+      border: 10px solid transparent;
+      -moz-border-image: -moz-linear-gradient(top, #2f363f 0%, #303640 100%);
+      -webkit-border-image: -webkit-linear-gradient(
+        top,
+        #2f363f 0%,
+        #303640 100%
+      );
+      border-image: linear-gradient(to bottom, #2f363f 0%, #303640 100%);
+      border-image-slice: 1;
+    }
+    .rightside {
+      flex: 3;
+      margin-left: 30px;
+      padding: 30px;
+      .title {
+        color: $o-color-main;
+        text-transform: uppercase;
+        font-weight: 500;
+        letter-spacing: 1.5px;
+        font-size: 3.5rem;
+        text-align: center;
+        &::after {
+          width: 10px;
+          border-bottom: 1px solid red;
+          background-color: red;
+          height: 5px;
+          width: 5px;
+        }
+      }
+      .description {
+        margin-top: 60px;
+        font-size: 1.7rem;
+        line-height: 3rem;
+        color: rgba(#fff, 0.4);
+      }
+      .date {
+        margin-top: 30px;
+        font-size: 1.6rem;
+        color: rgba(255, 255, 255, 0.2);
+      }
+    }
+  }
+}
+
+.secondary-item {
+  display: flex;
+  min-height: 70vh;
+  width: 100%;
+  &__leftside {
+    min-height: 500px;
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    flex: 1;
+    -webkit-box-shadow: 0px 0px 28px 1px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 0px 28px 1px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 28px 1px rgba(0, 0, 0, 0.75);
+    border: 10px solid transparent;
+    -moz-border-image: -moz-linear-gradient(top, #2f363f 0%, #303640 100%);
+    -webkit-border-image: -webkit-linear-gradient(
+      top,
+      #2f363f 0%,
+      #303640 100%
+    );
+    border-image: linear-gradient(to bottom, #2f363f 0%, #303640 100%);
+    border-image-slice: 1;
+  }
+  &__rightside {
+    flex: 3;
+    margin-left: 30px;
+    padding: 30px;
+    &__title {
+      color: $o-color-main;
+      text-transform: uppercase;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      font-size: 3.5rem;
+      text-align: center;
+      &::after {
+        width: 10px;
+        border-bottom: 1px solid red;
+        background-color: red;
+        height: 5px;
+        width: 5px;
+      }
+    }
+    &__description {
+      margin-top: 60px;
+      font-size: 1.7rem;
+      line-height: 3rem;
+      color: rgba(#fff, 0.4);
+    }
+    &__date {
+      margin-top: 30px;
+      font-size: 1.6rem;
+      color: rgba(255, 255, 255, 0.2);
+    }
+  }
+}

@@ -1,0 +1,109 @@
+.o-sidebar {
+  display: grid;
+  grid-template-rows: 20% auto auto;
+  z-index: 1;
+  &__brand {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 2rem;
+    text-transform: uppercase;
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+  }
+  &__main, &__sec {
+    &__title {
+      color: #4D5261;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-size: .9rem;
+      padding-left: 20%;
+      margin-bottom: 10px;
+    }
+  }
+  &__main {
+    &__content {
+      display: flex;
+      flex-direction: column;
+      &__item {
+        color: white;
+        margin: 10px 0;
+        padding: 5px 0 5px 20%;
+        font-weight: 800;
+        font-size: 1.3rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        border-left: 2px solid $o-color-nav;
+        &:hover {
+          color: $o-color-main;
+        }
+        &__active {
+          border-left: 2px solid $o-color-main;
+          color: $o-color-main;
+        }
+        &__container {
+           padding: 10px 0;
+        }
+      }
+
+    }
+  }
+  &__sec {
+    &__content {
+      display: flex;
+      flex-direction: column;
+      &__container {
+        padding: 5px 0;
+      }
+      &__item {
+        color: #656a77;
+        padding: 0 20%;
+        font-weight: 600;
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        &:hover {
+          color: #898c92
+        }
+        &.active {
+          color: #898c92;
+        }
+      }
+    }
+  }
+  &--small {
+    width: 90px !important;
+    box-shadow: 4px 1px 22px -3px rgba(0, 0, 0, .35);
+    .o-sidebar--main {
+      .sidebar-item-container {
+        .sidebar-item {
+          font-size: .9rem !important;
+        }
+      }
+    }
+    .o-sidebar--sec {
+      .sidebar-item-container {
+        .sidebar-item {
+          font-size: .8rem;
+        }
+      }
+    }
+    .o-sidebar--main, .o-sidebar--sec {
+      .title {
+        font-size: .8rem;
+      }
+    }
+  }
+}
+
+.toggle-sidebar {
+  z-index: 5;
+  position: absolute;
+  top: 40px;
+  left: 20px;
+  font-size: 2.5rem;
+  color: white;
+  &:hover {
+    cursor: pointer;
+  }
+}

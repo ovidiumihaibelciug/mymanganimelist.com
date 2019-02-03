@@ -1,0 +1,68 @@
+.filters-secondary {
+  margin-right: 150px;
+
+  &__line {
+    margin-top: 50px;
+    margin-bottom: 60px;
+    height: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+    display: flex;
+    justify-content: center;
+
+    &__box {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: $o-color-main;
+      font-size: 1.2rem;
+      font-weight: 100;
+      padding: 7px 15px;
+      letter-spacing: 1.5px;
+      border-radius: 5px;
+      position: absolute;
+      text-align: center;
+      top: -5px;
+      cursor: pointer;
+      text-transform: uppercase;
+
+      &:hover {
+        background-color: rgba($o-color-main, 0.1);
+        color: rgba(255, 255, 255, 0.8);
+      }
+    }
+  }
+
+  &__container {
+    margin-bottom: 50px;
+    margin-top: 50px;
+    position: relative;
+    display: block;
+    background-color: #111a20;
+    padding: 30px 20px;
+    -webkit-box-shadow: inset 0px 0px 8px 6px rgba(0, 0, 0, 0.06);
+    -moz-box-shadow: inset 0px 0px 8px 6px rgba(0, 0, 0, 0.06);
+    box-shadow: inset 0px 0px 8px 6px rgba(0, 0, 0, 0.06);
+    border-radius: 5px;
+
+    .ant-form-item-label {
+      label {
+        font-size: 1.4rem;
+        color: $o-color-main;
+      }
+    }
+
+    input {
+      color: aliceblue;
+      background-color: transparent;
+      border-bottom-color: #656a77;
+
+      ::placeholder {
+        color: #898c92;
+      }
+
+      &:focus {
+        border-bottom-color: $o-color-main;
+      }
+    }
+
+  }
+}

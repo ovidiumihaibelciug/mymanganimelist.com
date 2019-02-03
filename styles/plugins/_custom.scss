@@ -1,0 +1,95 @@
+.cc-swiper-button {
+  width: 32px;
+  height: 32px;
+  background-color: $color-main;
+  border-radius: 50%;
+  @include mds-font-size(14px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  cursor: pointer;
+  position: absolute;
+  z-index: $mds-z-3;
+  top: 50%;
+  margin-top: -16px;
+  overflow: hidden;
+
+  &:after,
+  &:before {
+    content: "";
+    background-color: rgba(white, 0.2);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 250ms linear;
+  }
+
+  &:hover {
+    cursor: pointer;
+    text-decoration: none;
+
+    &:before {
+      transition-duration: 85ms;
+      opacity: 0.6;
+    }
+  }
+
+  &:active {
+    outline: none;
+
+    &:after {
+      transition-duration: 85ms;
+      opacity: 0.6;
+    }
+  }
+
+  &.cc--prev {
+    transform: rotate(180deg);
+
+
+    @include mds-breakpoint('phone') {
+      left: 4px;
+    }
+
+    @include mds-breakpoint('tablet') {
+      left: 10px;
+    }
+
+    @include mds-breakpoint('laptop') {
+      left: 20px;
+    }
+
+    @include mds-breakpoint('desktop') {
+      left: 10px;
+    }
+  }
+
+  &.cc--next {
+
+    @include mds-breakpoint('phone') {
+      right: 4px;
+    }
+
+    @include mds-breakpoint('tablet') {
+      right: 10px;
+    }
+
+    @include mds-breakpoint('laptop') {
+      right: 20px;
+    }
+
+    @include mds-breakpoint('desktop') {
+      right: 10px;
+    }
+  }
+
+  &.swiper-button-disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}

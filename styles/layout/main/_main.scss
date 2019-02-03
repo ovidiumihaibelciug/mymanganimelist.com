@@ -1,0 +1,27 @@
+.o-main-layout {
+	display: flex;
+	.o-sidebar {
+		position: fixed;
+		width: 18%;
+		height: 100%;
+		background-color: $o-color-nav;
+		top: 0;
+	}
+	.o-main {
+		padding-left: calc(18% + 30px);
+		&.o-anime-view {
+			padding-left: 90px;
+		}
+		min-height: 100vh;
+		width: 100%;
+		background-color: $o-color-bg;
+		padding-right: 15px;
+		margin-right: auto;
+		margin-left: auto
+		
+	}
+}
+
+.o-main {
+	font-size: 5rem;
+}

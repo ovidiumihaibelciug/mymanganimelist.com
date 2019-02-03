@@ -1,0 +1,32 @@
+{
+  "name": "create-next-example-app",
+  "scripts": {
+    "dev": "node server.js",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@zeit/next-sass": "^1.0.1",
+    "antd": "^3.13.0",
+    "axios": "^0.18.0",
+    "classnames": "^2.2.6",
+    "easify": "^0.2.0",
+    "express": "^4.16.4",
+    "font-awesome": "^4.7.0",
+    "mobx": "^5.9.0",
+    "mobx-react": "^5.4.3",
+    "moment": "^2.24.0",
+    "next": "7.0.2",
+    "next-routes": "^1.4.2",
+    "node-sass": "^4.11.0",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "react-id-swiper": "^1.6.8",
+    "react-modal-video": "^1.2.1",
+    "react-molecule": "^0.1.5",
+    "react-router-dom": "^4.3.1",
+    "simpl-schema": "^1.5.3",
+    "uniforms": "^1.31.0",
+    "uniforms-antd": "^1.31.0"
+  }
+}

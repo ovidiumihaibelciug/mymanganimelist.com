@@ -1,0 +1,94 @@
+.o-search {
+  &__form {
+    margin: 0 20px;
+    padding: 30px 50px;
+    background-color: #3A4048;
+    border: 1px solid gray;
+    box-shadow: $shadow-dp23 !important;
+    background: rgba(15, 15, 20, 1) !important;
+    border: 2px solid darken(rgba(15, 15, 20, 1), 50%) !important;
+    form {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      .ant-form-item:first-child {
+        margin-bottom: 0 !important;
+        width: 100%;
+        height: 32px;
+        .ant-form-item-control-wrapper {
+          position: absolute;
+          top: 0;
+          width: 100%;
+          .ant-form-item-control {
+            line-height: 0;
+          }
+        }
+        input {
+          color: #fff;
+          border: 1px solid darken($o-color-main, 40%);
+          &:focus {
+            border-bottom-color: $o-color-main;
+          }
+          &:hover {
+            border-color: darken($o-color-main, 30%);
+          }
+        }
+      }
+      button {
+        border-radius: 0;
+      }
+      .ant-btn {
+        border-radius: 0 !important;
+      }
+      label:first-child {
+        display: none;
+      }
+    }
+  }
+}
+
+.toggle-1 {
+  font-family: Helvetica, Arial, sans-serif;
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 15px 0 0;
+}
+.toggle-1__input {
+  display: none;
+}
+.toggle-1__button {
+  position: relative;
+  display: inline-block;
+  font-size: 1rem;
+  line-height: 20px;
+  text-transform: uppercase;
+  background-color: #f2395a;
+  border: solid 1px #f2395a;
+  color: white;
+  width: 100px;
+  height: 35px;
+  transition: all .3s ease;
+  cursor: pointer;
+}
+.toggle-1__button::before {
+  position: absolute;
+  top: 5px;
+  left: 39px;
+  content: "Anime";
+  display: flex;
+  align-items: center;
+  height: 25px;
+  padding: 0 10px;
+  background: white;
+  color: #f2395a;
+  transition: all .3s ease;
+}
+.toggle-1__input:checked + .toggle-1__button {
+  background: #00b3b4;
+  border: solid 1px #00b3b4;
+}
+.toggle-1__input:checked + .toggle-1__button::before {
+  left: 5px;
+  color: #00b3b4;
+  content: "Manga";
+}

@@ -1,0 +1,59 @@
+.o-login {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+
+  &__description {
+    flex: 5;
+    background-color: $o-color-main;
+  }
+
+  &__form {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: $o-color-bg;
+
+    &__title {
+      font-size: 45px;
+      color: $o-color-main;
+      margin-bottom: 20%;
+      text-transform: uppercase;
+    }
+
+    &__inputs {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    &__input {
+      padding: 20px 28px !important;
+      background-color: transparent !important;
+      border: 1px solid rgba(#fff, 0.1) !important;
+      border-radius: 10px !important;
+      color: #fff !important;
+      transition: all .2s ease-in-out;
+
+      &::placeholder {
+        color: #fff !important;
+      }
+
+      &:hover {
+        border-color: rgba(#fff, 0.2) !important;
+        transition: all .2s ease-in-out;
+      }
+
+      &:focus {
+        border-color: rgba(#fff, 0.3) !important;
+        transition: all .2s ease-in-out;
+      }
+    }
+
+    &__forgot-password {
+      color: rgba(#fff, 0.2);
+      margin-top: 20%;
+    }
+  }
+}

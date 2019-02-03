@@ -1,0 +1,164 @@
+.anime-episodes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  .o-anime-view {
+    background-color: rgb(20, 28, 36);
+  }
+
+  .anime-container {
+    padding-right: 300px;
+  }
+
+  .easy-list-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .anime-box {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin: 25px;
+    width: 19%;
+    min-width: 150px;
+    background-color: darken(rgb(20, 28, 36), 5%);
+    transition: all 0.1s ease-in-out;
+
+    &:hover {
+      transform: scale(1.1);
+      transition: all 0.1s ease-in-out;
+      cursor: pointer;
+    }
+
+    .number {
+      position: absolute;
+      font-size: 4rem;
+      color: white;
+      font-weight: 700;
+      transform: rotate(-45deg);
+      top: -1rem;
+      left: -2rem;
+      text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.75);
+    }
+
+    .img {
+      flex: 3;
+      width: 100%;
+      height: 100%;
+      min-height: 150px;
+      background-size: cover;
+      background-position: center center;
+    }
+
+    .title {
+      flex: 1;
+      font-size: 1.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: rgba(255, 255, 255, 0.88);
+      margin-top: 10px;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+  }
+}
+
+.custom-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 150px;
+
+  button {
+    padding: 10px 20px;
+    background-color: transparent;
+    border: 1px solid $o-color-main;
+    color: $o-color-main;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    margin-bottom: 70px;
+    transition: all 0.1s ease-in-out;
+
+    &:active {
+      transform: translate(-5px, -3px);
+      transition: all 0.1s ease-in-out;
+    }
+
+    &:hover {
+      color: rgba($o-color-main, 0.5);
+      border-color: rgba($o-color-main, 0.5);
+    }
+  }
+}
+
+.items {
+  .video-item {
+    width: 100%;
+    margin-bottom: 100px;
+
+    &:nth-child(2n) {
+      .play-button {
+        background-color: $o-color-red;
+
+        &:hover {
+          background-color: darken($o-color-red, 10%);
+        }
+      }
+    }
+
+    &:nth-child(2n+1) {
+      .play-button {
+        background-color: $o-color-main;
+
+        &:hover {
+          background-color: darken($o-color-main, 10%);
+        }
+      }
+    }
+
+    a {
+      width: 100%;
+      height: 100%;
+
+      .video {
+        width: 95%;
+        height: 600px;
+        background-color: black;
+        border-radius: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        cursor: pointer;
+
+        .play-button {
+          color: #fff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          padding: 15px 40px;
+          border-radius: 10px;
+
+          &--blue {
+            background-color: $o-color-main;
+          }
+
+          &--red {
+            background-color: $o-color-red;
+          }
+        }
+
+        &:hover {
+          .play-button {
+            opacity: .7;
+          }
+        }
+      }
+    }
+  }
+}
