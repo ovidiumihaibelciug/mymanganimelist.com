@@ -66,7 +66,7 @@ const ItemsRow = ({ id, title, url, children }) => {
       <div className="text-row">
         <div className="title">{title}</div>
         {url && (
-          <Link to={url}>
+          <Link href={url}>
             <a className="view-more">
               View more
             </a>

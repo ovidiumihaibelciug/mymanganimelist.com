@@ -4,11 +4,15 @@ import AnimeItem from '../../components/Dashboard/AnimeItem';
 import Sidebar from '../../components/Sidebar';
 import axios from 'axios';
 import Loading from '../../components/Loading';
-
-import { KAPI } from '../../utils';
 import ItemsRow from '../../components/Dashboard/ItemsRow';
+import '../../styles/styles.scss';
 
 export default class AnimeByCategory extends Component {
+
+  static getInitialProps ({ query: { category } }) {
+    return { category }
+  }
+
   state = {
     trendingAnimes: [],
     topAiring: [],
@@ -29,7 +33,7 @@ export default class AnimeByCategory extends Component {
   }
 
   getData = props => {
-    const { category } = props.match.params;
+    const { category } = props;
     axios
       .get('https://kitsu.io/api/edge/categories/', {
         params: {

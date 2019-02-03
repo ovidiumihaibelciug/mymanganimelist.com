@@ -13,10 +13,16 @@ import {
   EasyLoadMore,
   EasyFilters,
 } from 'easify';
+import '../../styles/styles.scss';
 import { KAPI } from '../../utils';
 import AnimeContentCharacter from '../../components/Anime/AnimeContentCharacter';
 
 export default class AnimeList extends Component {
+
+  static getInitialProps ({ query: { type } }) {
+    return { type }
+  }
+
   state = {
     activeType: '',
     anime: [],
@@ -63,7 +69,7 @@ export default class AnimeList extends Component {
       },
     ];
 
-    const { type } = this.props.match.params;
+    const { type } = this.props;
 
     const activeType = types.find(item => item.type === type);
 
