@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import Link from 'next/link'
-import classNames from 'classnames';
-import axios from 'axios';
+import React, { Component } from "react";
+import Link from "next/link";
+import classNames from "classnames";
+import axios from "axios";
 
 const toggleSidebar = () => {
-  const sidebar = document.querySelector('.o-sidebar');
-  sidebar.classList.toggle('hide');
+  const sidebar = document.querySelector(".o-sidebar");
+  sidebar.classList.toggle("hide");
 };
 
 class Sidebar extends Component {
@@ -14,7 +14,7 @@ class Sidebar extends Component {
   componentDidMount() {
     axios
       .get(
-        'https://kitsu.io/api/edge/categories?page%5Blimit%5D=10&sort=-total_media_count',
+        "https://kitsu.io/api/edge/categories?page%5Blimit%5D=10&sort=-total_media_count"
       )
       .then(({ data: { data: categories } }) => {
         this.setState({ categories, loading: false });
@@ -26,27 +26,27 @@ class Sidebar extends Component {
     const { small, isManga } = this.props;
     const { categories, loading } = this.state;
 
-    const classes = classNames('o-sidebar', {
-      hide: small,
+    const classes = classNames("o-sidebar", {
+      hide: small
     });
 
     const mainRoutes = [
       {
-        to: '/anime',
-        text: 'Anime',
+        to: "/anime",
+        text: "Anime"
       },
       {
-        to: '/manga',
-        text: 'Manga',
+        to: "/manga",
+        text: "Manga"
       },
       {
-        to: '/characters',
-        text: 'Characters',
+        to: "/characters",
+        text: "Characters"
       },
       {
-        to: '/discussions',
-        text: 'Discussions',
-      },
+        to: "/discussions",
+        text: "Discussions"
+      }
     ];
 
     return (
@@ -62,7 +62,7 @@ class Sidebar extends Component {
                   key={id}
                 >
                   <Link
-                    to={item.to}
+                    href={item.to}
                     activeClassName="o-sidebar__main__content__item__active"
                   >
                     <a className="o-sidebar__main__content__item">
@@ -81,7 +81,7 @@ class Sidebar extends Component {
                   categories.map(item => (
                     <div className="o-sidebar__sec__content__container">
                       <Link
-                        href={`${isManga ? '/manga/' : '/anime/'}category/${
+                        href={`${isManga ? "/manga/" : "/anime/"}category/${
                           item.attributes.slug
                         }`}
                         activeClassName="o-sidebar__sec__content__container__item__active"

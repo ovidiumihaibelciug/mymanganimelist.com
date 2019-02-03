@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
-import Header from '../../layout/Header';
-import ItemsRow from '../../components/Dashboard/ItemsRow';
-import MangaItem from '../../components/Dashboard/MangaItem';
-import Sidebar from '../../components/Sidebar';
-import axios from 'axios';
-import Loading from '../../components/Loading';
+import React, { Component } from "react";
+import Header from "../layout/Header";
+import ItemsRow from "../components/Dashboard/ItemsRow";
+import MangaItem from "../components/Dashboard/MangaItem";
+import Sidebar from "../components/Sidebar";
+import axios from "axios";
+import Loading from "../components/Loading";
+import "../styles/styles.scss";
 
-import { KAPI } from '../../utils';
+import { KAPI } from "../utils";
 
 export default class Dashboard extends Component {
   state = {
@@ -15,29 +16,29 @@ export default class Dashboard extends Component {
     topUpcomingManga: [],
     highestRatedManga: [],
     mostPopularManga: [],
-    loading: true,
+    loading: true
   };
 
   componentDidMount() {
     axios
       .all([
-        axios.get(KAPI + '/trending/manga', {
+        axios.get(KAPI + "/trending/manga", {
           params: {
-            include: 'manga.categories',
-          },
+            include: "manga.categories"
+          }
         }),
         axios.get(
-          'https://kitsu.io/api/edge/manga?filter%5Bstatus%5D=current&page%5Blimit%10D=5&sort=-user_count',
+          "https://kitsu.io/api/edge/manga?filter%5Bstatus%5D=current&page%5Blimit%10D=5&sort=-user_count"
         ),
         axios.get(
-          'https://kitsu.io/api/edge/manga?filter%5Bstatus%5D=upcoming&page%5Blimit%5D=10&sort=-user_count',
+          "https://kitsu.io/api/edge/manga?filter%5Bstatus%5D=upcoming&page%5Blimit%5D=10&sort=-user_count"
         ),
         axios.get(
-          'https://kitsu.io/api/edge/manga?page%5Blimit%5D=10&sort=-average_rating',
+          "https://kitsu.io/api/edge/manga?page%5Blimit%5D=10&sort=-average_rating"
         ),
         axios.get(
-          'https://kitsu.io/api/edge/manga?page%5Blimit%5D=10&sort=-user_count',
-        ),
+          "https://kitsu.io/api/edge/manga?page%5Blimit%5D=10&sort=-user_count"
+        )
       ])
       .then(
         ([
@@ -45,7 +46,7 @@ export default class Dashboard extends Component {
           topPublishingManga,
           topUpcomingManga,
           highestRatedManga,
-          mostPopularManga,
+          mostPopularManga
         ]) => {
           this.setState({
             trendingManga: trendingManga.data.data,
@@ -53,9 +54,9 @@ export default class Dashboard extends Component {
             topUpcomingManga: topUpcomingManga.data.data,
             highestRatedManga: highestRatedManga.data.data,
             mostPopularManga: mostPopularManga.data.data,
-            loading: false,
+            loading: false
           });
-        },
+        }
       )
       .catch(err => console.log(err));
   }
@@ -67,30 +68,30 @@ export default class Dashboard extends Component {
       topPublishingManga,
       topUpcomingManga,
       mostPopularManga,
-      loading,
+      loading
     } = this.state;
     if (loading) return <Loading />;
     const content = [
       {
-        title: 'Trending this week',
+        title: "Trending this week",
         items: trendingManga,
-        url: '/manga/list/trending',
+        url: "/manga/list/trending"
       },
       {
-        title: 'Top publishing Manga',
+        title: "Top publishing Manga",
         items: topPublishingManga,
-        url: '/manga/list/top-airing',
+        url: "/manga/list/top-airing"
       },
       {
-        title: 'Highest rated Manga',
+        title: "Highest rated Manga",
         items: highestRatedManga,
-        url: '/manga/list/highest-rated',
+        url: "/manga/list/highest-rated"
       },
       {
-        title: 'Top upcoming Manga',
+        title: "Top upcoming Manga",
         items: topUpcomingManga,
-        url: '/manga/list/top-upcoming',
-      },
+        url: "/manga/list/top-upcoming"
+      }
     ];
     return (
       <section className="o-main-layout">

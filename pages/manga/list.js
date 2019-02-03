@@ -1,92 +1,97 @@
-import React, { Component } from 'react';
-import Header from '../../layout/Header';
-import MangaItem from '../../components/Dashboard/MangaItem';
-import Sidebar from '../../components/Sidebar';
-import axios from 'axios';
-import Loading from '../../components/Loading';
-import { Molecule } from 'react-molecule';
+import React, { Component } from "react";
+import Header from "../../layout/Header";
+import MangaItem from "../../components/Dashboard/MangaItem";
+import Sidebar from "../../components/Sidebar";
+import axios from "axios";
+import Loading from "../../components/Loading";
+import { Molecule } from "react-molecule";
 import {
   EasyList,
   EasyLoaderAgent,
   EasyLoadMore,
-  EasyLoadMoreAgent,
-} from 'easify';
+  EasyLoadMoreAgent
+} from "easify";
+import "../../styles/styles.scss";
 
 export default class MangaListType extends Component {
+  static getInitialProps({ query: { type } }) {
+    return { type };
+  }
+
   state = {
-    activeType: '',
+    activeType: "",
     anime: [],
-    loading: true,
+    loading: true
   };
 
   componentDidMount() {
     const types = [
       {
-        type: 'trending',
-        url: 'https://kitsu.io/api/edge/trending/manga?limit=20',
+        type: "trending",
+        url: "https://kitsu.io/api/edge/trending/manga?limit=20"
       },
       {
-        type: 'top-airing',
+        type: "top-airing",
         url:
-          'https://kitsu.io/api/edge/manga?filter%5Bstatus%5D=current&sort=-userCount',
+          "https://kitsu.io/api/edge/manga?filter%5Bstatus%5D=current&sort=-userCount",
         params: {
-          'filter[status]': 'current',
-          sort: '-userCount',
-        },
+          "filter[status]": "current",
+          sort: "-userCount"
+        }
       },
       {
-        type: 'top-upcoming',
+        type: "top-upcoming",
         url:
-          'https://kitsu.io/api/edge/manga?filter%5Bstatus%5D=upcoming&sort=-userCount',
+          "https://kitsu.io/api/edge/manga?filter%5Bstatus%5D=upcoming&sort=-userCount",
         params: {
-          'filter%5Bstatus%5D': 'upcoming',
-          sort: '-userCount',
-        },
+          "filter%5Bstatus%5D": "upcoming",
+          sort: "-userCount"
+        }
       },
       {
-        type: 'highest-rated',
-        url: 'https://kitsu.io/api/edge/manga?sort=-averageRating',
+        type: "highest-rated",
+        url: "https://kitsu.io/api/edge/manga?sort=-averageRating",
         params: {
-          sort: '-averageRating',
-        },
+          sort: "-averageRating"
+        }
       },
       {
-        type: 'most-popular',
-        url: 'https://kitsu.io/api/edge/manga?sort=-userCount',
+        type: "most-popular",
+        url: "https://kitsu.io/api/edge/manga?sort=-userCount",
         params: {
-          sort: '-userCount',
-        },
-      },
+          sort: "-userCount"
+        }
+      }
     ];
 
-    const { type } = this.props.match.params;
+    const { type } = this.props;
 
     const activeType = types.find(item => item.type === type);
 
     this.setState({
       loading: false,
-      activeType,
+      activeType
     });
   }
 
   load = ({ filters, options }) => {
     const {
-      activeType: { type, url, params },
+      activeType: { type, url, params }
     } = this.state;
     return axios
       .get(
         url,
-        type !== 'trending' && {
+        type !== "trending" && {
           params: {
-            'page[limit]': options.limit,
-            'page[offset]': options.skip,
-            ...params,
-          },
-        },
+            "page[limit]": options.limit,
+            "page[offset]": options.skip,
+            ...params
+          }
+        }
       )
       .then(({ data }) => {
         this.setState({
-          loading: false,
+          loading: false
         });
         return data.data;
       })
@@ -95,15 +100,15 @@ export default class MangaListType extends Component {
 
   count = filters => {
     const {
-      activeType: { url },
+      activeType: { url }
     } = this.state;
     return axios
       .get(url, {
         params: {
-          'page[limit]': 20,
-          'page[offset]': 1,
-          sort: '-userCount',
-        },
+          "page[limit]": 20,
+          "page[offset]": 1,
+          sort: "-userCount"
+        }
       })
       .then(({ data }) => {
         return 1000;
@@ -126,8 +131,8 @@ export default class MangaListType extends Component {
                 loadMore: EasyLoadMoreAgent.factory({
                   count: this.count,
                   initialItemsCount: 20,
-                  loadItemsCount: 20,
-                }),
+                  loadItemsCount: 20
+                })
               }}
             >
               <EasyList>
