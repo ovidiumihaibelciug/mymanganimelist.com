@@ -1,33 +1,38 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import { KAPI } from '../../utils';
-import SimpleSchema from 'simpl-schema';
-import Template from '../../components/SecondaryItems/Template';
-import Loading from '../../components/Loading';
+import React, { Component } from "react";
+import axios from "axios";
+import { KAPI } from "../../utils";
+import SimpleSchema from "simpl-schema";
+import Template from "../../components/SecondaryItems/Template";
+import Loading from "../../components/Loading";
+import "../../styles/styles.scss";
 
 export class EpisodeList extends Component {
+  static getInitialProps({ query: { slug } }) {
+    return { slug };
+  }
+
   state = {
-    anime: '',
+    anime: "",
     loading: true,
     isFiltering: false,
     filteredItems: [],
-    search: false,
+    search: false
   };
 
   componentDidMount() {
-    const { slug } = this.props.match.params;
+    const { slug } = this.props;
 
     axios
-      .get('https://kitsu.io/api/edge/anime', {
+      .get("https://kitsu.io/api/edge/anime", {
         params: {
-          'filter[slug]': slug,
-        },
+          "filter[slug]": slug
+        }
       })
       .then(({ data }) => {
         console.log(data.data);
         this.setState({
           anime: data.data[0],
-          loading: false,
+          loading: false
         });
       })
       .catch(err => console.log(err));
@@ -38,14 +43,14 @@ export class EpisodeList extends Component {
     const { id } = anime;
 
     let params = {
-      'filter[mediaId]': id,
-      'page[limit]': options.limit,
-      'page[offset]': options.skip,
+      "filter[mediaId]": id,
+      "page[limit]": options.limit,
+      "page[offset]": options.skip
     };
 
     return axios
-      .get(KAPI + '/episodes', {
-        params,
+      .get(KAPI + "/episodes", {
+        params
       })
       .then(({ data }) => {
         return data.data;
@@ -57,10 +62,10 @@ export class EpisodeList extends Component {
     const { anime } = this.state;
     const { id } = anime;
     return axios
-      .get(KAPI + '/episodes', {
+      .get(KAPI + "/episodes", {
         params: {
-          'filter[mediaId]': id,
-        },
+          "filter[mediaId]": id
+        }
       })
       .then(({ data }) => {
         return data.meta.count;
@@ -73,20 +78,20 @@ export class EpisodeList extends Component {
     const filters = data;
     let params = {};
     let ok = 0;
-    params['filter[mediaId]'] = id;
+    params["filter[mediaId]"] = id;
     if (filters.number) {
-      params['filter[number]'] = parseInt(filters.number);
+      params["filter[number]"] = parseInt(filters.number);
       ok = 1;
     }
     axios
-      .get('https://kitsu.io/api/edge/episodes', {
-        params,
+      .get("https://kitsu.io/api/edge/episodes", {
+        params
       })
       .then(({ data }) => {
         if (ok) {
           this.setState({
             filteredItems: data.data,
-            isFiltering: true,
+            isFiltering: true
           });
         }
       })
@@ -97,7 +102,7 @@ export class EpisodeList extends Component {
     this.setState(prevState => {
       const { search } = prevState;
       return {
-        search: !search,
+        search: !search
       };
     });
   };
@@ -108,6 +113,7 @@ export class EpisodeList extends Component {
 
   render() {
     let { loading } = this.state;
+    const { slug } = this.props;
     if (loading) return <Loading />;
     return (
       <Template
@@ -116,10 +122,11 @@ export class EpisodeList extends Component {
           count: this.count,
           onSubmit: this.onSubmit,
           toggleFilters: this.toggleFilters,
-          stopFiltering: this.stopFiltering,
+          stopFiltering: this.stopFiltering
         }}
         data={this.state}
         schema={FilterSchema}
+        slug={slug}
       />
     );
   }
@@ -134,12 +141,12 @@ const FilterSchema = new SimpleSchema({
         return {
           number: {
             $regex: value,
-            $options: 'i',
-          },
+            $options: "i"
+          }
         };
-      },
-    },
-  },
+      }
+    }
+  }
 });
 
 export default EpisodeList;

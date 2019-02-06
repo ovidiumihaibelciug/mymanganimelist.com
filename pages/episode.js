@@ -1,61 +1,66 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import { KAPI } from '../../utils';
-import Sidebar from '../../components/Sidebar';
-import Header from '../../layout/Header';
-import Loading from '../../components/Loading';
-import Chip from '../../components/Chip';
-import { Icon } from 'antd';
-import RightSidebar from '../../components/RightSidebar';
-import EpisodeContent from '../../components/Episode/EpisodeContent';
-import VideoLike from '../../components/Episode/VideoLike';
-import VideosSrc from '../../components/Episode/VideosSrc';
+import React, { Component } from "react";
+import axios from "axios";
+import { KAPI } from "../utils";
+import Sidebar from "../components/Sidebar";
+import Header from "../layout/Header";
+import Loading from "../components/Loading";
+import Chip from "../components/Chip";
+import { Icon } from "antd";
+import RightSidebar from "../components/RightSidebar";
+import EpisodeContent from "../components/Episode/EpisodeContent";
+import VideoLike from "../components/Episode/VideoLike";
+import VideosSrc from "../components/Episode/VideosSrc";
+import "../styles/styles.scss";
 
 export class EpisodeView extends Component {
+  static getInitialProps({ query: { slug, number } }) {
+    return { slug, number };
+  }
+
   state = {
     anime: {},
     loading: true,
-    streamingLinks: '',
-    videos: '',
+    streamingLinks: "",
+    videos: ""
   };
 
   componentDidMount() {
-    const { slug, number } = this.props.match.params;
+    const { slug, number } = this.props;
 
     axios
-      .get(KAPI + '/anime', {
+      .get(KAPI + "/anime", {
         params: {
-          'filter[slug]': slug,
-          include: 'streamingLinks',
-        },
+          "filter[slug]": slug,
+          include: "streamingLinks"
+        }
       })
       .then(({ data }) => {
         console.log(data);
         const streamingLinks =
           data.included &&
-          data.included.filter(item => item.type === 'streamingLinks');
+          data.included.filter(item => item.type === "streamingLinks");
         this.setState({
           anime: data.data[0],
-          streamingLinks,
+          streamingLinks
         });
         const { id } = data.data[0];
         axios
-          .get(KAPI + '/episodes', {
+          .get(KAPI + "/episodes", {
             params: {
-              include: 'videos',
-              'filter[mediaId]': id,
-              'filter[number]': number,
-            },
+              include: "videos",
+              "filter[mediaId]": id,
+              "filter[number]": number
+            }
           })
           .then(({ data }) => {
-            let videos = '';
+            let videos = "";
             if (data.included) {
-              videos = data.included.filter(item => item.type === 'video');
+              videos = data.included.filter(item => item.type === "video");
             }
             this.setState({
               episode: data.data[0].attributes,
               videos,
-              loading: false,
+              loading: false
             });
           })
           .catch(err => console.log(err));
@@ -68,7 +73,7 @@ export class EpisodeView extends Component {
     if (loading) {
       return <Loading />;
     }
-    console.log('Only episode', episode);
+    console.log("Only episode", episode);
 
     const { coverImage, posterImage } = anime.attributes;
     const {
@@ -78,13 +83,13 @@ export class EpisodeView extends Component {
       airdate,
       length,
       relativeNumber,
-      number,
+      number
     } = episode;
     console.log(episode);
     const chipItem = {
       attributes: {
-        title: 'Episode ' + (relativeNumber ? relativeNumber : number),
-      },
+        title: "Episode " + (relativeNumber ? relativeNumber : number)
+      }
     };
     return (
       <>
@@ -95,7 +100,7 @@ export class EpisodeView extends Component {
             style={{
               backgroundImage: `linear-gradient(15deg,rgba(20, 28, 36, 1) 10%, rgba(30, 34, 38, 0.99) 40%,  rgba(30, 34, 38, 0.95) 100%) , url(${
                 thumbnail ? thumbnail.original : coverImage.original
-              })`,
+              })`
             }}
           >
             <Header />
@@ -112,7 +117,7 @@ export class EpisodeView extends Component {
             <RightSidebar
               coverImage={posterImage}
               posterImage={thumbnail}
-              status={''}
+              status={""}
               // nextRelease={nextRelease}
             />
           </div>

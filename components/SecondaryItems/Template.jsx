@@ -1,27 +1,27 @@
-import React from 'react';
-import { withRouter } from 'react-router';
-import Sidebar from '../../components/Sidebar';
-import Header from '../../layout/Header';
-import { Molecule } from 'react-molecule';
-import { EasyLoaderAgent, EasyLoadMoreAgent } from 'easify';
-import RightSidebar from '../../components/RightSidebar';
-import SecondaryFilters from '../../components/Filters/Secondary/SecondaryFilters';
-import AnimeContentItem from '../../components/Anime/AnimeContentItem';
-import SecondaryItemsList from '../../components/SecondaryItems/SecondaryItemsList';
-import NoResults from '../../components/SecondaryItems/NoResults';
+import React from "react";
+import { withRouter } from "react-router";
+import Sidebar from "../../components/Sidebar";
+import Header from "../../layout/Header";
+import { Molecule } from "react-molecule";
+import { EasyLoaderAgent, EasyLoadMoreAgent } from "easify";
+import RightSidebar from "../../components/RightSidebar";
+import SecondaryFilters from "../../components/Filters/Secondary/SecondaryFilters";
+import AnimeContentItem from "../../components/Anime/AnimeContentItem";
+import SecondaryItemsList from "../../components/SecondaryItems/SecondaryItemsList";
+import NoResults from "../../components/SecondaryItems/NoResults";
 
 const Template = ({
   functions: { load, count, onSubmit, toggleFilters, stopFiltering },
   data,
   schema,
   match,
-  itemType = 'episodes',
+  itemType = "episodes",
   isAnime = true,
+  slug,
   ...rest
 }) => {
   let { anime, isFiltering = false, filteredItems = [], search } = data;
   console.log(data);
-  const { slug } = match.params;
   const { attributes } = anime;
   const { coverImage, posterImage, status, nextRelease } = attributes;
   return (
@@ -31,8 +31,8 @@ const Template = ({
         loadMore: EasyLoadMoreAgent.factory({
           count: count,
           initialItemsCount: 10,
-          loadItemsCount: 20,
-        }),
+          loadItemsCount: 20
+        })
       }}
     >
       <section className="anime-view o-main-layout anime-episodes">
@@ -62,7 +62,7 @@ const Template = ({
                   thumbnail,
                   relativeNumber,
                   number,
-                  canonicalTitle,
+                  canonicalTitle
                 } = item.attributes;
                 if (!thumbnail) {
                   thumbnail = posterImage;
@@ -75,7 +75,7 @@ const Template = ({
                     canonicalTitle={canonicalTitle}
                     slug={slug}
                     url={
-                      `/${isAnime ? 'anime' : 'manga'}/` +
+                      `/${isAnime ? "anime" : "manga"}/` +
                       slug +
                       `/${itemType}/` +
                       number
@@ -99,4 +99,4 @@ const Template = ({
   );
 };
 
-export default withRouter(Template);
+export default Template;
