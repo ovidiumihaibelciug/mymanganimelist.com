@@ -7,8 +7,7 @@ import Loading from "../components/Loading";
 
 import { KAPI } from "../utils";
 import ItemsRow from "../components/Dashboard/ItemsRow";
-import "../styles/styles.scss";
-import Head from "next/head";
+import AppWrapper from "../components/AppWrapper";
 
 export default class Dashboard extends Component {
   state = {
@@ -102,15 +101,7 @@ export default class Dashboard extends Component {
     ];
 
     return (
-      <>
-        <Head>
-          <link
-            rel="stylesheet"
-            href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
-            integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
-            crossOrigin="anonymous"
-          />
-        </Head>
+      <AppWrapper>
         <section className="o-main-layout">
           <Sidebar />
           <section className="o-main o-dashboard">
@@ -129,7 +120,7 @@ export default class Dashboard extends Component {
             </div>
           </section>
         </section>
-      </>
+      </AppWrapper>
     );
   }
 }
