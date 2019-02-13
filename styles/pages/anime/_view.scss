@@ -51,12 +51,17 @@
         margin-right: 20%;
         border-radius: 100%;
         background-color: $o-color-main;
-        opacity: 0.5;
         color: white;
         cursor: pointer;
+        transition: all .1s ease-in-out;
+        opacity: 1;
         i {
           width: 100%;
           text-align: center;
+        }
+        &:hover {
+          transition: all .1s ease-in-out;
+          opacity: .7;
         }
       }
     }

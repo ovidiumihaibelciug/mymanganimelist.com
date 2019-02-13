@@ -101,7 +101,7 @@ export default class Dashboard extends Component {
     ];
 
     return (
-      <AppWrapper>
+      <AppWrapper title={"Dashboard"}>
         <section className="o-main-layout">
           <Sidebar />
           <section className="o-main o-dashboard">

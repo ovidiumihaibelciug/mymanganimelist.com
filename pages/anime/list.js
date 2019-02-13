@@ -1,72 +1,71 @@
-import React, { Component } from 'react';
-import Header from '../../layout/Header';
-import AnimeItem from '../../components/Dashboard/AnimeItem';
-import Sidebar from '../../components/Sidebar';
-import axios from 'axios';
-import Loading from '../../components/Loading';
-import { Molecule, WithMolecule } from 'react-molecule';
+import React, { Component } from "react";
+import Header from "../../layout/Header";
+import AnimeItem from "../../components/Dashboard/AnimeItem";
+import Sidebar from "../../components/Sidebar";
+import axios from "axios";
+import Loading from "../../components/Loading";
+import { Molecule, WithMolecule } from "react-molecule";
 import {
   EasyLoaderAgent,
   EasyLoadMoreAgent,
   EasyList,
   EasyPager,
   EasyLoadMore,
-  EasyFilters,
-} from 'easify';
-import '../../styles/styles.scss';
-import { KAPI } from '../../utils';
-import AnimeContentCharacter from '../../components/Anime/AnimeContentCharacter';
+  EasyFilters
+} from "easify";
+import "../../styles/styles.scss";
+import { KAPI } from "../../utils";
+import AnimeContentCharacter from "../../components/Anime/AnimeContentCharacter";
 
 export default class AnimeList extends Component {
-
-  static getInitialProps ({ query: { type } }) {
-    return { type }
+  static getInitialProps({ query: { type } }) {
+    return { type };
   }
 
   state = {
-    activeType: '',
+    activeType: "",
     anime: [],
-    loading: true,
+    loading: true
   };
 
   componentDidMount() {
     const types = [
       {
-        type: 'trending',
-        url: 'https://kitsu.io/api/edge/trending/anime?limit=20',
+        type: "trending",
+        url: "https://kitsu.io/api/edge/trending/anime?limit=20"
       },
       {
-        type: 'top-airing',
+        type: "top-airing",
         url:
-          'https://kitsu.io/api/edge/anime?filter%5Bstatus%5D=current&sort=-userCount',
+          "https://kitsu.io/api/edge/anime?filter%5Bstatus%5D=current&sort=-userCount",
         params: {
-          'filter[status]': 'current',
-          sort: '-userCount',
-        },
+          "filter[status]": "current",
+          sort: "-userCount"
+        }
       },
       {
-        type: 'top-upcoming',
+        type: "top-upcoming",
         url:
-          'https://kitsu.io/api/edge/anime?filter%5Bstatus%5D=upcoming&sort=-userCount',
+          "https://kitsu.io/api/edge/anime?filter%5Bstatus%5D=upcoming&sort=-userCount",
         params: {
-          'filter%5Bstatus%5D': 'upcoming',
-          sort: '-userCount',
-        },
+          "filter%5Bstatus%5D": "upcoming",
+          sort: "-userCount"
+        }
       },
       {
-        type: 'highest-rated',
-        url: 'https://kitsu.io/api/edge/anime?sort=-averageRating',
+        type: "highest-rated",
+        url: "https://kitsu.io/api/edge/anime?sort=-averageRating",
         params: {
-          sort: '-averageRating',
-        },
+          sort: "-averageRating"
+        }
       },
       {
-        type: 'most-popular',
-        url: 'https://kitsu.io/api/edge/anime?sort=-userCount',
+        type: "most-popular",
+        url: "https://kitsu.io/api/edge/anime?sort=-userCount",
         params: {
-          sort: '-userCount',
-        },
-      },
+          sort: "-userCount"
+        }
+      }
     ];
 
     const { type } = this.props;
@@ -75,28 +74,28 @@ export default class AnimeList extends Component {
 
     this.setState({
       loading: false,
-      activeType,
+      activeType
     });
   }
 
   load = ({ filters, options }) => {
     const {
-      activeType: { type, url, params },
+      activeType: { type, url, params }
     } = this.state;
     return axios
       .get(
         url,
-        type !== 'trending' && {
+        type !== "trending" && {
           params: {
-            'page[limit]': options.limit,
-            'page[offset]': options.skip,
-            ...params,
-          },
-        },
+            "page[limit]": options.limit,
+            "page[offset]": options.skip,
+            ...params
+          }
+        }
       )
       .then(({ data }) => {
         this.setState({
-          loading: false,
+          loading: false
         });
         return data.data;
       })
@@ -105,15 +104,15 @@ export default class AnimeList extends Component {
 
   count = filters => {
     const {
-      activeType: { url },
+      activeType: { url }
     } = this.state;
     return axios
       .get(url, {
         params: {
-          'page[limit]': 20,
-          'page[offset]': 1,
-          sort: '-userCount',
-        },
+          "page[limit]": 20,
+          "page[offset]": 1,
+          sort: "-userCount"
+        }
       })
       .then(({ data }) => {
         return 1000;
@@ -136,8 +135,8 @@ export default class AnimeList extends Component {
                 loadMore: EasyLoadMoreAgent.factory({
                   count: this.count,
                   initialItemsCount: 20,
-                  loadItemsCount: 20,
-                }),
+                  loadItemsCount: 20
+                })
               }}
             >
               <EasyList>

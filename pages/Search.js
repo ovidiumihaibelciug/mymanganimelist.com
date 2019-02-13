@@ -1,25 +1,25 @@
-import React, { Component } from 'react';
-import Sidebar from '../components/Sidebar';
-import Header from '../layout/Header';
-import AutoForm from 'uniforms-antd/AutoForm';
-import SimpleSchema from 'simpl-schema';
-import axios from 'axios';
-import { KAPI } from '../utils';
-import AnimeItem from '../components/Dashboard/AnimeItem';
-import MangaItem from '../components/Dashboard/MangaItem';
-import Loading from '../components/Loading';
-import { Button } from 'antd';
-import "../styles/styles.scss"
+import React, { Component } from "react";
+import Sidebar from "../components/Sidebar";
+import Header from "../layout/Header";
+import AutoForm from "uniforms-antd/AutoForm";
+import SimpleSchema from "simpl-schema";
+import axios from "axios";
+import { KAPI } from "../utils";
+import AnimeItem from "../components/Dashboard/AnimeItem";
+import MangaItem from "../components/Dashboard/MangaItem";
+import Loading from "../components/Loading";
+import { Button } from "antd";
+import "../styles/styles.scss";
 
 class Search extends Component {
   state = {
     selected: false,
-    filterText: '',
+    filterText: "",
     results: [],
     loading: true,
     loadingData: false,
-    type: 'anime',
-    skip: 0,
+    type: "anime",
+    skip: 0
   };
 
   onSubmit = data => {
@@ -27,14 +27,14 @@ class Search extends Component {
     axios
       .get(KAPI + `/${type}`, {
         params: {
-          'page[limit]': 20,
-          'filter[text]': data.string,
-        },
+          "page[limit]": 20,
+          "filter[text]": data.string
+        }
       })
       .then(({ data }) => {
         this.setState({
           results: data.data,
-          filterText: data.string,
+          filterText: data.string
         });
       })
       .catch(err => console.log(err));
@@ -43,12 +43,12 @@ class Search extends Component {
   handleTypeChange = e => {
     this.setState(
       {
-        type: e.target.checked ? 'manga' : 'anime',
-        loadingData: true,
+        type: e.target.checked ? "manga" : "anime",
+        loadingData: true
       },
       () => {
         this.componentDidMount();
-      },
+      }
     );
   };
 
@@ -67,10 +67,10 @@ class Search extends Component {
     axios
       .get(`https://kitsu.io/api/edge/${type}`, {
         params: {
-          'page[limit]': options.limit,
-          'page[offset]': options.skip,
-          sort: '-userCount',
-        },
+          "page[limit]": options.limit,
+          "page[offset]": options.skip,
+          sort: "-userCount"
+        }
       })
       .then(({ data }) => {
         const { results } = this.state;
@@ -78,7 +78,7 @@ class Search extends Component {
         this.setState({
           results: overwrite ? data.data : [...results, ...data.data],
           loadingData: false,
-          loading: false,
+          loading: false
         });
       })
       .catch(err => console.log(err));
@@ -93,12 +93,12 @@ class Search extends Component {
 
   count = filters => {
     return axios
-      .get(KAPI + '/anime', {
+      .get(KAPI + "/anime", {
         params: {
-          'page[limit]': 20,
-          'page[offset]': 1,
-          sort: '-userCount',
-        },
+          "page[limit]": 20,
+          "page[offset]": 1,
+          sort: "-userCount"
+        }
       })
       .then(({ data }) => {
         return 1000;
@@ -138,7 +138,7 @@ class Search extends Component {
               <div className="easy-list-wrapper">
                 {!loadingData ? (
                   results.map(item => {
-                    return type === 'anime' ? (
+                    return type === "anime" ? (
                       <AnimeItem item={item} />
                     ) : (
                       <MangaItem item={item} />
@@ -164,8 +164,8 @@ class Search extends Component {
 const SearchSchema = new SimpleSchema({
   string: {
     type: String,
-    optional: true,
-  },
+    optional: true
+  }
 });
 
 export default Search;

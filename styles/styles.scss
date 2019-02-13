@@ -1,44 +1,44 @@
 //helpers
-@import '_helpers/variables';
-@import '_helpers/functions';
-@import '_helpers/mixins';
+@import "_helpers/variables";
+@import "_helpers/functions";
+@import "_helpers/mixins";
 
 //base
-@import 'base/font';
-@import 'base/normalize';
-@import 'base/animation';
-@import 'base/general';
-@import '_helpers/helpers';
+@import "base/font";
+@import "base/normalize";
+@import "base/animation";
+@import "base/general";
+@import "_helpers/helpers";
 
 //plugins
 @import "plugins/index";
 
 //form
-@import 'form/text';
-@import 'form/textarea';
-@import 'form/select';
-@import 'form/radio';
-@import 'form/checkbox';
-@import 'form/button';
-@import 'form/form-helpers';
+@import "form/text";
+@import "form/textarea";
+@import "form/select";
+@import "form/radio";
+@import "form/checkbox";
+@import "form/button";
+@import "form/form-helpers";
 
 //main
-@import 'layout/main/main';
-@import 'layout/sidebar';
-@import 'layout/rightsidebar';
-@import 'layout/header';
+@import "layout/main/main";
+@import "layout/sidebar";
+@import "layout/rightsidebar";
+@import "layout/header";
 
 //elements
 @import "elements/index";
 
 //pages
-@import 'pages/dashboard';
-@import 'pages/anime/view';
-@import 'pages/anime/episodes';
-@import 'pages/anime/characters';
-@import 'pages/episode/view';
-@import 'pages/user/profile';
-@import 'pages/user/favorite-items';
-@import 'pages/user/login';
+@import "pages/dashboard";
+@import "pages/anime/view";
+@import "pages/anime/episodes";
+@import "pages/anime/characters";
+@import "pages/episode/view";
+@import "pages/user/profile";
+@import "pages/user/favorite-items";
+@import "pages/user/login";
 @import "pages/search";
 @import "pages/feed";

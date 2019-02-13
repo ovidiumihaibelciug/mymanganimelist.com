@@ -71,8 +71,10 @@
   justify-content: center;
   align-items: center;
   margin-right: 150px;
-
-  button {
+  &--no-margin {
+    margin-right: 0;
+  }
+  button, a {
     padding: 10px 20px;
     background-color: transparent;
     border: 1px solid $o-color-main;

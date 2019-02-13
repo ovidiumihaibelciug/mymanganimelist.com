@@ -1,15 +1,15 @@
-import React, { Component, Fragment } from 'react';
-import Sidebar from './Sidebar';
-import Header from '../layout/Header';
-import ModalVideo from 'react-modal-video';
-import AnimeInfo from './Anime/AnimeInfo';
-import Loading from './Loading';
-import RightSidebar from './RightSidebar';
-import SecondaryContent from './Anime/SecondaryContent';
+import React, { Component, Fragment } from "react";
+import Sidebar from "./Sidebar";
+import Header from "../layout/Header";
+import ModalVideo from "react-modal-video";
+import AnimeInfo from "./Anime/AnimeInfo";
+import Loading from "./Loading";
+import RightSidebar from "./RightSidebar";
+import SecondaryContent from "./Anime/SecondaryContent";
 
 class ItemView extends Component {
   state = {
-    isOpen: false,
+    isOpen: false
   };
 
   openModal = () => {
@@ -30,7 +30,7 @@ class ItemView extends Component {
       characters,
       franchises,
       chapters,
-      genres,
+      genres
     } = data;
 
     console.log(episodes);
@@ -51,9 +51,10 @@ class ItemView extends Component {
       episodeCount,
       nextRelease,
       youtubeVideoId,
+      slug
     } = attributes;
 
-    const { slug } = this.props;
+    console.log("a", slug);
     const starCount = Math.round((averageRating * 5) / 100);
     return (
       <div>
@@ -70,7 +71,7 @@ class ItemView extends Component {
             style={{
               backgroundImage: `linear-gradient(15deg,rgba(20, 28, 36, 1) 10%, rgba(30, 34, 38, 0.99) 40%,  rgba(30, 34, 38, 0.95) 100%) , url(${
                 coverImage.original
-              })`,
+              })`
             }}
           >
             <Header />
@@ -96,25 +97,25 @@ class ItemView extends Component {
             <SecondaryContent
               data={[
                 {
-                  title: 'Episodes',
-                  type: 'episodes',
-                  data: episodes,
+                  title: "Episodes",
+                  type: "episodes",
+                  data: episodes
                 },
                 {
-                  title: 'Chapters',
-                  type: 'chapters',
-                  data: chapters,
+                  title: "Chapters",
+                  type: "chapters",
+                  data: chapters
                 },
                 {
-                  title: 'Characters',
-                  type: 'characters',
-                  data: characters,
+                  title: "Characters",
+                  type: "characters",
+                  data: characters
                 },
                 {
-                  title: 'Franchises',
-                  type: 'franchise',
-                  data: franchises,
-                },
+                  title: "Franchises",
+                  type: "franchise",
+                  data: franchises
+                }
               ]}
               slug={slug}
               posterImage={posterImage}

@@ -4,7 +4,6 @@ import axios from "axios";
 
 import { KAPI } from "../../utils";
 import ItemView from "../../components/ItemView";
-import "../../styles/styles.scss";
 
 export default class AnimeView extends Component {
   state = {

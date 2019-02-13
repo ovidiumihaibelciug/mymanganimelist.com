@@ -1,23 +1,22 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import { KAPI } from '../utils';
-import ItemView from '../components/ItemView';
-import '../styles/styles.scss';
+import React, { Component } from "react";
+import axios from "axios";
+import { KAPI } from "../utils";
+import ItemView from "../components/ItemView";
+import AppWrapper from "../components/AppWrapper";
 
 export default class Anime extends Component {
-
-  static getInitialProps ({ query: { slug } }) {
-    return { slug }
+  static getInitialProps({ query: { slug } }) {
+    return { slug };
   }
 
   state = {
-    anime: '',
+    anime: "",
     genres: [],
     episodes: [],
     characters: [],
     franchises: [],
     loading: true,
-    isOpen: false,
+    isOpen: false
   };
 
   componentWillReceiveProps(nextProps) {
@@ -31,51 +30,51 @@ export default class Anime extends Component {
   getAnime = props => {
     const { slug } = props;
     axios
-      .get(KAPI + '/anime', {
+      .get(KAPI + "/anime", {
         params: {
-          'filter[slug]': slug,
-          include: 'genres,categories,mediaRelationships.destination',
-        },
+          "filter[slug]": slug,
+          include: "genres,categories,mediaRelationships.destination"
+        }
       })
       .then(({ data }) => {
         console.log(data);
         const categories = data.included.filter(
-          item => item.type === 'categories',
+          item => item.type === "categories"
         );
         const franchises = data.included.filter(
-          item => item.type === 'manga' || item.type === 'anime',
+          item => item.type === "manga" || item.type === "anime"
         );
         this.setState({
           anime: data.data[0],
           categories,
-          franchises,
+          franchises
         });
         axios
-          .get(KAPI + '/episodes', {
+          .get(KAPI + "/episodes", {
             params: {
-              'filter[mediaId]': data.data[0].id,
-              'page[limit]': 8,
-              'page[offset]': 0,
-            },
+              "filter[mediaId]": data.data[0].id,
+              "page[limit]": 8,
+              "page[offset]": 0
+            }
           })
           .then(({ data }) => {
             this.setState({
-              episodes: data.data,
+              episodes: data.data
             });
           })
           .catch(err => console.log(err));
         axios
-          .get(KAPI + '/anime-characters', {
+          .get(KAPI + "/anime-characters", {
             params: {
-              'filter[animeId]': data.data[0].id,
-              'page[limit]': 8,
-              include: 'character',
-            },
+              "filter[animeId]": data.data[0].id,
+              "page[limit]": 8,
+              include: "character"
+            }
           })
           .then(({ data }) => {
             this.setState({
               characters: data.included,
-              loading: false,
+              loading: false
             });
           })
           .catch(err => console.log(err));
@@ -84,6 +83,10 @@ export default class Anime extends Component {
   };
 
   render() {
-    return <ItemView data={this.state} />;
+    return (
+      <AppWrapper title={"Dashboard"}>
+        <ItemView data={this.state} />
+      </AppWrapper>
+    );
   }
 }

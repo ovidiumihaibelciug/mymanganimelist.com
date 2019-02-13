@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import Header from '../layout/Header';
-import Sidebar from '../components/Sidebar';
-import Post from '../components/Post/Post';
+import React, { Component } from "react";
+import axios from "axios";
+import Header from "../layout/Header";
+import Sidebar from "../components/Sidebar";
+import Post from "../components/Post/Post";
 
-import Loading from '../components/Loading';
-import { Button } from 'antd';
-import "../styles/styles.scss"
+import Loading from "../components/Loading";
+import { Button } from "antd";
+import "../styles/styles.scss";
 
 class Feed extends Component {
   state = {
@@ -14,48 +14,48 @@ class Feed extends Component {
     uploads: [],
     episodes: [],
     posts: [],
-    next: '',
-    loading: true,
+    next: "",
+    loading: true
   };
 
   componentDidMount() {
     axios
       .get(
-        'https://kitsu.io/api/edge/feeds/global/global?filter%5Bkind%5D=posts&include=media%2Cactor%2Cunit%2Csubject%2Ctarget%2Ctarget.user%2Ctarget.target_user%2Ctarget.spoiled_unit%2Ctarget.media%2Ctarget.target_group%2Ctarget.uploads%2Csubject.user%2Csubject.target_user%2Csubject.spoiled_unit%2Csubject.media%2Csubject.target_group%2Ctarget.comments,target.comments.user,subject.uploads%2Csubject.followed%2Csubject.library_entry%2Csubject.anime%2Csubject.manga&page%5Blimit%5D=10',
+        "https://kitsu.io/api/edge/feeds/global/global?filter%5Bkind%5D=posts&include=media%2Cactor%2Cunit%2Csubject%2Ctarget%2Ctarget.user%2Ctarget.target_user%2Ctarget.spoiled_unit%2Ctarget.media%2Ctarget.target_group%2Ctarget.uploads%2Csubject.user%2Csubject.target_user%2Csubject.spoiled_unit%2Csubject.media%2Csubject.target_group%2Ctarget.comments,target.comments.user,subject.uploads%2Csubject.followed%2Csubject.library_entry%2Csubject.anime%2Csubject.manga&page%5Blimit%5D=10",
         {
           params: {
-            'page[limit]': 10,
-          },
-        },
+            "page[limit]": 10
+          }
+        }
       )
       .then(({ data }) => {
-        const users = data.included.filter(item => item.type === 'users');
+        const users = data.included.filter(item => item.type === "users");
         const comments = data.included
-          .filter(item => item.type === 'comments')
+          .filter(item => item.type === "comments")
           .map(item => {
             const { id: userId, type } = item.relationships.user.data;
             const user = users.find(
-              item => item.id === userId && item.type === type,
+              item => item.id === userId && item.type === type
             );
             item.user = user;
 
             return item;
           });
-        const uploads = data.included.filter(item => item.type === 'uploads');
-        const episodes = data.included.filter(item => item.type === 'episodes');
+        const uploads = data.included.filter(item => item.type === "uploads");
+        const episodes = data.included.filter(item => item.type === "episodes");
         const posts = data.included
-          .filter(item => item.type === 'posts')
+          .filter(item => item.type === "posts")
           .map(post => {
             const { id: userId } = post.relationships.user.data;
             const { data: commentsData } = post.relationships.comments || {
-              data: [],
+              data: []
             };
 
             const commentsIds = commentsData.map(item => item.id);
 
             post.user = users.find(user => user.id === userId);
             post.comments = comments.filter(item =>
-              commentsIds.includes(item.id.toString()),
+              commentsIds.includes(item.id.toString())
             );
 
             return post;
@@ -67,7 +67,7 @@ class Feed extends Component {
           episodes,
           posts: posts,
           loading: false,
-          next: data.links.next,
+          next: data.links.next
         });
       })
       .catch(err => console.log(err));
@@ -83,26 +83,26 @@ class Feed extends Component {
     axios
       .get(next, {
         params: {
-          'page[limit]': 20,
-        },
+          "page[limit]": 20
+        }
       })
       .then(({ data }) => {
         console.log(data);
-        const users = data.included.filter(item => item.type === 'users');
+        const users = data.included.filter(item => item.type === "users");
         const comments = data.included
-          .filter(item => item.type === 'comments')
+          .filter(item => item.type === "comments")
           .map(item => {
             const { id: userId, type } = item.relationships.user.data;
 
             const user = users.find(
-              item => item.id === userId && item.type === type,
+              item => item.id === userId && item.type === type
             );
             item.user = user;
 
             return item;
           });
         const posts = data.included
-          .filter(item => item.type === 'posts')
+          .filter(item => item.type === "posts")
           .map(post => {
             const { id: userId } = post.relationships.user.data;
             const { data } = post.relationships.comments;
@@ -112,15 +112,15 @@ class Feed extends Component {
             post.user = users.find(user => user.id === userId);
 
             post.comments = comments.filter(item =>
-              commentsIds.includes(item.id),
+              commentsIds.includes(item.id)
             );
 
             return post;
           });
         console.log(posts);
 
-        const uploads = data.included.filter(item => item.type === 'uploads');
-        const episodes = data.included.filter(item => item.type === 'episodes');
+        const uploads = data.included.filter(item => item.type === "uploads");
+        const episodes = data.included.filter(item => item.type === "episodes");
 
         const { posts: oldPosts } = this.state;
         this.setState({
@@ -129,7 +129,7 @@ class Feed extends Component {
           episodes,
           posts: [...oldPosts, ...posts],
           next: data.links.next,
-          loading: false,
+          loading: false
         });
       })
       .catch(err => console.log(err));

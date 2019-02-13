@@ -1,26 +1,27 @@
-import React from 'react';
-import AnimeContentItem from './AnimeContentItem';
-import Link from 'next/link';
-import { Button } from 'antd';
-import AnimeContentCharacter from './AnimeContentCharacter';
+import React from "react";
+import AnimeContentItem from "./AnimeContentItem";
+import Link from "next/link";
+import Button from "antd/lib/button";
+import AnimeContentCharacter from "./AnimeContentCharacter";
 
 const AnimeContent = ({ title, type, data, slug, posterImage = null }) => {
+  console.log("b", slug);
   let url =
-    type !== 'chapters'
-      ? '/anime/' + slug + '/' + type
-      : '/manga/' + slug + '/' + type;
+    type !== "chapters"
+      ? "/anime/" + slug + "/" + type
+      : "/manga/" + slug + "/" + type;
 
-  if (type === 'episodes') {
+  if (type === "episodes") {
     data = data.slice(0, 8);
   }
 
-  if (type === 'characters') {
+  if (type === "characters") {
     data = data
       .filter(character => character.attributes.image !== undefined)
       .slice(0, 8);
   }
 
-  const classes = 'secondary__content ' + type;
+  const classes = "secondary__content " + type;
   return (
     <div className={classes}>
       <div className="secondary__content__title">
@@ -29,7 +30,7 @@ const AnimeContent = ({ title, type, data, slug, posterImage = null }) => {
           <div className="secondary__content__title__text__blur" />
           <hr />
         </div>
-        {type !== 'franchise' && type !== 'actors' && (
+        {type !== "franchise" && type !== "actors" && (
           <Link to={url}>
             <div className="secondary__content__title__view-all">View all</div>
           </Link>
@@ -44,36 +45,35 @@ const AnimeContent = ({ title, type, data, slug, posterImage = null }) => {
             relativeNumber,
             number,
             image,
-            name,
-            slug,
+            name
           } = item.attributes;
           if (!thumbnail) {
             thumbnail = posterImage;
           }
           let mainUrl;
-          if (type === 'episodes') {
-            mainUrl = '/anime/' + slug + '/episodes/' + number;
+          if (type === "episodes") {
+            mainUrl = "/anime/" + slug + "/episodes/" + number;
           }
-          if (type === 'actors') {
-            mainUrl = '';
+          if (type === "actors") {
+            mainUrl = "";
           }
-          if (type === 'chapters') {
-            mainUrl = '/manga/' + slug + '/chapters/' + number;
+          if (type === "chapters") {
+            mainUrl = "/manga/" + slug + "/chapters/" + number;
           }
-          if (type === 'characters' || type === 'actors') {
+          if (type === "characters" || type === "actors") {
             let bgImage = image !== undefined ? image.original : posterImage;
-            let url = '/characters/view/' + slug;
+            let url = "/characters/view/" + slug;
             return (
               <AnimeContentCharacter url={url} bgImage={bgImage} name={name} />
             );
           }
           let franchiseImage = false;
           let franchiseType = false;
-          if (type === 'franchise') {
+          if (type === "franchise") {
             franchiseImage = item.attributes.posterImage;
             franchiseType = item.type;
             mainUrl =
-              franchiseType === 'anime' ? '/anime/' + slug : '/manga/' + slug;
+              franchiseType === "anime" ? "/anime/" + slug : "/manga/" + slug;
           }
 
           return (
@@ -89,12 +89,10 @@ const AnimeContent = ({ title, type, data, slug, posterImage = null }) => {
           );
         })}
       </div>
-      {type !== 'franchise' && type !== 'actors' && (
-        <div className="view-more">
+      {type !== "franchise" && type !== "actors" && (
+        <div className="custom-btn custom-btn--no-margin">
           <Link href={url}>
-            <Button type="primary" ghost>
-              View More
-            </Button>
+            <a>View More</a>
           </Link>
         </div>
       )}
