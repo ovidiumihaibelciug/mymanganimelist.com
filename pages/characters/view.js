@@ -1,42 +1,47 @@
-import React, { Component, Fragment } from 'react';
-import axios from 'axios';
-import { KAPI } from '../../utils';
-import Sidebar from '../../components/Sidebar';
-import Header from '../../layout/Header';
-import Loading from '../../components/Loading';
-import AnimeContent from '../../components/Anime/AnimeContent';
-import RightSidebar from '../../components/RightSidebar';
-import SecondaryContent from '../../components/Anime/SecondaryContent';
+import React, { Component, Fragment } from "react";
+import axios from "axios";
+import { KAPI } from "../../utils";
+import Sidebar from "../../components/Sidebar";
+import Header from "../../layout/Header";
+import Loading from "../../components/Loading";
+import AnimeContent from "../../components/Anime/AnimeContent";
+import RightSidebar from "../../components/RightSidebar";
+import SecondaryContent from "../../components/Anime/SecondaryContent";
+import AppWrapper from "../../components/AppWrapper";
 
 class CharacterView extends Component {
+  static getInitialProps({ query: { slug } }) {
+    return { slug };
+  }
+
   state = {
     anime: {},
-    people: '',
-    media: '',
-    loading: true,
+    people: "",
+    media: "",
+    loading: true
   };
 
   componentDidMount() {
-    const { slug, number } = this.props.match.params;
+    const { slug } = this.props;
 
     axios
-      .get(KAPI + '/characters', {
+      .get(KAPI + "/characters", {
         params: {
-          'filter[slug]': slug,
-          include: 'castings.person,mediaCharacters.media',
-        },
+          "filter[slug]": slug,
+          include: "castings.person,mediaCharacters.media"
+        }
       })
       .then(({ data }) => {
         console.log(data);
-        let people = data.included.filter(item => item.type === 'people');
+        let people = data.included.filter(item => item.type === "people");
         let media = data.included.filter(
-          item => item.type === 'anime' || item.type === 'manga',
+          item => item.type === "anime" || item.type === "manga"
         );
         this.setState({
           character: data.data[0],
           people,
           media,
-          loading: false,
+          loading: false
         });
       })
       .catch(err => console.log(err));
@@ -47,13 +52,13 @@ class CharacterView extends Component {
     if (loading) {
       return <Loading />;
     }
-    const { slug } = this.props.match.params;
+    const { slug } = this.props;
     const { image, canonicalName, description } = character.attributes;
     let { posterImage } = media[0].attributes;
-    console.log('Only episode', character);
+    console.log("Only episode", character);
 
     return (
-      <Fragment>
+      <AppWrapper>
         <section className="anime-view o-main-layout character-view">
           <Sidebar small={true} />
           <div
@@ -61,8 +66,7 @@ class CharacterView extends Component {
             style={{
               backgroundImage: `linear-gradient(15deg,rgba(20, 28, 36, 1) 10%, rgba(30, 34, 38, 0.99) 40%,  rgba(30, 34, 38, 0.95) 100%) , url(${
                 posterImage ? posterImage.original : image.original
-              })`,
-              width: 'auto',
+              })`
             }}
           >
             <Header />
@@ -96,22 +100,22 @@ class CharacterView extends Component {
             <SecondaryContent
               data={[
                 {
-                  title: 'Voice actors',
-                  type: 'actors',
-                  data: people,
+                  title: "Voice actors",
+                  type: "actors",
+                  data: people
                 },
                 {
-                  title: 'Media',
-                  type: 'franchise',
-                  data: media,
-                },
+                  title: "Media",
+                  type: "franchise",
+                  data: media
+                }
               ]}
               slug={slug}
               posterImage={posterImage}
             />
           </div>
         </section>
-      </Fragment>
+      </AppWrapper>
     );
   }
 }

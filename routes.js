@@ -1,6 +1,5 @@
 const routes = require("next-routes");
 
-// Name   Page      Pattern
 module.exports = routes()
   .add({
     name: "dashboard",
@@ -46,4 +45,19 @@ module.exports = routes()
     name: "episodeSlugNumber",
     pattern: "/anime/:slug/episodes/:number",
     page: "/episode"
+  })
+  .add({
+    name: "charactersAnimeList",
+    pattern: "/anime/:slug/characters",
+    page: "/characters/anime/list"
+  })
+  .add({
+    name: "charactersMangaList",
+    pattern: "/manga/:slug/characters",
+    page: "/characters/manga/list"
+  })
+  .add({
+    name: "charactersViewSlug",
+    pattern: "/characters/view/:slug",
+    page: "/characters/view"
   });

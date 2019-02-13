@@ -38,7 +38,7 @@ const Template = ({
       <section className="anime-view o-main-layout anime-episodes">
         <Sidebar small />
         <div className="o-main o-anime-view">
-          <Header isFixed />
+          <Header />
           <div className="anime-container">
             {schema && (
               <SecondaryFilters

@@ -61,7 +61,11 @@ const AnimeContent = ({ title, type, data, slug, posterImage = null }) => {
             mainUrl = "/manga/" + slug + "/chapters/" + number;
           }
           if (type === "characters" || type === "actors") {
-            let bgImage = image !== undefined ? image.original : posterImage;
+            let bgImage = image
+              ? image.original
+                ? image.original
+                : ""
+              : posterImage;
             let url = "/characters/view/" + slug;
             return (
               <AnimeContentCharacter url={url} bgImage={bgImage} name={name} />
