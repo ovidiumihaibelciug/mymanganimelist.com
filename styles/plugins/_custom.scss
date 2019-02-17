@@ -11,8 +11,7 @@
   cursor: pointer;
   position: absolute;
   z-index: $mds-z-3;
-  top: 50%;
-  margin-top: -16px;
+  top: 0;
   overflow: hidden;
 
   &:after,

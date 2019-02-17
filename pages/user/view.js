@@ -28,20 +28,20 @@ let chartData = {
 };
 
 class UserView extends React.Component {
+  static getInitialProps({ query: { id } }) {
+    return { id };
+  }
+
   state = {
     user: {},
     stats: [],
     loading: true
   };
 
-  static getInitialProps({ query: { id } }) {
-    return { id };
-  }
-
   componentDidMount() {
     const { id } = this.props;
     const userStore = JSON.parse(localStorage.getItem("user"));
-    console.log("asdasda", userStore);
+
     axios
       .all([
         axios.get(KAPI + "/users/", {
@@ -51,31 +51,29 @@ class UserView extends React.Component {
               "reviews,pinnedPost,blocks,stats,favorites,favorites.item,waifu,profileLinks,categoryFavorites.category"
           }
         }),
-        axios.get(KAPI + "/users?filter%5Bself%5D=true", {
-          headers: {
-            Authorization: "Bearer " + userStore.data.access_token
-          },
-          params: {
-            include: "following.followed"
-          }
-        })
+        userStore &&
+          axios.get(KAPI + "/users?filter%5Bself%5D=true", {
+            headers: {
+              Authorization: "Bearer " + userStore.data.access_token
+            },
+            params: {
+              include: "following.followed"
+            }
+          })
       ])
-      .then(([userData, loggedUser]) => {
+      .then(([userData, loggedUser = false]) => {
         const user = userData.data.data[0];
-
-        console.log(loggedUser);
 
         const isFollowing =
           user.id &&
+          loggedUser &&
           loggedUser.data.included.find(
             item => item.type === "users" && item.id === user.id
           );
 
-        const follows = loggedUser.data.included.filter(
-          item => item.type === "follows"
-        );
-
-        console.log(isFollowing);
+        const follows =
+          loggedUser &&
+          loggedUser.data.included.filter(item => item.type === "follows");
 
         const stats = userData.data.included.filter(
           item => item.type === "stats"
@@ -95,8 +93,6 @@ class UserView extends React.Component {
             };
           });
 
-        console.log("stats", stats);
-
         chartData.datasets[0].data =
           stats[1].attributes.statsData.categories &&
           Object.values(stats[1].attributes.statsData.categories);
@@ -105,16 +101,13 @@ class UserView extends React.Component {
           stats[1].attributes.statsData.categories &&
           Object.keys(stats[1].attributes.statsData.categories);
 
-        // console.log(chartData);
-        console.log("123", loggedUser.data);
-
         this.setState({
           user,
           stats,
           favorites,
           isFollowing,
           follows,
-          loggedUser: loggedUser.data.data[0],
+          loggedUser: loggedUser && loggedUser.data.data[0],
           loading: false
         });
       })
@@ -124,6 +117,9 @@ class UserView extends React.Component {
   onFollow = isFollowing => {
     const userStore = JSON.parse(localStorage.getItem("user"));
     const { user, loggedUser, follows } = this.state;
+    this.setState({
+      loadingBtn: true
+    });
 
     if (!userStore) {
       Router.pushRoute("login");
@@ -148,23 +144,64 @@ class UserView extends React.Component {
               }
             }
           )
-          .then(() => {});
+          .then(({ data }) => {
+            this.setState(state => {
+              const { isFollowing, follows } = state;
+
+              return {
+                isFollowing: !isFollowing,
+                loadingBtn: false,
+                follows: [
+                  ...follows,
+                  {
+                    relationships: {
+                      follower: { data: { type: "users", id: loggedUser.id } },
+                      followed: { data: { type: "users", id: user.id } }
+                    },
+                    type: "follows",
+                    id: data.data.id
+                  }
+                ]
+              };
+            });
+          })
+          .catch(err => console.log(err));
       } else {
-        const deletedFollow = follows.find(
-          item => item.relationships.followed.data.id === user.id
-        );
-        axios.delete(`https://kitsu.io/api/edge/follows/${deletedFollow.id}`, {
-          headers: {
-            "content-type": "application/vnd.api+json",
-            Authorization: "Bearer " + userStore.data.access_token
-          }
-        });
+        console.log(follows);
+        const deletedFollow = follows
+          .reverse()
+          .find(item => item.relationships.followed.data.id === user.id);
+        axios
+          .delete(`https://kitsu.io/api/edge/follows/${deletedFollow.id}`, {
+            headers: {
+              "content-type": "application/vnd.api+json",
+              Authorization: "Bearer " + userStore.data.access_token
+            }
+          })
+          .then(() => {
+            this.setState(state => {
+              const { isFollowing } = state;
+
+              return {
+                isFollowing: !isFollowing,
+                loadingBtn: false
+              };
+            });
+          })
+          .catch(err => console.log(err));
       }
     }
   };
 
   render() {
-    const { user, favorites, stats, isFollowing, loading } = this.state;
+    const {
+      user,
+      favorites,
+      stats,
+      isFollowing,
+      loading,
+      loadingBtn
+    } = this.state;
     if (loading) {
       return <Loading />;
     }
@@ -225,7 +262,7 @@ class UserView extends React.Component {
               })`
             }}
           >
-            <Header profileId={user.id} />
+            <Header isFixedNoBg profileId={user.id} />
             <div className="anime">
               <div className="anime-container">
                 <div className="anime__info">
@@ -314,6 +351,7 @@ class UserView extends React.Component {
               user={user}
               isUser
               isFollowing={isFollowing}
+              loadingBtn={loadingBtn}
               onFollow={this.onFollow}
             />
           </div>

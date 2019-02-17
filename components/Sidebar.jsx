@@ -32,7 +32,7 @@ class Sidebar extends Component {
 
     const mainRoutes = [
       {
-        to: "/anime",
+        to: "/",
         text: "Anime"
       },
       {
@@ -54,7 +54,7 @@ class Sidebar extends Component {
         <section className={classes}>
           <div className="o-sidebar__brand">MyMangaAnimeList</div>
           <div className="o-sidebar__main">
-            <div className="o-sidebar__main__title">Browse Animes</div>
+            <div className="o-sidebar__main__title">Browse Anime</div>
             <div className="o-sidebar__main__title___content">
               {mainRoutes.map((item, id) => (
                 <div

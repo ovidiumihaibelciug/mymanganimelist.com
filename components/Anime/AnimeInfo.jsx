@@ -35,15 +35,13 @@ const AnimeInfo = ({
           <div className="anime__details__rank anime__details__rank--popular">
             <i className="fa fa-heart" />
             <div className="anime__details__rank__number">
-              Rank #{popularityRank}{" "}
-              {popularityRank <= 30 ? "(Most Popular Anime)" : ""}
+              Rank #{popularityRank} (Most Popular Anime)
             </div>
           </div>
           <div className="anime__details__rank anime__details__rank--rated">
             <i className="fa fa-star" />
             <div className="anime__details__rank__number">
-              Rank #{ratingRank}{" "}
-              {ratingRank <= 10 ? "(Highest Rated Anime)" : ""}
+              Rank #{ratingRank} (Highest Rated Anime)
             </div>
           </div>
         </div>

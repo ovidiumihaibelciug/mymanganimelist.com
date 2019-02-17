@@ -9,15 +9,19 @@ import axios from "axios";
 import { loadState, saveState } from "../utils/localStorage";
 import AppWrapper from "../components/AppWrapper";
 import LoginDefault from "../components/svg/imgs/LoginDefault";
+import { Router } from "../routes";
 
 class Login extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+  state = {
+    errors: false
+  };
 
   componentDidMount() {
-    const user = loadState();
-    console.log(user);
+    const userStore = JSON.parse(localStorage.getItem("user"));
+
+    if (userStore) {
+      Router.push("/");
+    }
   }
 
   onSubmit = data => {
@@ -28,17 +32,30 @@ class Login extends React.Component {
       )
       .then(result => {
         saveState(result);
+        Router.push("/");
       })
-      .catch(err => console.log(err));
+      .catch(() => {
+        this.setState({
+          errors: true
+        });
+      });
   };
 
   render() {
+    const { errors } = this.state;
     return (
       <AppWrapper title="Login">
         <div className="o-login">
           <div className="o-login__form">
-            <h1 className="o-login__form__title">Login</h1>
-            <AutoForm schema={LoginSchema} onSubmit={this.onSubmit}>
+            <h1 className="o-login__form__title">
+              Connect to <span className="o-is-primary">MyManganimeList</span>{" "}
+              with your <a href="kitsu.io ">kitsu.io </a> account
+            </h1>
+            <AutoForm
+              schema={LoginSchema}
+              onSubmit={this.onSubmit}
+              className="o-login__form__inputs"
+            >
               <AutoField
                 className="o-login__form__input"
                 name="email"
@@ -53,7 +70,7 @@ class Login extends React.Component {
                 type="password"
               />
 
-              <div className="o-login__form__inputs">
+              <div className="o-login__form__buttons">
                 <Link to={"/register"}>
                   <Button ghost>Register</Button>
                 </Link>
@@ -61,8 +78,17 @@ class Login extends React.Component {
                   Login
                 </Button>
               </div>
-              <ErrorField name="email" />
-              <ErrorField name="password" />
+              <div className="o-login__form__inputs__errors">
+                <ErrorField className="form-err" name="email" />
+                <ErrorField className="form-err" name="password" />
+                {errors && (
+                  <div className="form-err">
+                    The provided authorization grant is invalid, expired,
+                    revoked, does not match the redirection URI used in the
+                    authorization request, or was issued to another client."
+                  </div>
+                )}
+              </div>
             </AutoForm>
             <Link href="/forgot-password">
               <a className="o-login__form__forgot-password">Forgot password?</a>

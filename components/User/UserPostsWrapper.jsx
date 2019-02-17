@@ -14,9 +14,13 @@ class UserPostsWrapper extends Component {
   };
 
   componentDidMount() {
+    const { user } = this.props;
+
     axios
       .get(
-        "https://kitsu.io/api/edge/feeds/user_aggr/164545?include=media%2Cactor%2Cunit%2Csubject%2Ctarget%2Ctarget.user%2Ctarget.target_user%2Ctarget.spoiled_unit%2Ctarget.media%2Ctarget.target_group%2Ctarget.uploads%2Csubject.user%2Csubject.target_user%2Csubject.spoiled_unit%2Csubject.media%2Csubject.target_group%2Csubject.uploads%2Csubject.followed%2Csubject.library_entry%2Csubject.anime%2Csubject.manga&page%5Blimit%5D=10&page%5Bcursor%5D=3d2b73e4-30fe-11e9-8080-80017f59d480",
+        `https://kitsu.io/api/edge/feeds/user_aggr/${
+          user.id
+        }?include=media%2Cactor%2Cunit%2Csubject%2Ctarget%2Ctarget.user%2Ctarget.target_user%2Ctarget.spoiled_unit%2Ctarget.media%2Ctarget.target_group%2Ctarget.uploads%2Csubject.user%2Csubject.target_user%2Csubject.spoiled_unit%2Csubject.media%2Csubject.target_group%2Csubject.uploads%2Csubject.followed%2Csubject.library_entry%2Csubject.anime%2Csubject.manga&page%5Blimit%5D=10&page%5Bcursor%5D=3d2b73e4-30fe-11e9-8080-80017f59d480`,
         {
           params: {
             "page[limit]": 10
@@ -112,7 +116,9 @@ class UserPostsWrapper extends Component {
 
   render() {
     const { className, user } = this.props;
-    const { posts, comments, episodes } = this.state;
+    const { posts, episodes } = this.state;
+
+    if (!posts.length) return null;
 
     return (
       <>

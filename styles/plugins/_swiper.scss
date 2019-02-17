@@ -17,6 +17,7 @@
   padding: 0;
   /* Fix of Webkit flickering */
   z-index: 1;
+  width: 100%;
 }
 .swiper-container-no-flexbox .swiper-slide {
   float: left;
@@ -221,6 +222,8 @@
   bottom: 10px;
   left: 0;
   width: 100%;
+  display: flex;
+  justify-content: center;
 }
 /* Bullets */
 .swiper-pagination-bullets-dynamic {

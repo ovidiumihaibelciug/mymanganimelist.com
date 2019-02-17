@@ -16,7 +16,8 @@ const RightSidebar = ({
   isUser,
   isFollowing,
   user,
-  onFollow
+  onFollow,
+  loadingBtn
 }) => {
   const duration = date => {
     let eventDate = moment(date);
@@ -51,7 +52,17 @@ const RightSidebar = ({
                 className="o-btn o-btn__follow"
                 onClick={() => onFollow(isFollowing)}
               >
-                <button>{!isFollowing ? "Follow" : "Unfollow"}</button>
+                <button>
+                  {!loadingBtn ? (
+                    !isFollowing ? (
+                      "Follow"
+                    ) : (
+                      "Unfollow"
+                    )
+                  ) : (
+                    <i className="fas fa-spinner fa-spin" />
+                  )}
+                </button>
               </div>
             </div>
           )}

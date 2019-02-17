@@ -4,26 +4,22 @@ import { KAPI } from "../utils";
 import Sidebar from "../components/Sidebar";
 import Header from "../layout/Header";
 import Loading from "../components/Loading";
-import Chip from "../components/Chip";
-import { Icon } from "antd";
 import RightSidebar from "../components/RightSidebar";
 import EpisodeContent from "../components/Episode/EpisodeContent";
-import VideoLike from "../components/Episode/VideoLike";
 import VideosSrc from "../components/Episode/VideosSrc";
 import AppWrapper from "../components/AppWrapper";
-import "../styles/styles.scss";
 
 export class EpisodeView extends Component {
-  static getInitialProps({ query: { slug, number } }) {
-    return { slug, number };
-  }
-
   state = {
     anime: {},
     loading: true,
     streamingLinks: "",
     videos: ""
   };
+
+  static getInitialProps({ query: { slug, number } }) {
+    return { slug, number };
+  }
 
   componentDidMount() {
     const { slug, number } = this.props;
@@ -100,11 +96,11 @@ export class EpisodeView extends Component {
             className="o-main o-anime-view o-episode-view"
             style={{
               backgroundImage: `linear-gradient(15deg,rgba(20, 28, 36, 1) 10%, rgba(30, 34, 38, 0.99) 40%,  rgba(30, 34, 38, 0.95) 100%) , url(${
-                thumbnail ? thumbnail.original : coverImage.original
+                coverImage ? coverImage.original : thumbnail.original
               })`
             }}
           >
-            <Header />
+            <Header isFixedNoBg />
             <div className="anime episode">
               <EpisodeContent
                 thumbnail={thumbnail}
@@ -116,10 +112,8 @@ export class EpisodeView extends Component {
               />
             </div>
             <RightSidebar
-              coverImage={posterImage}
-              posterImage={thumbnail}
-              status={""}
-              // nextRelease={nextRelease}
+              coverImage={coverImage || thumbnail}
+              posterImage={posterImage || coverImage || thumbnail}
             />
           </div>
           <div className="secondary">

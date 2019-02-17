@@ -1,9 +1,9 @@
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import Swiper from 'react-id-swiper';
-import { IconChevron } from './svg/icons';
-import { getScrollbarSize } from './functions';
+import React, { Component, Fragment } from "react";
+import PropTypes from "prop-types";
+import classNames from "classnames";
+import Swiper from "react-id-swiper";
+import { IconChevron } from "./svg/icons";
+import { getScrollbarSize } from "./functions";
 
 class SwiperSlider extends Component {
   constructor(props) {
@@ -13,7 +13,7 @@ class SwiperSlider extends Component {
   renderSlides = element => {
     if (!element) return false;
     const { className } = this.props;
-    const sliderClasses = classNames('swiper-slide', `${className}__slide`);
+    const sliderClasses = classNames("swiper-slide", `${className}__slide`);
 
     return <div className={sliderClasses}>{React.cloneElement(element)}</div>;
   };
@@ -23,8 +23,8 @@ class SwiperSlider extends Component {
   renderPrevButton = () => {
     const { id } = this.props;
     const prevSlideClasses = classNames(
-      'cc-swiper-button cc--prev swiper-slide-prev',
-      'cc--prev' + id,
+      "cc-swiper-button cc--prev swiper-slide-prev",
+      "cc--prev" + id
     );
     return (
       <div className={prevSlideClasses}>
@@ -35,8 +35,8 @@ class SwiperSlider extends Component {
   renderNextButton = () => {
     const { id } = this.props;
     const nextSlideClasses = classNames(
-      'cc-swiper-button cc--next swiper-slide-next',
-      'cc--next' + id,
+      "cc-swiper-button cc--next swiper-slide-next",
+      "cc--next" + id
     );
     return (
       <div className={nextSlideClasses}>
@@ -54,14 +54,14 @@ class SwiperSlider extends Component {
       withNav,
       withNavOutside,
       withFixedNav,
-      id,
+      id
     } = this.props;
-    const containerClasses = classNames('swiper-container', className);
+    const containerClasses = classNames("swiper-container", className);
 
     const paginationClasses = classNames(
-      'swiper-pagination',
+      "swiper-pagination",
       `${className}__pagination`,
-      'swiper-pagination' + id,
+      "swiper-pagination" + id
     );
 
     const navStyle = {};
@@ -70,20 +70,16 @@ class SwiperSlider extends Component {
     }
 
     return (
-      <Fragment>
-        <div className={containerClasses} ref={this.onSwiperMount}>
-          <div className="swiper-wrapper">
-            <Swiper
-              renderPrevButton={this.renderPrevButton}
-              renderNextButton={this.renderNextButton}
-              render
-              {...options}
-            >
-              {React.Children.map(children, this.renderSlides)}
-            </Swiper>
-          </div>
-        </div>
-      </Fragment>
+      <Swiper
+        renderPrevButton={this.renderPrevButton}
+        renderNextButton={this.renderNextButton}
+        render
+        className={containerClasses}
+        ref={this.onSwiperMount}
+        {...options}
+      >
+        {React.Children.map(children, this.renderSlides)}
+      </Swiper>
     );
   }
 }
@@ -95,13 +91,13 @@ SwiperSlider.propTypes = {
   withNav: PropTypes.bool,
   withNavOutside: PropTypes.bool,
   withPagination: PropTypes.bool,
-  withFixedNav: PropTypes.bool,
+  withFixedNav: PropTypes.bool
 };
 SwiperSlider.defaultProps = {
   withPagination: true,
   withNav: false,
   withNavOutside: false,
-  withFixedNav: false,
+  withFixedNav: false
 };
 
 export default SwiperSlider;

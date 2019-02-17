@@ -115,4 +115,9 @@ module.exports = routes()
     name: "login",
     pattern: "/login",
     page: "/login"
+  })
+  .add({
+    name: "index",
+    pattern: "/",
+    page: "/dashboard"
   });

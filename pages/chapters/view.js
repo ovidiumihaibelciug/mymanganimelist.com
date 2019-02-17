@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import axios from "axios";
 import { KAPI } from "../../utils";
 import Sidebar from "../../components/Sidebar";
@@ -28,7 +28,7 @@ export class ChapterView extends Component {
         }
       })
       .then(({ data }) => {
-        console.log("EPISODEEE", data);
+        console.log("manga", data);
         const { id } = data.data[0];
         this.setState({
           anime: data.data[0]
@@ -41,6 +41,7 @@ export class ChapterView extends Component {
             }
           })
           .then(({ data }) => {
+            console.log("chapter", data);
             this.setState({
               episode: data.data[0].attributes,
               loading: false
@@ -58,7 +59,14 @@ export class ChapterView extends Component {
     }
 
     const { coverImage, posterImage } = anime.attributes;
-    const { thumbnail, canonicalTitle, synopsis, airdate, length } = episode;
+    const {
+      thumbnail,
+      canonicalTitle,
+      synopsis,
+      airdate,
+      number,
+      length
+    } = episode;
     return (
       <AppWrapper title="asdasda">
         <section className="anime-view o-main-layout">
@@ -92,18 +100,24 @@ export class ChapterView extends Component {
                     }}
                   />
                   <div className="rightside">
-                    <div className="title">{canonicalTitle}</div>
+                    <div className="title">
+                      {canonicalTitle || `Chapter ${number}`}
+                    </div>
                     <div className="description">{synopsis}</div>
-                    <div className="date">
-                      <Icon type="clock-circle" theme="outlined" />
-                      &nbsp;&nbsp;
-                      {length} minutes
-                    </div>
-                    <div className="date">
-                      <Icon type="calendar" theme="outlined" />
-                      &nbsp;&nbsp;
-                      {airdate}
-                    </div>
+                    {length && (
+                      <div className="date">
+                        <Icon type="clock-circle" theme="outlined" />
+                        &nbsp;&nbsp;
+                        {length} minutes
+                      </div>
+                    )}
+                    {airdate && (
+                      <div className="date">
+                        <Icon type="calendar" theme="outlined" />
+                        &nbsp;&nbsp;
+                        {airdate}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

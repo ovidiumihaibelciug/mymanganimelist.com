@@ -72,7 +72,7 @@ class ItemView extends Component {
               })`
             }}
           >
-            <Header />
+            <Header isFixedNoBg />
             <AnimeInfo
               starCount={starCount}
               titles={titles}

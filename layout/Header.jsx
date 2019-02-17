@@ -6,6 +6,7 @@ import classNames from "classnames";
 import axios from "axios";
 import { KAPI } from "../utils";
 import { Router } from "../routes";
+import Link from "next/link";
 
 class Header extends Component {
   state = {
@@ -16,7 +17,6 @@ class Header extends Component {
 
   componentDidMount() {
     const userStore = JSON.parse(localStorage.getItem("user"));
-    const { profileId } = this.props;
 
     userStore &&
       axios
@@ -43,18 +43,23 @@ class Header extends Component {
   };
 
   render() {
-    const { showInput, user, isFollowing, loading } = this.state;
+    const { showInput, user, loading } = this.state;
 
-    const { isFixed } = this.props;
+    const { isFixed, isFixedNoBg } = this.props;
     const { avatar, name } = !loading && user.attributes;
     const img =
       !loading && avatar
         ? user.avatar.original
         : "https://i.ytimg.com/vi/qwzQPh7dW_4/maxresdefault.jpg";
 
+    const wrapperClassNames = classNames({
+      "o-header__wrap": isFixed && !isFixedNoBg,
+      "o-header__wrap--main-item": isFixedNoBg
+    });
+
     return (
       <div className={isFixed && "o-header__main-wrapper"}>
-        <div className={isFixed && "o-header__wrap"}>
+        <div className={wrapperClassNames}>
           <div className="o-header">
             <div className="left-side" onClick={this.goBack}>
               <div className="icon">
@@ -71,10 +76,7 @@ class Header extends Component {
                   <i
                     className="fa fa-search"
                     onClick={() => {
-                      const { history } = this.props;
-                      history.push("/search");
-
-                      this.setState({ showInput: true });
+                      Router.push("/search");
                     }}
                   />
                 ) : (
@@ -90,11 +92,20 @@ class Header extends Component {
                 )}
               </div>
               <div className="user-profile">
-                {!loading && (
+                {!loading ? (
                   <div
                     className="user-profile--img"
                     style={{ backgroundImage: `url('${img}')` }}
                   />
+                ) : (
+                  <div className="user-profile__header-links">
+                    <Link href="/login">
+                      <a>Login</a>
+                    </Link>
+                    <Link href="/login">
+                      <a>Register</a>
+                    </Link>
+                  </div>
                 )}
                 <div className="user-profile--username">{!loading && name}</div>
               </div>

@@ -1,6 +1,7 @@
-import React from 'react';
-import Chip from '../Chip';
-import { Icon } from 'antd';
+import React from "react";
+import Chip from "../Chip";
+import moment from "moment";
+import { Icon } from "antd";
 
 const EpisodeContent = ({
   thumbnail,
@@ -8,7 +9,7 @@ const EpisodeContent = ({
   canonicalTitle,
   length,
   synopsis,
-  airdate,
+  airdate
 }) => {
   return (
     <div className="anime-container episode-container">
@@ -18,8 +19,8 @@ const EpisodeContent = ({
           style={{ backgroundImage: `url("${thumbnail.original}")` }}
         />
         <div className="secondary-item__rightside">
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <Chip item={chipItem} />
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <Chip item={chipItem} noLink />
           </div>
           <div className="secondary-item__rightside__title">
             {canonicalTitle}
@@ -35,7 +36,7 @@ const EpisodeContent = ({
           <div className="secondary-item__rightside__date">
             <Icon type="calendar" theme="outlined" />
             &nbsp;&nbsp;
-            {airdate}
+            {moment(airdate).format("MMMM Do YYYY")}
           </div>
         </div>
       </div>

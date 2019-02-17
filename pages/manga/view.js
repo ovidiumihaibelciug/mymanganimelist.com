@@ -40,12 +40,14 @@ export default class AnimeView extends Component {
       })
       .then(({ data }) => {
         console.log(data);
-        const categories = data.included.filter(
-          item => item.type === "categories"
-        );
-        const franchises = data.included.filter(
-          item => item.type === "manga" || item.type === "anime"
-        );
+        const categories =
+          data.included &&
+          data.included.filter(item => item.type === "categories");
+        const franchises =
+          data.included &&
+          data.included.filter(
+            item => item.type === "manga" || item.type === "anime"
+          );
         this.setState({
           anime: data.data[0],
           categories,

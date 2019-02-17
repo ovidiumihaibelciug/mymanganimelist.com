@@ -85,7 +85,10 @@ const AnimeContent = ({ title, type, data = [], slug, posterImage = null }) => {
               number={number}
               thumbnail={franchiseImage ? franchiseImage : thumbnail}
               relativeNumber={relativeNumber}
-              canonicalTitle={canonicalTitle}
+              canonicalTitle={
+                canonicalTitle ||
+                (type === "chapters" ? `Chapter ${number}` : "")
+              }
               franchiseType={franchiseType ? franchiseType : false}
               slug={slug}
               url={mainUrl || url}

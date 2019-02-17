@@ -74,7 +74,7 @@ export default class Dashboard extends Component {
 
     const content = [
       {
-        title: "Trending Animes",
+        title: "Trending Anime",
         items: trendingAnimes,
         url: "/anime/list/trending"
       },

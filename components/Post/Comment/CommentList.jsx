@@ -68,6 +68,7 @@ class CommentsList extends Component {
                     <Avatar
                       src={
                         item.user &&
+                        item.user.attributes.avatar &&
                         (item.user.attributes.avatar.original || defaultImage)
                       }
                     />

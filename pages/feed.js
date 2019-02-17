@@ -22,7 +22,7 @@ class Feed extends Component {
   componentDidMount() {
     axios
       .get(
-        "https://kitsu.io/api/edge/feeds/global/global?filter%5Bkind%5D=posts&include=media%2Cactor%2Cunit%2Csubject%2Ctarget%2Ctarget.user%2Ctarget.target_user%2Ctarget.spoiled_unit%2Ctarget.media%2Ctarget.target_group%2Ctarget.uploads%2Csubject.user%2Csubject.target_user%2Csubject.spoiled_unit%2Csubject.media%2Csubject.target_group%2Ctarget.comments,target.comments.user,subject.uploads%2Csubject.followed%2Csubject.library_entry%2Csubject.anime%2Csubject.manga&page%5Blimit%5D=10",
+        "https://kitsu.io/api/edge/feeds/global/global?filter%5Bkind%5D=posts&include=media%2Cactor%2Cunit%2Csubject%2Ctarget%2Ctarget.user%2Ctarget.target_user%2Ctarget.spoiled_unit%2Ctarget.media%2Ctarget.target_group%2Ctarget.uploads%2Csubject.user%2Csubject.target_user%2Csubject.spoiled_unit%2Csubject.media%2Csubject.target_group%2Ctarget,subject.uploads%2Csubject.followed%2Csubject.library_entry%2Csubject.anime%2Csubject.manga&page%5Blimit%5D=10",
         {
           params: {
             "page[limit]": 10
@@ -48,16 +48,8 @@ class Feed extends Component {
           .filter(item => item.type === "posts")
           .map(post => {
             const { id: userId } = post.relationships.user.data;
-            const { data: commentsData } = post.relationships.comments || {
-              data: []
-            };
-
-            const commentsIds = commentsData.map(item => item.id);
 
             post.user = users.find(user => user.id === userId);
-            post.comments = comments.filter(item =>
-              commentsIds.includes(item.id.toString())
-            );
 
             return post;
           });
@@ -106,15 +98,7 @@ class Feed extends Component {
           .filter(item => item.type === "posts")
           .map(post => {
             const { id: userId } = post.relationships.user.data;
-            const { data } = post.relationships.comments;
-
-            const commentsIds = data.map(item => item.id);
-
             post.user = users.find(user => user.id === userId);
-
-            post.comments = comments.filter(item =>
-              commentsIds.includes(item.id)
-            );
 
             return post;
           });
