@@ -1,21 +1,17 @@
 import React, { Component } from "react";
 import Header from "../../layout/Header";
-import ItemsRow from "../../components/Dashboard/ItemsRow";
-import AnimeItem from "../../components/Dashboard/AnimeItem";
 import Sidebar from "../../components/Sidebar";
 import axios from "axios";
 import Loading from "../../components/Loading";
-import { Molecule, WithMolecule } from "react-molecule";
+import { Molecule } from "react-molecule";
 import {
-  EasyLoaderAgent,
-  EasyLoadMoreAgent,
   EasyList,
-  EasyPager,
+  EasyLoaderAgent,
   EasyLoadMore,
-  EasyFilters
+  EasyLoadMoreAgent
 } from "easify";
-import { KAPI } from "../../utils";
 import AnimeContentCharacter from "../../components/Anime/AnimeContentCharacter";
+import AppWrapper from "../../components/AppWrapper";
 
 export default class CharacterList extends Component {
   state = {
@@ -47,7 +43,7 @@ export default class CharacterList extends Component {
       .catch(err => console.log(err));
   };
 
-  count = filters => {
+  count = () => {
     return axios
       .get("https://kitsu.io/api/edge/characters", {
         params: {
@@ -65,42 +61,44 @@ export default class CharacterList extends Component {
     const { loading } = this.state;
     if (loading) return <Loading />;
     return (
-      <section className="o-main-layout">
-        <Sidebar />;
-        <section className="o-main o-dashboard">
-          <Header isFixed />
-          <div className="main-content anime-view anime-container anime-episodes">
-            <Molecule
-              agents={{
-                loader: EasyLoaderAgent.factory({ load: this.load }),
-                loadMore: EasyLoadMoreAgent.factory({
-                  count: this.count,
-                  initialItemsCount: 20,
-                  loadItemsCount: 20
-                })
-              }}
-            >
-              <EasyList>
-                {({ data }) => {
-                  return data.map(item => {
-                    let { image, name, slug } = item.attributes;
-                    return (
-                      <AnimeContentCharacter
-                        url={`/characters/view/${slug}`}
-                        bgImage={image ? image.original : posterImage}
-                        name={name}
-                      />
-                    );
-                  });
+      <AppWrapper title="123">
+        <section className="o-main-layout">
+          <Sidebar />;
+          <section className="o-main o-dashboard">
+            <Header isFixed />
+            <div className="main-content anime-view anime-container anime-episodes">
+              <Molecule
+                agents={{
+                  loader: EasyLoaderAgent.factory({ load: this.load }),
+                  loadMore: EasyLoadMoreAgent.factory({
+                    count: this.count,
+                    initialItemsCount: 20,
+                    loadItemsCount: 20
+                  })
                 }}
-              </EasyList>
-              <div className="custom-btn">
-                <EasyLoadMore />
-              </div>
-            </Molecule>
-          </div>
+              >
+                <EasyList>
+                  {({ data }) => {
+                    return data.map(item => {
+                      let { image, name, slug } = item.attributes;
+                      return (
+                        <AnimeContentCharacter
+                          url={`/characters/view/${slug}`}
+                          bgImage={image ? image.original : posterImage}
+                          name={name}
+                        />
+                      );
+                    });
+                  }}
+                </EasyList>
+                <div className="custom-btn">
+                  <EasyLoadMore />
+                </div>
+              </Molecule>
+            </div>
+          </section>
         </section>
-      </section>
+      </AppWrapper>
     );
   }
 }

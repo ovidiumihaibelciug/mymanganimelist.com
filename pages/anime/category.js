@@ -101,7 +101,8 @@ export default class AnimeByCategory extends Component {
           <Header isFixed />
           <div className="main-content">
             {content.map((contentItem, id) => {
-              const { title, items } = contentItem;
+              const { title, items = [] } = contentItem;
+              if (!items.length) return null;
               return (
                 <ItemsRow id={id} title={title}>
                   {items.map(anime => (

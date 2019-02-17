@@ -6,7 +6,11 @@ import SimpleSchema from "simpl-schema";
 import Template from "../../components/SecondaryItems/Template";
 import Loading from "../../components/Loading";
 
-export class EpisodeList extends Component {
+export class ChapterList extends Component {
+  static getInitialProps({ query: { slug } }) {
+    return { slug };
+  }
+
   state = {
     anime: "",
     loading: true,
@@ -16,7 +20,7 @@ export class EpisodeList extends Component {
   };
 
   componentDidMount() {
-    const { slug } = this.props.match.params;
+    const { slug } = this.props;
 
     axios
       .get("https://kitsu.io/api/edge/manga", {
@@ -146,4 +150,4 @@ const FilterSchema = new SimpleSchema({
   }
 });
 
-export default EpisodeList;
+export default ChapterList;

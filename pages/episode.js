@@ -10,6 +10,7 @@ import RightSidebar from "../components/RightSidebar";
 import EpisodeContent from "../components/Episode/EpisodeContent";
 import VideoLike from "../components/Episode/VideoLike";
 import VideosSrc from "../components/Episode/VideosSrc";
+import AppWrapper from "../components/AppWrapper";
 import "../styles/styles.scss";
 
 export class EpisodeView extends Component {
@@ -92,7 +93,7 @@ export class EpisodeView extends Component {
       }
     };
     return (
-      <>
+      <AppWrapper title="1234">
         <section className="anime-view o-main-layout character-view">
           <Sidebar small={true} />
           <div
@@ -132,7 +133,7 @@ export class EpisodeView extends Component {
             )}
           </div>
         </section>
-      </>
+      </AppWrapper>
     );
   }
 }

@@ -1,6 +1,6 @@
-import React from 'react';
-import Rating from '../Rating';
-import Chip from '../Chip';
+import React from "react";
+import Rating from "../Rating";
+import Chip from "../Chip";
 
 const AnimeInfo = ({
   starCount,
@@ -11,7 +11,7 @@ const AnimeInfo = ({
   ratingRank,
   categories,
   openModal,
-  type,
+  type
 }) => (
   <div className="anime">
     <div className="anime-container">
@@ -27,7 +27,7 @@ const AnimeInfo = ({
             <Rating starsCount={starCount} />
           </div>
           <div className="anime__rating__text">
-            {averageRating + '% Community Rating'}
+            {averageRating + "% Community Rating"}
           </div>
         </div>
         <div className="anime__description">{synopsis}</div>
@@ -35,20 +35,20 @@ const AnimeInfo = ({
           <div className="anime__details__rank anime__details__rank--popular">
             <i className="fa fa-heart" />
             <div className="anime__details__rank__number">
-              Rank #{popularityRank}{' '}
-              {popularityRank <= 30 ? '(Most Popular Anime)' : ''}
+              Rank #{popularityRank}{" "}
+              {popularityRank <= 30 ? "(Most Popular Anime)" : ""}
             </div>
           </div>
           <div className="anime__details__rank anime__details__rank--rated">
             <i className="fa fa-star" />
             <div className="anime__details__rank__number">
-              Rank #{ratingRank}{' '}
-              {ratingRank <= 10 ? '(Highest Rated Anime)' : ''}
+              Rank #{ratingRank}{" "}
+              {ratingRank <= 10 ? "(Highest Rated Anime)" : ""}
             </div>
           </div>
         </div>
         <div className="anime__details__rank anime__genres">
-          {categories.map(category => (
+          {categories.slice(0, 15).map(category => (
             <Chip item={category} type={type} />
           ))}
         </div>

@@ -4,7 +4,7 @@ import Link from "next/link";
 import Button from "antd/lib/button";
 import AnimeContentCharacter from "./AnimeContentCharacter";
 
-const AnimeContent = ({ title, type, data, slug, posterImage = null }) => {
+const AnimeContent = ({ title, type, data = [], slug, posterImage = null }) => {
   console.log("b", slug);
   let url =
     type !== "chapters"

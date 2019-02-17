@@ -6,7 +6,8 @@ import Post from "../components/Post/Post";
 
 import Loading from "../components/Loading";
 import { Button } from "antd";
-import "../styles/styles.scss";
+
+import AppWrapper from "../components/AppWrapper";
 
 class Feed extends Component {
   state = {
@@ -141,29 +142,31 @@ class Feed extends Component {
     if (loading) return <Loading />;
 
     return (
-      <section className="o-main-layout">
-        <Sidebar />;
-        <section className="o-main o-dashboard">
-          <Header isFixed />
-          <div className="main-content">
-            <div className="o-feed">
-              {posts.map(post => (
-                <Post
-                  post={post}
-                  user={post.user}
-                  uploads={uploads || []}
-                  episodes={episodes || []}
-                />
-              ))}
+      <AppWrapper title="123">
+        <section className="o-main-layout">
+          <Sidebar />;
+          <section className="o-main o-dashboard">
+            <Header isFixed />
+            <div className="main-content">
+              <div className="o-feed">
+                {posts.map(post => (
+                  <Post
+                    post={post}
+                    user={post.user}
+                    uploads={uploads || []}
+                    episodes={episodes || []}
+                  />
+                ))}
+              </div>
+              <div className="custom-btn" style={{ marginRight: 0 }}>
+                <Button type="primary" ghost onClick={this.handleLoadMore}>
+                  Load More
+                </Button>
+              </div>
             </div>
-            <div className="custom-btn" style={{ marginRight: 0 }}>
-              <Button type="primary" ghost onClick={this.handleLoadMore}>
-                Load More
-              </Button>
-            </div>
-          </div>
+          </section>
         </section>
-      </section>
+      </AppWrapper>
     );
   }
 }

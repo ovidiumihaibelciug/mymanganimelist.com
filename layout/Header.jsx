@@ -1,60 +1,60 @@
-import React, { Component } from 'react';
-import SimpleSchema from 'simpl-schema';
-import AutoForm from 'uniforms-antd/AutoForm';
-import AutoField from 'uniforms-antd/AutoField';
-import classNames from 'classnames';
-import axios from 'axios';
-import { KAPI } from '../utils';
+import React, { Component } from "react";
+import SimpleSchema from "simpl-schema";
+import AutoForm from "uniforms-antd/AutoForm";
+import AutoField from "uniforms-antd/AutoField";
+import classNames from "classnames";
+import axios from "axios";
+import { KAPI } from "../utils";
+import { Router } from "../routes";
 
 class Header extends Component {
   state = {
-    showInput: '',
+    showInput: "",
     user: {},
-    loading: true,
+    loading: true
   };
 
   componentDidMount() {
-    const userStore = JSON.parse(localStorage.getItem('user'));
+    const userStore = JSON.parse(localStorage.getItem("user"));
+    const { profileId } = this.props;
 
-    axios
-      .get(KAPI + '/users?filter%5Bself%5D=true', {
-        headers: {
-          Authorization: 'Bearer ' + userStore.data.access_token,
-        },
-      })
-      .then(({ data }) => {
-        console.log(data);
-        this.setState({
-          user: data.data[0],
-          loading: false,
-        });
-      })
-      .catch(err => console.log(err));
+    userStore &&
+      axios
+        .get(KAPI + "/users?filter%5Bself%5D=true", {
+          headers: {
+            Authorization: "Bearer " + userStore.data.access_token
+          }
+        })
+        .then(({ data }) => {
+          this.setState({
+            user: data.data[0],
+            loading: false
+          });
+        })
+        .catch(err => console.log(err));
   }
 
   goBack = () => {
-    const { history } = this.props;
-    history.goBack();
+    Router.back();
   };
 
   goForward = () => {
-    const { history } = this.props;
-    history.goForward();
+    window.history.forward();
   };
 
   render() {
-    const { showInput, user, loading } = this.state;
+    const { showInput, user, isFollowing, loading } = this.state;
 
     const { isFixed } = this.props;
     const { avatar, name } = !loading && user.attributes;
     const img =
       !loading && avatar
         ? user.avatar.original
-        : 'https://i.ytimg.com/vi/qwzQPh7dW_4/maxresdefault.jpg';
+        : "https://i.ytimg.com/vi/qwzQPh7dW_4/maxresdefault.jpg";
 
     return (
-      <div className={isFixed && 'o-header__main-wrapper'}>
-        <div className={isFixed && 'o-header__wrap'}>
+      <div className={isFixed && "o-header__main-wrapper"}>
+        <div className={isFixed && "o-header__wrap"}>
           <div className="o-header">
             <div className="left-side" onClick={this.goBack}>
               <div className="icon">
@@ -72,7 +72,7 @@ class Header extends Component {
                     className="fa fa-search"
                     onClick={() => {
                       const { history } = this.props;
-                      history.push('/search');
+                      history.push("/search");
 
                       this.setState({ showInput: true });
                     }}
@@ -88,9 +88,6 @@ class Header extends Component {
                     </AutoForm>
                   </div>
                 )}
-              </div>
-              <div className="icon on">
-                <i className="fa fa-bell" />
               </div>
               <div className="user-profile">
                 {!loading && (
@@ -115,8 +112,8 @@ class Header extends Component {
 const SearchSchema = new SimpleSchema({
   string: {
     type: String,
-    optional: true,
-  },
+    optional: true
+  }
 });
 
 export default Header;

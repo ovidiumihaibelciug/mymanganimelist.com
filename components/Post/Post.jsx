@@ -1,26 +1,50 @@
-import React from 'react';
-import { Avatar, Card, List } from 'antd';
-import moment from 'moment';
-import Link from 'next/link';
-import { defaultImage } from '../../utils/general';
+import React from "react";
+import { Avatar, Card } from "antd";
+import moment from "moment";
+import Link from "next/link";
+import { defaultImage } from "../../utils/general";
+import CommentsList from "./Comment/CommentList";
 
 const { Meta } = Card;
 
-const Post = ({ post, user, uploads, episodes }) => {
-  const { comments } = post;
-  console.log(post);
+const Post = ({ post, user, uploads, episodes, comments = false }) => {
+  if (!post || !user) return null;
+
+  if (!user) {
+    user = {
+      attributes: {
+        avatar: "",
+        name: ""
+      }
+    };
+  }
+  if (!user.hasOwnProperty("attributes")) {
+    user.attributes = {
+      avatar: "",
+      name: ""
+    };
+  }
   const {
-    attributes: { avatar, name },
+    attributes: { avatar, name }
   } = user;
   let uploadImage = false;
   let postMedia = false;
-  if (post.relationships.uploads.data.length) {
+  if (
+    post &&
+    post.relationships.uploads &&
+    post.relationships.uploads.data &&
+    post.relationships.uploads.data.length
+  ) {
     const uploadId = post.relationships.uploads.data[0].id;
     const upload = uploads.find(item => item.id === uploadId);
-    uploadImage = upload ? upload.attributes.content.original : '';
+    uploadImage = upload ? upload.attributes.content.original : "";
   }
 
-  if (post.relationships.spoiledUnit.data) {
+  if (
+    post &&
+    post.relationships.spoiledUnit &&
+    post.relationships.spoiledUnit.data
+  ) {
     const mediaId = post.relationships.spoiledUnit.data.id;
 
     const mediaItem = episodes.find(item => item.id === mediaId);
@@ -28,7 +52,7 @@ const Post = ({ post, user, uploads, episodes }) => {
   }
 
   const {
-    attributes: { contentFormatted, embed, createdAt },
+    attributes: { contentFormatted, embed, createdAt }
   } = post;
 
   return (
@@ -38,14 +62,14 @@ const Post = ({ post, user, uploads, episodes }) => {
           avatar={
             <Avatar
               src={
-                user.attributes.avatar
+                user && user.attributes.avatar
                   ? avatar.original
-                  : 'https://i.imgur.com/6YIfIVO.jpg'
+                  : "https://i.imgur.com/6YIfIVO.jpg"
               }
             />
           }
           title={name}
-          description={moment(createdAt).format('Do MMMM YYYY')}
+          description={moment(createdAt).format("Do MMMM YYYY")}
         />
 
         <div dangerouslySetInnerHTML={{ __html: contentFormatted }} />
@@ -65,65 +89,29 @@ const Post = ({ post, user, uploads, episodes }) => {
               />
             }
           >
-            <Meta
-              title={
-                postMedia.attributes.canonicalTitle +
-                ' - ' +
-                'Episode ' +
-                postMedia.attributes.number
-              }
-              description={postMedia.attributes.synopsis.substr(0, 200) + '...'}
-            />
+            {postMedia && (
+              <Meta
+                title={
+                  postMedia.attributes.canonicalTitle +
+                  " - " +
+                  "Episode " +
+                  postMedia.attributes.number
+                }
+                description={
+                  postMedia.attributes.synopsis.substr(0, 200) + "..."
+                }
+              />
+            )}
           </Card>
         )}
       </Card>
-      {comments.length > 0 && (
-        <Card
-          className="o-posts__item o-posts__item__comments"
-          cover={embed && <img src={embed.url} />}
-        >
-          <>
-            {
-              <div className="o-posts__item__comments__row">
-                <div className="o-posts__item__comments__row__show-more">
-                  <Link to={`/posts/${post.id}`}>Show previous comments</Link>
-                </div>
-                <div className="o-posts__item__comments__row__comments-count">
-                  {comments.length < 2 ? 1 : 2} of {comments.length}
-                </div>
-              </div>
-            }
-            <List
-              itemLayout="horizontal"
-              dataSource={comments.slice(0, 2).reverse()}
-              renderItem={item => (
-                <List.Item>
-                  <List.Item.Meta
-                    avatar={
-                      <Avatar
-                        src={
-                          item.user.attributes.avatar.original || defaultImage
-                        }
-                      />
-                    }
-                    title={
-                      <Link to={`/users/${item.user.id}`}>
-                        {item.user.attributes.name}
-                      </Link>
-                    }
-                    description={
-                      <div
-                        dangerouslySetInnerHTML={{
-                          __html: item.attributes.contentFormatted,
-                        }}
-                      />
-                    }
-                  />
-                </List.Item>
-              )}
-            />
-          </>
-        </Card>
+      {post && (
+        <CommentsList
+          comments={comments}
+          postId={post.id}
+          embed={embed}
+          post={post}
+        />
       )}
     </div>
   );

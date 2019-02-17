@@ -48,13 +48,11 @@ class ItemView extends Component {
       ratingRank,
       averageRating,
       status,
-      episodeCount,
       nextRelease,
       youtubeVideoId,
       slug
     } = attributes;
 
-    console.log("a", slug);
     const starCount = Math.round((averageRating * 5) / 100);
     return (
       <div>

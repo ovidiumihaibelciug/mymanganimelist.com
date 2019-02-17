@@ -4,8 +4,13 @@ import axios from "axios";
 
 import { KAPI } from "../../utils";
 import ItemView from "../../components/ItemView";
+import AppWrapper from "../../components/AppWrapper";
 
 export default class AnimeView extends Component {
+  static getInitialProps({ query: { slug } }) {
+    return { slug };
+  }
+
   state = {
     anime: "",
     genres: [],
@@ -15,10 +20,6 @@ export default class AnimeView extends Component {
     loading: true,
     isOpen: false
   };
-
-  static getInitialProps({ query: { slug } }) {
-    return { slug };
-  }
 
   componentDidMount() {
     this.getManga(this.props);
@@ -84,6 +85,10 @@ export default class AnimeView extends Component {
   };
 
   render() {
-    return <ItemView data={this.state} />;
+    return (
+      <AppWrapper title="123">
+        <ItemView data={this.state} />
+      </AppWrapper>
+    );
   }
 }

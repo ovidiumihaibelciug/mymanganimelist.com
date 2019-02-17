@@ -5,9 +5,8 @@ import MangaItem from "../components/Dashboard/MangaItem";
 import Sidebar from "../components/Sidebar";
 import axios from "axios";
 import Loading from "../components/Loading";
-import "../styles/styles.scss";
-
 import { KAPI } from "../utils";
+import AppWrapper from "../components/AppWrapper";
 
 export default class Dashboard extends Component {
   state = {
@@ -94,24 +93,27 @@ export default class Dashboard extends Component {
       }
     ];
     return (
-      <section className="o-main-layout">
-        <Sidebar isManga />
-        <section className="o-main o-dashboard">
-          <Header />
-          <div className="main-content">
-            {content.map((mangaItem, id) => {
-              const { title, url, items } = mangaItem;
-              return (
-                <ItemsRow id={id} title={title} url={url}>
-                  {items.map(manga => (
-                    <MangaItem item={manga} />
-                  ))}
-                </ItemsRow>
-              );
-            })}
-          </div>
+      <AppWrapper title="123">
+        <section className="o-main-layout">
+          <Sidebar isManga />
+          <section className="o-main o-dashboard">
+            <Header />
+            <div className="main-content">
+              {content.map((mangaItem, id) => {
+                const { title, url, items = [] } = mangaItem;
+                if (!items.length) return null;
+                return (
+                  <ItemsRow id={id} title={title} url={url}>
+                    {items.map(manga => (
+                      <MangaItem item={manga} />
+                    ))}
+                  </ItemsRow>
+                );
+              })}
+            </div>
+          </section>
         </section>
-      </section>
+      </AppWrapper>
     );
   }
 }

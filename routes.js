@@ -17,19 +17,29 @@ module.exports = routes()
     page: "/anime/list"
   })
   .add({
+    name: "anime",
+    pattern: "/anime",
+    page: "/dashboard"
+  })
+  .add({
     name: "animeSlug",
     pattern: "/anime/:slug",
     page: "/anime"
   })
   .add({
     name: "mangaViewSlug",
+    pattern: "/manga/:slug",
+    page: "/manga/view"
+  })
+  .add({
+    name: "mangaView",
     pattern: "/manga/view/:slug",
-    page: "/manga/view "
+    page: "/manga/view"
   })
   .add({
     name: "mangaCategory",
     pattern: "/manga/category/:category",
-    page: "/manga/category "
+    page: "/manga/category"
   })
   .add({
     name: "mangaListType",
@@ -60,4 +70,49 @@ module.exports = routes()
     name: "charactersViewSlug",
     pattern: "/characters/view/:slug",
     page: "/characters/view"
+  })
+  .add({
+    name: "characters",
+    pattern: "/characters",
+    page: "/characters/list"
+  })
+  .add({
+    name: "search",
+    pattern: "/search",
+    page: "/search"
+  })
+  .add({
+    name: "discussions",
+    pattern: "/discussions",
+    page: "/feed"
+  })
+  .add({
+    name: "feed",
+    pattern: "/feed",
+    page: "/discussions"
+  })
+  .add({
+    name: "chaptersSlug",
+    pattern: "/manga/:slug/chapters/:number",
+    page: "/chapters/view"
+  })
+  .add({
+    name: "myAccount",
+    pattern: "/my-account",
+    page: "/user/my-account"
+  })
+  .add({
+    name: "userAccount",
+    pattern: "/user/:id",
+    page: "/user/view"
+  })
+  .add({
+    name: "usersAccount",
+    pattern: "/users/:id",
+    page: "/user/view"
+  })
+  .add({
+    name: "login",
+    pattern: "/login",
+    page: "/login"
   });

@@ -73,7 +73,18 @@
       -moz-box-shadow: 0px 0px 38px 3px rgba(0, 0, 0, 0.75);
       box-shadow: 0px 0px 38px 3px rgba(0, 0, 0, 0.75);
     }
+    &__username {
+      padding: 0 30px;
+      margin: 0 auto;
+      color: white;
+      @include mds-font-size(30px);
+      text-align: center;
+      margin-top: 10px;
+    }
     &__main {
+      &__follow-btn {
+        padding: 0 30px;
+      }
       &__next-episode {
         display: flex;
         align-items: center;
@@ -113,5 +124,42 @@
     -moz-filter: blur(15px);
     -webkit-filter: blur(15px);
     -o-filter: blur(15px);
+  }
+}
+
+.o-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  &--no-margin {
+    margin-right: 0;
+  }
+  button, a {
+    padding: 10px 20px;
+    background-color: transparent;
+    border: 1px solid $o-color-main;
+    color: $o-color-main;
+    @include mds-font-size(23px);
+    font-weight: 300;
+    letter-spacing: 2px;
+    transition: all 0.1s ease-in-out;
+
+    &:active {
+      transform: translate(-5px, -3px);
+      transition: all 0.1s ease-in-out;
+    }
+
+    &:hover {
+      color: white;
+      border-color: rgba($o-color-main, 1);
+      background: rgba($o-color-main, 0.5);
+    }
+  }
+  &__follow {
+    button {
+      width: 100%;
+    }
   }
 }

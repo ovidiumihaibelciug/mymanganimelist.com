@@ -19,17 +19,21 @@ const AnimeContentItem = ({
     <div className="secondary__content__items__box">
       <Link href={url}>
         <a>
-          <div className={classes}>
-            #{number ? number : franchiseType === "manga" ? "Manga" : "Anime"}
-          </div>
-          <div
-            className="secondary__content__items__box__img"
-            style={{
-              backgroundImage: `url(${bgImage ? bgImage : thumbnail.original})`
-            }}
-          />
-          <div className="secondary__content__items__box__title">
-            {relativeNumber ? "Episode " + relativeNumber : canonicalTitle}
+          <div>
+            <div className={classes}>
+              #{number ? number : franchiseType === "manga" ? "Manga" : "Anime"}
+            </div>
+            <div
+              className="secondary__content__items__box__img"
+              style={{
+                backgroundImage: `url(${
+                  bgImage ? bgImage : thumbnail.original
+                })`
+              }}
+            />
+            <div className="secondary__content__items__box__title">
+              {relativeNumber ? "Episode " + relativeNumber : canonicalTitle}
+            </div>
           </div>
         </a>
       </Link>

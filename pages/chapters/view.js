@@ -1,45 +1,49 @@
-import React, { Component, Fragment } from 'react';
-import axios from 'axios';
-import { KAPI } from '../../utils';
-import Sidebar from '../../components/Sidebar';
-import Header from '../../layout/Header';
-import Loading from '../../components/Loading';
-import { Icon } from 'antd';
-import RightSidebar from '../../components/RightSidebar';
+import React, { Component, Fragment } from "react";
+import axios from "axios";
+import { KAPI } from "../../utils";
+import Sidebar from "../../components/Sidebar";
+import Header from "../../layout/Header";
+import Loading from "../../components/Loading";
+import { Icon } from "antd";
+import RightSidebar from "../../components/RightSidebar";
+import AppWrapper from "../../components/AppWrapper";
 
-export class EpisodeView extends Component {
+export class ChapterView extends Component {
+  static getInitialProps({ query: { slug, number } }) {
+    return { slug, number };
+  }
+
   state = {
     anime: {},
-    loading: true,
+    loading: true
   };
 
   componentDidMount() {
-    const { slug, number } = this.props.match.params;
+    const { slug, number } = this.props;
 
     axios
-      .get(KAPI + '/manga', {
+      .get(KAPI + "/manga", {
         params: {
-          'filter[slug]': slug,
-        },
+          "filter[slug]": slug
+        }
       })
       .then(({ data }) => {
-        console.log('EPISODEEE', data);
+        console.log("EPISODEEE", data);
         const { id } = data.data[0];
         this.setState({
-          anime: data.data[0],
+          anime: data.data[0]
         });
         axios
-          .get(KAPI + '/chapters', {
+          .get(KAPI + "/chapters", {
             params: {
-              'filter[mangaId]': id,
-              'filter[number]': number,
-            },
+              "filter[mangaId]": id,
+              "filter[number]": number
+            }
           })
           .then(({ data }) => {
-            console.log('a', data);
             this.setState({
               episode: data.data[0].attributes,
-              loading: false,
+              loading: false
             });
           })
           .catch(err => console.log(err));
@@ -52,12 +56,11 @@ export class EpisodeView extends Component {
     if (loading) {
       return <Loading />;
     }
-    console.log('Only episode', episode);
 
     const { coverImage, posterImage } = anime.attributes;
     const { thumbnail, canonicalTitle, synopsis, airdate, length } = episode;
     return (
-      <Fragment>
+      <AppWrapper title="asdasda">
         <section className="anime-view o-main-layout">
           <Sidebar small={true} />
           <div
@@ -69,7 +72,7 @@ export class EpisodeView extends Component {
                     ? thumbnail.original
                     : coverImage.original
                   : coverImage.original
-              })`,
+              })`
             }}
           >
             <Header />
@@ -85,7 +88,7 @@ export class EpisodeView extends Component {
                             ? thumbnail.original
                             : coverImage.original
                           : coverImage.original
-                      }")`,
+                      }")`
                     }}
                   />
                   <div className="rightside">
@@ -112,9 +115,9 @@ export class EpisodeView extends Component {
             />
           </div>
         </section>
-      </Fragment>
+      </AppWrapper>
     );
   }
 }
 
-export default EpisodeView;
+export default ChapterView;

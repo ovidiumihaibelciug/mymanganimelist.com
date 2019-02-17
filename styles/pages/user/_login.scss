@@ -2,10 +2,32 @@
   display: flex;
   width: 100vw;
   height: 100vh;
+  background-color: $o-color-bg;
+  overflow: hidden;
+  font-family: Roboto, Arial, Helvetica, sans-serif;
 
   &__description {
-    flex: 5;
-    background-color: $o-color-main;
+    flex: 4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: 100%;
+      -webkit-clip-path: ellipse(85% 41% at 98% 100%);
+      clip-path: ellipse(85% 41% at 98% 100%);
+      background-color: $o-color-main;
+    }
+    &__illustration {
+      position: absolute;
+      font-size: 90vh;
+      z-index: 100
+    }
   }
 
   &__form {
@@ -14,7 +36,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: $o-color-bg;
 
     &__title {
       font-size: 45px;
@@ -53,7 +74,7 @@
 
     &__forgot-password {
       color: rgba(#fff, 0.2);
-      margin-top: 20%;
+      margin-top: 20%
     }
   }
 }

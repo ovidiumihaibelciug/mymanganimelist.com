@@ -4,7 +4,6 @@ import { KAPI } from "../../utils";
 import Sidebar from "../../components/Sidebar";
 import Header from "../../layout/Header";
 import Loading from "../../components/Loading";
-import AnimeContent from "../../components/Anime/AnimeContent";
 import RightSidebar from "../../components/RightSidebar";
 import SecondaryContent from "../../components/Anime/SecondaryContent";
 import AppWrapper from "../../components/AppWrapper";

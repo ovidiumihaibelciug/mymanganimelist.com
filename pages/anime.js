@@ -37,7 +37,6 @@ export default class Anime extends Component {
         }
       })
       .then(({ data }) => {
-        console.log(data);
         const categories = data.included.filter(
           item => item.type === "categories"
         );
