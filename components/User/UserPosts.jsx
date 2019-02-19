@@ -1,6 +1,5 @@
 import React from "react";
 import Post from "../../components/Post/Post";
-import classNames from "classnames";
 import Link from "next/link";
 
 const UserPosts = ({
@@ -9,6 +8,7 @@ const UserPosts = ({
   uploads = [],
   episodes = [],
   comments = [],
+  anime = [],
   className
 }) => {
   return (
@@ -29,6 +29,7 @@ const UserPosts = ({
             <Post
               post={post}
               user={user}
+              anime={anime}
               uploads={uploads}
               episodes={episodes}
             />

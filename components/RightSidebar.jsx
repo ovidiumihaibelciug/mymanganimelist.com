@@ -37,7 +37,7 @@ const RightSidebar = ({
         <div className="o-rightsidebar__content__wrapper">
           <div
             className="o-rightsidebar__content__poster"
-            style={{ backgroundImage: `url(${posterImage.original})` }}
+            style={{ backgroundImage: `url(${(posterImage && posterImage.original) || ""})` }}
           />
           {isUser && (
             <div className="o-rightsidebar__content__username">

@@ -20,7 +20,7 @@ class UserPostsWrapper extends Component {
       .get(
         `https://kitsu.io/api/edge/feeds/user_aggr/${
           user.id
-        }?include=media%2Cactor%2Cunit%2Csubject%2Ctarget%2Ctarget.user%2Ctarget.target_user%2Ctarget.spoiled_unit%2Ctarget.media%2Ctarget.target_group%2Ctarget.uploads%2Csubject.user%2Csubject.target_user%2Csubject.spoiled_unit%2Csubject.media%2Csubject.target_group%2Csubject.uploads%2Csubject.followed%2Csubject.library_entry%2Csubject.anime%2Csubject.manga&page%5Blimit%5D=10&page%5Bcursor%5D=3d2b73e4-30fe-11e9-8080-80017f59d480`,
+        }?filter%5Bkind%5D=posts&include=media%2Cactor%2Cunit%2Csubject%2Ctarget%2Ctarget.user%2Ctarget.target_user%2Ctarget.spoiled_unit%2Ctarget.media%2Ctarget.target_group%2Ctarget.uploads%2Csubject.user%2Csubject.target_user%2Csubject.spoiled_unit%2Csubject.media%2Csubject.target_group%2Ctarget,subject.uploads%2Csubject.followed%2Csubject.library_entry%2Csubject.anime%2Csubject.manga&page%5Blimit%5D=10`,
         {
           params: {
             "page[limit]": 10
@@ -29,6 +29,8 @@ class UserPostsWrapper extends Component {
       )
       .then(({ data }) => {
         const users = data.included.filter(item => item.type === "users");
+        const anime = data.included.filter(item => item.type === "anime");
+        console.log(anime);
         const comments = data.included
           .filter(item => item.type === "comments")
           .map(item => {
@@ -64,7 +66,8 @@ class UserPostsWrapper extends Component {
           comments,
           uploads,
           episodes,
-          posts: posts,
+          posts,
+          anime,
           loading: false,
           next: data.links.next
         });
@@ -88,7 +91,8 @@ class UserPostsWrapper extends Component {
       .then(({ data }) => {
         console.log(data);
         const users = data.included.filter(item => item.type === "users");
-        const posts = data.included
+      const anime = data.included.filter(item => item.type === "anime");
+          const posts = data.included
           .filter(item => item.type === "posts")
           .map(post => {
             const { id: userId } = post.relationships.user.data;
@@ -107,6 +111,7 @@ class UserPostsWrapper extends Component {
           uploads,
           episodes,
           posts: [...oldPosts, ...posts],
+          anime,
           next: data.links.next,
           loading: false
         });
@@ -116,16 +121,18 @@ class UserPostsWrapper extends Component {
 
   render() {
     const { className, user } = this.props;
-    const { posts, episodes } = this.state;
-
-    if (!posts.length) return null;
+    const { posts, episodes, uploads, anime, loading } = this.state;
+    if (!posts.length || loading) return null;
+      console.log('anime', anime);
 
     return (
       <>
         <UserPosts
           posts={posts}
+          uploads={uploads}
           user={user}
           episodes={episodes}
+          anime={anime}
           className={className}
         />
         <div className="custom-btn" style={{ marginRight: 0 }}>
