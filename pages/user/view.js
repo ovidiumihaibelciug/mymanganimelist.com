@@ -225,14 +225,18 @@ class UserView extends React.Component {
     ).attributes.statsData.media;
 
     let mangaCompleted = stats.find(
-      item => item && item.attributes && item.attributes.kind === "manga-amount-consumed"
+      item =>
+        item &&
+        item.attributes &&
+        item.attributes.kind === "manga-amount-consumed"
     );
-    mangaCompleted = mangaCompleted && mangaCompleted.attributes.statsData.completed;
+    mangaCompleted =
+      mangaCompleted && mangaCompleted.attributes.statsData.completed;
 
     let mangaMedia = stats.find(
       item => item && item.attributes.kind === "manga-amount-consumed"
     );
-    mangaMedia = mangaMedia && mangaMedia.attributes.statsData.media
+    mangaMedia = mangaMedia && mangaMedia.attributes.statsData.media;
 
     let {
       coverImage,
@@ -324,34 +328,34 @@ class UserView extends React.Component {
                           </span>
                           spent watching Anime
                         </div>
-                        {
-                          animeCompleted &&
+                        {animeCompleted && (
                           <div>
-                            <span className="o-is-primary">{animeCompleted}</span>{" "}
+                            <span className="o-is-primary">
+                              {animeCompleted}
+                            </span>{" "}
                             Anime completed
                           </div>
-                        }
-                        {
-                          animeMedia &&
+                        )}
+                        {animeMedia && (
                           <div>
                             <span className="o-is-primary">{animeMedia}</span>{" "}
                             Anime started
                           </div>
-                        }
-                        {
-                          mangaCompleted &&
+                        )}
+                        {mangaCompleted && (
                           <div>
-                            <span className="o-is-primary">{mangaCompleted}</span>{" "}
+                            <span className="o-is-primary">
+                              {mangaCompleted}
+                            </span>{" "}
                             Manga completed
                           </div>
-                        }
-                        {
-                          mangaMedia &&
+                        )}
+                        {mangaMedia && (
                           <div>
                             <span className="o-is-primary">{mangaMedia}</span>{" "}
                             Manga started
                           </div>
-                        }
+                        )}
                       </div>
                     </div>
                   </div>

@@ -57,6 +57,11 @@ module.exports = routes()
     page: "/episode"
   })
   .add({
+    name: "episode",
+    pattern: "/episode/:id",
+    page: "/episodes/view"
+  })
+  .add({
     name: "charactersAnimeList",
     pattern: "/anime/:slug/characters",
     page: "/characters/anime/list"

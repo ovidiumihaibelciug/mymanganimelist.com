@@ -2,6 +2,7 @@ import React from "react";
 import { Avatar, Card } from "antd";
 import moment from "moment";
 import CommentsList from "./Comment/CommentList";
+import Link from "next/link";
 
 const { Meta } = Card;
 
@@ -56,6 +57,7 @@ const Post = ({
     const mediaItem = episodes.find(item => item.id === mediaId);
     postMedia = mediaItem;
     mediaType = "episode";
+    console.log(postMedia);
   } else if (
     post &&
     post.relationships.media &&
@@ -66,7 +68,6 @@ const Post = ({
     const mediaItem = anime.find(item => item.id === mediaId);
     postMedia = mediaItem;
     mediaType = "anime";
-    console.log("123141231", postMedia);
   }
 
   const {
@@ -94,38 +95,48 @@ const Post = ({
         {uploadImage && <img src={uploadImage} alt="" />}
 
         {postMedia && (
-          <Card
-            hoverable
-            className="o-posts__item__anime"
-            cover={
-              <img
-                alt="example"
-                src={
-                  mediaType === "episode"
-                    ? postMedia.attributes.thumbnail &&
-                      postMedia.attributes.thumbnail.original
-                    : mediaType === "anime"
-                    ? postMedia.attributes.coverImage
-                      ? postMedia.attributes.coverImage.original
-                      : postMedia.attributes.posterImage.original
-                    : false
-                }
-              />
-            }
+          <Link
+            href={mediaType === "anime" ? "/anime" : "/episode/" + postMedia.id}
           >
-            {postMedia && (
-              <Meta
-                title={
-                  postMedia.attributes.canonicalTitle +
-                  `${mediaType === "episode" &&
-                    " - Episode " + postMedia.attributes.number}`
+            <a>
+              <Card
+                hoverable
+                className="o-posts__item__anime"
+                cover={
+                  mediaType && (
+                    <img
+                      src={
+                        mediaType === "episode"
+                          ? postMedia.attributes.thumbnail &&
+                            postMedia.attributes.thumbnail.original
+                          : mediaType === "anime"
+                          ? postMedia.attributes.coverImage
+                            ? postMedia.attributes.coverImage.original
+                            : postMedia.attributes.posterImage.original
+                          : false
+                      }
+                    />
+                  )
                 }
-                description={
-                  postMedia.attributes.synopsis.substr(0, 200) + "..."
-                }
-              />
-            )}
-          </Card>
+              >
+                {postMedia && (
+                  <Meta
+                    title={
+                      postMedia.attributes.canonicalTitle
+                        ? postMedia.attributes.canonicalTitle
+                        : "" +
+                          `${mediaType === "episode" &&
+                            " Episode " + postMedia.attributes.number}`
+                    }
+                    description={
+                      postMedia.attributes.synopsis &&
+                      postMedia.attributes.synopsis.substr(0, 200) + "..."
+                    }
+                  />
+                )}
+              </Card>
+            </a>
+          </Link>
         )}
       </Card>
       {post && (
