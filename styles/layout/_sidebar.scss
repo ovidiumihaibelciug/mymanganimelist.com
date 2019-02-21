@@ -1,7 +1,14 @@
 .o-sidebar {
   display: grid;
-  grid-template-rows: 20% auto auto;
+  grid-template-rows: 1fr 1fr 2fr;
   z-index: 101;
+  align-items: center;
+  transform: translateX(0);
+  transition: transform .2s ease-in-out;
+  &__hide {
+    transform: translateX(-100%);
+    transition: transform .2s ease-in-out;
+  }
   &__brand {
     display: flex;
     justify-content: center;
@@ -105,5 +112,33 @@
   color: white;
   &:hover {
     cursor: pointer;
+  }
+}
+
+.hamburger {
+  opacity: 1;
+  transition: opacity .2s ease-in-out;
+  &--close {
+    margin-left: -50%;
+  }
+  &--hide {
+    opacity: 0;
+    transition: opacity .2s ease-in-out;
+    animation: rotate-hamburger .3s ease-in-out;
+    animation-iteration-count: 1;
+  }
+}
+
+@keyframes rotate-hamburger {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(90deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
   }
 }

@@ -82,7 +82,7 @@ export class EpisodeView extends Component {
       relativeNumber,
       number
     } = episode;
-    console.log(episode);
+
     const chipItem = {
       attributes: {
         title: "Episode " + (relativeNumber ? relativeNumber : number)
