@@ -11,23 +11,29 @@
       align-self: center;
       justify-self: center;
     }
+
     box-shadow: $shadow-dp23 !important;
     background: rgba(15, 15, 20, 1) !important;
     border: 2px solid darken(rgba(15, 15, 20, 1), 50%) !important;
     color: #fff !important;
     justify-self: center;
     width: 500px;
+
     &__comments {
       border-top: none;
       background: rgba(10, 10, 20, .6) !important;
+
       &__row {
         display: flex;
         justify-content: space-between;
+
         &__comments-count {
           color: rgba(#fff, .4);
         }
+
         &__show-more {
           transition: all .4s ease-in-out;
+
           &:hover {
             color: $o-color-main;
             cursor: pointer;
@@ -35,17 +41,22 @@
           }
         }
       }
+
       .ant-list-item {
         border-color: rgba(255, 255, 255, 0.05) !important;
+
         .ant-list-item-meta-title {
           color: #fff;
         }
+
         .ant-list-item-meta-description {
           color: #fff !important;
         }
+
         .ant-list-item-meta-title {
           a {
             color: #fff !important;
+
             &:hover {
               color: $o-color-main !important;
             }
@@ -70,13 +81,16 @@
       color: rgba(#fff, .5);
       margin: 0;
     }
+
     .ant-card-cover {
       max-width: 700px;
       width: 100%
     }
+
     &__anime {
       background: rgba(25, 25, 30, 1) !important;
       border: rgba(10, 10, 10, 1) !important;
+
       &:hover {
         .ant-card-meta-title {
           color: $o-color-main;
@@ -89,4 +103,37 @@
 
 .post__secondary {
   padding: 0 !important;
+
+  &__comment {
+    .ant-list-item-meta-title {
+      a {
+        color: $o-color-main !important;
+
+        &:hover {
+          color: darken($o-color-main, 10%) !important;
+        }
+      }
+    }
+
+    .ant-list-item {
+      border-bottom-color: rgba($o-color-main, .08) !important;
+    }
+
+    .ant-list-item-meta-description {
+      color: rgba(white, .8) !important;
+    }
+    .ant-pagination {
+      li {
+        background: transparent;
+        a {
+          color: white;
+        }
+      }
+      .ant-pagination-prev,  .ant-pagination-next {
+        a {
+          background: rgba(black, .3) !important;
+        }
+      }
+    }
+  }
 }

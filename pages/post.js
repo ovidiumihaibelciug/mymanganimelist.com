@@ -364,7 +364,7 @@ class UserView extends React.Component {
                         <hr />
                       </div>
                     </div>
-                    <div>
+                    <div className="post__secondary__comment">
                       <List
                         itemLayout="vertical"
                         size="large"
@@ -375,29 +375,21 @@ class UserView extends React.Component {
                           pageSize: 3
                         }}
                         dataSource={comments}
-                        footer={
-                          <div>
-                            <b>ant design</b> footer part
-                          </div>
-                        }
                         renderItem={item => (
-                          <List.Item
-                            key={"123"}
-                            actions={[]}
-                            extra={
-                              <img
-                                width={272}
-                                alt="logo"
-                                src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                              />
-                            }
-                          >
+                          <List.Item key={"123"} actions={[]}>
                             <List.Item.Meta
-                              avatar={<Avatar src={""} />}
-                              title={<a href={"123"}>{"title"}</a>}
-                              description={"123"}
+                              avatar={
+                                <Avatar
+                                  src={item.user.attributes.avatar.original}
+                                />
+                              }
+                              title={
+                                <Link href={"/user/" + item.user.id}>
+                                  <a>{item.user.attributes.name}</a>
+                                </Link>
+                              }
+                              description={item.attributes.content}
                             />
-                            {item.attributes.content}
                           </List.Item>
                         )}
                       />
