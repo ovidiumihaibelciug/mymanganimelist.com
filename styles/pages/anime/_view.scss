@@ -21,15 +21,19 @@
   flex-direction: column;
 
   .anime {
+    height: calc(100vh - 120px);
     .anime-container {
       padding-right: 300px;
+      height: 100%;
     }
     margin-top: 120px;
     z-index: 5;
     &__info {
-      display: grid;
-      height: calc(80vh - 100px);
-      grid-template-rows: 10% 6% auto 5% 10%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      padding-bottom: 90px;
       &__title-area {
         display: flex;
         align-items: center;

@@ -125,4 +125,14 @@ module.exports = routes()
     name: "index",
     pattern: "/",
     page: "/dashboard"
+  })
+  .add({
+    name: "post",
+    pattern: "/post/:id",
+    page: "/post"
+  })
+  .add({
+    name: "post2",
+    pattern: "/posts/:id",
+    page: "/post"
   });

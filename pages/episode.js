@@ -103,7 +103,7 @@ export class EpisodeView extends Component {
             <Header isFixedNoBg />
             <div className="anime episode">
               <EpisodeContent
-                thumbnail={thumbnail}
+                thumbnail={thumbnail || posterImage || coverImage}
                 airdate={airdate}
                 canonicalTitle={canonicalTitle}
                 chipItem={chipItem}

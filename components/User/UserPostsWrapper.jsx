@@ -91,8 +91,8 @@ class UserPostsWrapper extends Component {
       .then(({ data }) => {
         console.log(data);
         const users = data.included.filter(item => item.type === "users");
-      const anime = data.included.filter(item => item.type === "anime");
-          const posts = data.included
+        const anime = data.included.filter(item => item.type === "anime");
+        const posts = data.included
           .filter(item => item.type === "posts")
           .map(post => {
             const { id: userId } = post.relationships.user.data;
@@ -101,7 +101,6 @@ class UserPostsWrapper extends Component {
 
             return post;
           });
-        console.log(posts);
 
         const uploads = data.included.filter(item => item.type === "uploads");
         const episodes = data.included.filter(item => item.type === "episodes");
@@ -123,7 +122,7 @@ class UserPostsWrapper extends Component {
     const { className, user } = this.props;
     const { posts, episodes, uploads, anime, loading } = this.state;
     if (!posts.length || loading) return null;
-      console.log('anime', anime);
+    console.log("anime", anime);
 
     return (
       <>

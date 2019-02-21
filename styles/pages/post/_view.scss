@@ -1,0 +1,25 @@
+.post-view {
+  min-height: calc(100vh - 120px);
+  margin-top: 120px;
+  margin-right: 300px;
+}
+
+.post__uploads {
+  display: flex;
+  flex-direction: column;
+  img {
+    margin: 20px 0;
+    max-width: 500px;
+    max-height: 500px;
+  }
+}
+
+.post__media {
+  margin-bottom: 100px;
+  .ant-card-meta-description {
+    color: rgba(255, 255, 255, .4);
+  }
+  .ant-card-meta-title {
+    color: white;
+  }
+}

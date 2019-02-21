@@ -16,7 +16,9 @@ const EpisodeContent = ({
       <div className="secondary-item">
         <div
           className="secondary-item__leftside"
-          style={{ backgroundImage: `url("${thumbnail.original}")` }}
+          style={{
+            backgroundImage: `url("${thumbnail && thumbnail.original}")`
+          }}
         />
         <div className="secondary-item__rightside">
           <div style={{ display: "flex", justifyContent: "center" }}>

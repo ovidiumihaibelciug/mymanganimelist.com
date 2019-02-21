@@ -87,7 +87,11 @@ const Post = ({
               }
             />
           }
-          title={name}
+          title={
+            <Link href={"/user/" + user.id}>
+              <a>{name}</a>
+            </Link>
+          }
           description={moment(createdAt).format("Do MMMM YYYY")}
         />
 
@@ -96,7 +100,11 @@ const Post = ({
 
         {postMedia && (
           <Link
-            href={mediaType === "anime" ? "/anime" : "/episode/" + postMedia.id}
+            href={
+              mediaType === "anime"
+                ? "/anime/" + postMedia.id
+                : "/episode/" + postMedia.id
+            }
           >
             <a>
               <Card

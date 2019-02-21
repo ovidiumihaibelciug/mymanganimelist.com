@@ -63,6 +63,7 @@
     .ant-card-meta-title {
       color: #fff;
       margin: 0 !important;
+      transition: color .1s ease-in-out;
     }
 
     .ant-card-meta-description {
@@ -76,6 +77,12 @@
     &__anime {
       background: rgba(25, 25, 30, 1) !important;
       border: rgba(10, 10, 10, 1) !important;
+      &:hover {
+        .ant-card-meta-title {
+          color: $o-color-main;
+          transition: color .1s ease-in-out;
+        }
+      }
     }
   }
 }

@@ -50,7 +50,9 @@ class CommentsList extends Component {
           {
             <div className="o-posts__item__comments__row">
               <div className="o-posts__item__comments__row__show-more">
-                <Link to={`/posts/${post.id}`}>Show previous comments</Link>
+                <Link href={`/posts/${post.id}`}>
+                  <a>Show previous comments</a>
+                </Link>
               </div>
               <div className="o-posts__item__comments__row__comments-count">
                 {comments.length < 2 ? 1 : 2} of {comments.length}

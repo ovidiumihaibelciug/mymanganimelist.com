@@ -25,10 +25,9 @@ export class EpisodeView extends Component {
     const { id } = this.props;
 
     axios
-      .get(KAPI + "/episodes", {
+      .get(KAPI + "/episodes/" + id, {
         params: {
-          include: "videos,media",
-          "filter[mediaId]": id
+          include: "media,videos"
         }
       })
       .then(({ data }) => {
@@ -37,10 +36,12 @@ export class EpisodeView extends Component {
         if (data.included) {
           videos = data.included.filter(item => item.type === "video");
         }
-        const anime = data.included.find(item => item.type === "anime");
+        const anime = data.included.find(
+          item => item.type === "anime" || item.type === "manga"
+        );
 
         this.setState({
-          episode: data.data[0].attributes,
+          episode: data.data.attributes,
           videos,
           anime,
           loading: false
@@ -78,14 +79,18 @@ export class EpisodeView extends Component {
             className="o-main o-anime-view o-episode-view"
             style={{
               backgroundImage: `linear-gradient(15deg,rgba(20, 28, 36, 1) 10%, rgba(30, 34, 38, 0.99) 40%,  rgba(30, 34, 38, 0.95) 100%) , url(${
-                coverImage ? coverImage.original : thumbnail.original
+                coverImage
+                  ? coverImage.original
+                  : thumbnail.original
+                  ? thumbnail.original
+                  : ""
               })`
             }}
           >
             <Header isFixedNoBg />
             <div className="anime episode">
               <EpisodeContent
-                thumbnail={thumbnail}
+                thumbnail={thumbnail || posterImage || coverImage}
                 airdate={airdate}
                 canonicalTitle={canonicalTitle}
                 chipItem={chipItem}
