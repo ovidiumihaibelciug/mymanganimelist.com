@@ -9,7 +9,7 @@ import moment from "moment";
 import AppWrapper from "../components/AppWrapper";
 import { Router } from "../routes";
 import Link from "next/link";
-import { Card } from "antd";
+import { Card, List, Avatar } from "antd";
 const { Meta } = Card;
 
 class UserView extends React.Component {
@@ -39,8 +39,11 @@ class UserView extends React.Component {
         })
       ])
       .then(([{ data }, { data: commentsData }]) => {
-        console.log(data, commentsData);
+        console.log(commentsData);
         const user = data.included.find(item => item.type === "users");
+        const commentsUser = commentsData.included.filter(
+          item => item.type === "users"
+        );
         const postLikes = data.included.filter(
           item => item.type === "postLikes"
         );
@@ -51,14 +54,20 @@ class UserView extends React.Component {
         const anime = data.included.filter(item => item.type === "anime");
         const episodes = data.included.filter(item => item.type === "episodes");
 
-        console.log(postUploads);
-
         const commentsUploads =
           commentsData.data.length &&
           commentsData.included.filter(item => item.type === "uploads");
 
+        const comments = commentsData.data.map(item => {
+          const userId = item.relationships.user.data.id;
+
+          item.user = commentsUser.find(item => item.id === userId);
+          item.replies = "";
+        });
+
         this.setState({
           user,
+          commentsUser,
           anime,
           episodes,
           postLikes,
@@ -345,16 +354,67 @@ class UserView extends React.Component {
                   </div>
                 </div>
               </div>
+              {comments.length > 0 && (
+                <div className="secondary post__secondary">
+                  <div className="secondary__content">
+                    <div className="secondary__content__title">
+                      <div className="secondary__content__title__text">
+                        Comments
+                        <div className="secondary__content__title__text__blur" />
+                        <hr />
+                      </div>
+                    </div>
+                    <div>
+                      <List
+                        itemLayout="vertical"
+                        size="large"
+                        pagination={{
+                          onChange: page => {
+                            console.log(page);
+                          },
+                          pageSize: 3
+                        }}
+                        dataSource={comments}
+                        footer={
+                          <div>
+                            <b>ant design</b> footer part
+                          </div>
+                        }
+                        renderItem={item => (
+                          <List.Item
+                            key={"123"}
+                            actions={[]}
+                            extra={
+                              <img
+                                width={272}
+                                alt="logo"
+                                src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                              />
+                            }
+                          >
+                            <List.Item.Meta
+                              avatar={<Avatar src={""} />}
+                              title={<a href={"123"}>{"title"}</a>}
+                              description={"123"}
+                            />
+                            {item.attributes.content}
+                          </List.Item>
+                        )}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+              <RightSidebar
+                coverImage={coverImage}
+                posterImage={avatar}
+                status={status}
+                user={user}
+                isUser
+                isFollowing={isFollowing}
+                onFollow={this.onFollow}
+              />
             </div>
-            <RightSidebar
-              coverImage={coverImage}
-              posterImage={avatar}
-              status={status}
-              user={user}
-              isUser
-              isFollowing={isFollowing}
-              onFollow={this.onFollow}
-            />
           </div>
         </section>
       </AppWrapper>
