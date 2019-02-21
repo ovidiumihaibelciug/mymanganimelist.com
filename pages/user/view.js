@@ -48,7 +48,7 @@ class UserView extends React.Component {
           params: {
             "filter[id]": id,
             include:
-              "reviews,pinnedPost,blocks,stats,favorites,favorites.item,waifu,profileLinks,categoryFavorites.category"
+              "pinnedPost,stats,favorites,favorites.item,profileLinks,categoryFavorites.category"
           }
         }),
         userStore &&
