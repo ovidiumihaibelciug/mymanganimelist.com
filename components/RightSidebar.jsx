@@ -1,7 +1,6 @@
 import React from "react";
-import { Button } from "antd";
-
 import moment from "moment";
+import classNames from "classnames";
 
 const toggleSidebar = () => {
   const sidebar = document.querySelector(".o-sidebar");
@@ -14,15 +13,23 @@ const RightSidebar = ({
   status,
   nextRelease,
   isUser,
+  isMedia,
+  title,
   isFollowing,
+  isFavorite,
   user,
   onFollow,
+  onFavorite,
   loadingBtn
 }) => {
   const duration = date => {
     let eventDate = moment(date);
     return eventDate.fromNow();
   };
+
+  const favoriteClasses = classNames("o-btn o-btn__follow", {
+    "o-btn__follow--is-favorite": isFavorite
+  });
 
   return (
     <div
@@ -37,14 +44,35 @@ const RightSidebar = ({
         <div className="o-rightsidebar__content__wrapper">
           <div
             className="o-rightsidebar__content__poster"
-            style={{ backgroundImage: `url(${(posterImage && posterImage.original) || ""})` }}
+            style={{
+              backgroundImage: `url(${(posterImage && posterImage.original) ||
+                ""})`
+            }}
           />
-          {isUser && (
-            <div className="o-rightsidebar__content__username">
-              {user.attributes.name}
-            </div>
-          )}
+          <div className="o-rightsidebar__content__username">
+            {(user && user.attributes.name) || title}
+          </div>
         </div>
+        {isMedia && (
+          <div className="o-rightsidebar__content__main__follow-btn">
+            <div
+              className={favoriteClasses}
+              onClick={() => onFavorite(isFavorite)}
+            >
+              <button>
+                {!loadingBtn ? (
+                  !isFavorite ? (
+                    <i className="far fa-heart" />
+                  ) : (
+                    <i className="fas fa-heart-broken" />
+                  )
+                ) : (
+                  <i className="fas fa-spinner fa-spin" />
+                )}
+              </button>
+            </div>
+          </div>
+        )}
         <div className="o-rightsidebar__content__main">
           {isUser && (
             <div className="o-rightsidebar__content__main__follow-btn">
@@ -66,7 +94,7 @@ const RightSidebar = ({
               </div>
             </div>
           )}
-          {status === "current" && (
+          {status === "current" && nextRelease && (
             <div className="o-rightsidebar__content__main__next-episode">
               <div className="o-rightsidebar__content__main__next-episode__text">
                 Next episode:

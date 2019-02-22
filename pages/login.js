@@ -59,7 +59,7 @@ class Login extends React.Component {
               <AutoField
                 className="o-login__form__input"
                 name="email"
-                placeholder="Enter your email address"
+                placeholder="Email"
                 label={false}
               />
               <AutoField

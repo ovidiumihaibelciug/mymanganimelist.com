@@ -328,7 +328,7 @@ class UserView extends React.Component {
                           </span>
                           spent watching Anime
                         </div>
-                        {animeCompleted && (
+                        {!!animeCompleted && (
                           <div>
                             <span className="o-is-primary">
                               {animeCompleted}
@@ -336,13 +336,13 @@ class UserView extends React.Component {
                             Anime completed
                           </div>
                         )}
-                        {animeMedia && (
+                        {!!animeMedia && (
                           <div>
                             <span className="o-is-primary">{animeMedia}</span>{" "}
                             Anime started
                           </div>
                         )}
-                        {mangaCompleted && (
+                        {!!mangaCompleted && (
                           <div>
                             <span className="o-is-primary">
                               {mangaCompleted}
@@ -350,7 +350,7 @@ class UserView extends React.Component {
                             Manga completed
                           </div>
                         )}
-                        {mangaMedia && (
+                        {!!mangaMedia && (
                           <div>
                             <span className="o-is-primary">{mangaMedia}</span>{" "}
                             Manga started

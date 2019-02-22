@@ -11,14 +11,16 @@ import Link from "next/link";
 class Header extends Component {
   state = {
     showInput: "",
-    user: {},
+    user: false,
     loading: true
   };
 
   componentDidMount() {
     const userStore = JSON.parse(localStorage.getItem("user"));
+    const { user } = this.props;
 
-    userStore &&
+    !user &&
+      userStore &&
       axios
         .get(KAPI + "/users?filter%5Bself%5D=true", {
           headers: {
@@ -43,13 +45,13 @@ class Header extends Component {
   };
 
   render() {
-    const { showInput, user, loading } = this.state;
+    let { showInput, user, loading } = this.state;
 
-    const { isFixed, isFixedNoBg } = this.props;
-    const { avatar, name } = !loading && user.attributes;
+    const { isFixed, isFixedNoBg, user: loggedUser } = this.props;
+    const { avatar, name } = user && user.attributes;
     const img =
       !loading && avatar
-        ? user.avatar.original
+        ? user.avatar.original || loggedUser.avatar.original
         : "https://i.ytimg.com/vi/qwzQPh7dW_4/maxresdefault.jpg";
 
     const wrapperClassNames = classNames({
@@ -92,7 +94,7 @@ class Header extends Component {
                 )}
               </div>
               <div className="user-profile">
-                {!loading ? (
+                {user || loggedUser ? (
                   <div
                     className="user-profile--img"
                     style={{ backgroundImage: `url('${img}')` }}
@@ -107,11 +109,16 @@ class Header extends Component {
                     </Link>
                   </div>
                 )}
-                <div className="user-profile--username">{!loading && name}</div>
+                <div className="user-profile--username">
+                  {(user && name) || (loggedUser && loggedUser.attributes.name)}
+                </div>
               </div>
-              <div className="icon options">
-                <i className="fa fa-ellipsis-v" />
-              </div>
+              {!!user ||
+                (!!loggedUser && (
+                  <div className="icon options">
+                    <i className="fa fa-ellipsis-v" />
+                  </div>
+                ))}
             </div>
           </div>
         </div>

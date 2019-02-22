@@ -161,5 +161,17 @@
     button {
       width: 100%;
     }
+
+    &--is-favorite {
+      background: $o-color-main;
+      i {
+        color: white;
+      }
+      &:hover {
+        background: darken($o-color-main, 10%);
+        transition: all .3s ease-in-out;
+      }
+      transition: all .3s ease-in-out;
+    }
   }
 }

@@ -3,6 +3,7 @@ import axios from "axios";
 import { KAPI } from "../utils";
 import ItemView from "../components/ItemView";
 import AppWrapper from "../components/AppWrapper";
+import Loading from "../components/Loading";
 
 export default class Anime extends Component {
   static getInitialProps({ query: { slug } }) {
@@ -15,6 +16,7 @@ export default class Anime extends Component {
     episodes: [],
     characters: [],
     franchises: [],
+    user: false,
     loading: true,
     isOpen: false
   };
@@ -72,16 +74,42 @@ export default class Anime extends Component {
           })
           .then(({ data }) => {
             this.setState({
-              characters: data.included,
-              loading: false
+              characters: data.included
             });
           })
           .catch(err => console.log(err));
+
+        const userStore = JSON.parse(localStorage.getItem("user"));
+
+        userStore &&
+          axios
+            .get(KAPI + "/users?filter%5Bself%5D=true", {
+              headers: {
+                Authorization: "Bearer " + userStore.data.access_token
+              },
+              params: {
+                include: "favorites.item"
+              }
+            })
+            .then(({ data }) => {
+              const user = {
+                ...data.data[0],
+                included: data.included
+              };
+              this.setState({
+                user,
+                loading: false
+              });
+            })
+            .catch(err => console.log(err));
       })
       .catch(err => console.log(err));
   };
 
   render() {
+    const { loading } = this.state;
+    if (loading) return <Loading />;
+
     return (
       <AppWrapper title={"Dashboard"}>
         <ItemView data={this.state} />

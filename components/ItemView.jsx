@@ -6,18 +6,113 @@ import AnimeInfo from "./Anime/AnimeInfo";
 import Loading from "./Loading";
 import RightSidebar from "./RightSidebar";
 import SecondaryContent from "./Anime/SecondaryContent";
+import axios from "axios";
 
 class ItemView extends Component {
   state = {
-    isOpen: false
+    isOpen: false,
+    isFavorite: false,
+    loadingBtn: false,
+    favorites: ""
   };
+
+  componentDidMount() {
+    const {
+      data: { user, anime }
+    } = this.props;
+    const favorites =
+      user.included && user.included.filter(item => item.type === "favorites");
+
+    const isFavorite =
+      favorites &&
+      favorites.find(item => item.relationships.item.data.id === anime.id);
+    this.setState({
+      isFavorite,
+      favorites
+    });
+  }
 
   openModal = () => {
     this.setState({ isOpen: true });
   };
 
-  closeModal = () => {
-    this.setState({ isOpen: false });
+  onFavorite = isFavorite => {
+    const userStore = JSON.parse(localStorage.getItem("user"));
+    const { data } = this.props;
+
+    this.setState({
+      loadingBtn: true
+    });
+
+    if (!isFavorite) {
+      axios
+        .post(
+          "https://kitsu.io/api/edge/favorites",
+          {
+            data: {
+              relationships: {
+                user: { data: { type: "users", id: data.user.id } },
+                item: { data: { type: data.anime.type, id: data.anime.id } }
+              },
+              type: "favorites"
+            }
+          },
+          {
+            headers: {
+              "content-type": "application/vnd.api+json",
+              Authorization: "Bearer " + userStore.data.access_token
+            }
+          }
+        )
+        .then(({ data: favData }) => {
+          const { anime } = this.props.data;
+          favData.data.relationships = {
+            user: { data: { type: "users", id: data.user.id } },
+            item: { data: { type: data.anime.type, id: data.anime.id } }
+          };
+          this.setState(state => {
+            const { isFavorite, favorites } = state;
+            return {
+              lastFavorite: favData,
+              isFavorite: !isFavorite,
+              favorites: [...favorites, favData.data],
+              loadingBtn: false
+            };
+          });
+        })
+        .catch(err => console.log(err));
+    } else {
+      const { favorites } = this.state;
+      console.log(favorites);
+      const { data } = this.props;
+      const { anime } = data;
+      const deletedFavoriteItem = favorites
+        .reverse()
+        .find(item => item.relationships.item.data.id === anime.id);
+      console.log(deletedFavoriteItem);
+
+      axios
+        .delete(
+          `https://kitsu.io/api/edge/favorites/${deletedFavoriteItem.id}`,
+          {
+            headers: {
+              "content-type": "application/vnd.api+json",
+              Authorization: "Bearer " + userStore.data.access_token
+            }
+          }
+        )
+        .then(data => {
+          console.log(data);
+          this.setState(state => {
+            const { isFavorite } = state;
+            return {
+              isFavorite: !isFavorite,
+              loadingBtn: false
+            };
+          });
+        })
+        .catch(err => console.log(err));
+    }
   };
 
   render() {
@@ -30,13 +125,11 @@ class ItemView extends Component {
       characters,
       franchises,
       chapters,
+      user,
       genres
     } = data;
 
-    console.log(episodes);
-    const { isOpen } = this.state;
-
-    if (loading) return <Loading />;
+    const { isOpen, isFavorite, loadingBtn } = this.state;
 
     const { attributes } = anime;
     const {
@@ -54,6 +147,7 @@ class ItemView extends Component {
     } = attributes;
 
     const starCount = Math.round((averageRating * 5) / 100);
+
     return (
       <div>
         <ModalVideo
@@ -72,7 +166,7 @@ class ItemView extends Component {
               })`
             }}
           >
-            <Header isFixedNoBg />
+            <Header user={data.user} isFavorite={isFavorite} isFixedNoBg />
             <AnimeInfo
               starCount={starCount}
               titles={titles}
@@ -88,7 +182,12 @@ class ItemView extends Component {
               coverImage={coverImage}
               posterImage={posterImage}
               status={status}
+              title={anime.attributes.titles.en}
               nextRelease={nextRelease}
+              loadingBtn={loadingBtn}
+              isMedia
+              isFavorite={isFavorite}
+              onFavorite={isFavorite => this.onFavorite(isFavorite)}
             />
           </div>
           <div className="secondary">

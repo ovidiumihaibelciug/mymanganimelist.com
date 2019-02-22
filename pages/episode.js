@@ -70,7 +70,6 @@ export class EpisodeView extends Component {
     if (loading) {
       return <Loading />;
     }
-    console.log("Only episode", episode);
 
     const { coverImage, posterImage } = anime.attributes;
     const {
