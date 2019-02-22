@@ -50,58 +50,48 @@ export default class Anime extends Component {
           categories,
           franchises
         });
-        axios
-          .get(KAPI + "/episodes", {
-            params: {
-              "filter[mediaId]": data.data[0].id,
-              "page[limit]": 8,
-              "page[offset]": 0
-            }
-          })
-          .then(({ data }) => {
-            this.setState({
-              episodes: data.data
-            });
-          })
-          .catch(err => console.log(err));
-        axios
-          .get(KAPI + "/anime-characters", {
-            params: {
-              "filter[animeId]": data.data[0].id,
-              "page[limit]": 8,
-              include: "character"
-            }
-          })
-          .then(({ data }) => {
-            this.setState({
-              characters: data.included
-            });
-          })
-          .catch(err => console.log(err));
-
         const userStore = JSON.parse(localStorage.getItem("user"));
 
-        userStore &&
-          axios
-            .get(KAPI + "/users?filter%5Bself%5D=true", {
-              headers: {
-                Authorization: "Bearer " + userStore.data.access_token
-              },
+        axios
+          .all([
+            axios.get(KAPI + "/episodes", {
               params: {
-                include: "favorites.item"
+                "filter[mediaId]": data.data[0].id,
+                "page[limit]": 8,
+                "page[offset]": 0
               }
-            })
-            .then(({ data }) => {
-              const user = {
-                ...data.data[0],
-                included: data.included
-              };
-              this.setState({
-                user,
-                loading: false
-              });
-            })
-            .catch(err => console.log(err));
+            }),
+            axios.get(KAPI + "/anime-characters", {
+              params: {
+                "filter[animeId]": data.data[0].id,
+                "page[limit]": 8,
+                include: "character"
+              }
+            }),
+            userStore &&
+              axios.get(KAPI + "/users?filter%5Bself%5D=true", {
+                headers: {
+                  Authorization: "Bearer " + userStore.data.access_token
+                },
+                params: {
+                  include: "favorites.item"
+                }
+              })
+          ])
+          .then(([episodeData, charactersData, userData = false]) => {
+            const user = userData
+              ? {
+                  ...userData.data.data[0],
+                  included: userData.data.included
+                }
+              : false;
+            this.setState({
+              episodes: episodeData.data.data,
+              characters: charactersData.data.included,
+              user,
+              loading: false
+            });
+          });
       })
       .catch(err => console.log(err));
   };

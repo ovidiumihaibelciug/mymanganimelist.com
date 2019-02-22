@@ -3,10 +3,10 @@ import Sidebar from "./Sidebar";
 import Header from "../layout/Header";
 import ModalVideo from "react-modal-video";
 import AnimeInfo from "./Anime/AnimeInfo";
-import Loading from "./Loading";
 import RightSidebar from "./RightSidebar";
 import SecondaryContent from "./Anime/SecondaryContent";
 import axios from "axios";
+import { Router } from "../routes";
 
 class ItemView extends Component {
   state = {
@@ -21,7 +21,9 @@ class ItemView extends Component {
       data: { user, anime }
     } = this.props;
     const favorites =
-      user.included && user.included.filter(item => item.type === "favorites");
+      user &&
+      user.included &&
+      user.included.filter(item => item.type === "favorites");
 
     const isFavorite =
       favorites &&
@@ -44,79 +46,82 @@ class ItemView extends Component {
       loadingBtn: true
     });
 
-    if (!isFavorite) {
-      axios
-        .post(
-          "https://kitsu.io/api/edge/favorites",
-          {
-            data: {
-              relationships: {
-                user: { data: { type: "users", id: data.user.id } },
-                item: { data: { type: data.anime.type, id: data.anime.id } }
-              },
-              type: "favorites"
-            }
-          },
-          {
-            headers: {
-              "content-type": "application/vnd.api+json",
-              Authorization: "Bearer " + userStore.data.access_token
-            }
-          }
-        )
-        .then(({ data: favData }) => {
-          const { anime } = this.props.data;
-          favData.data.relationships = {
-            user: { data: { type: "users", id: data.user.id } },
-            item: { data: { type: data.anime.type, id: data.anime.id } }
-          };
-          this.setState(state => {
-            const { isFavorite, favorites } = state;
-            return {
-              lastFavorite: favData,
-              isFavorite: !isFavorite,
-              favorites: [...favorites, favData.data],
-              loadingBtn: false
-            };
-          });
-        })
-        .catch(err => console.log(err));
+    if (!userStore) {
+      Router.push("/login");
     } else {
-      const { favorites } = this.state;
-      console.log(favorites);
-      const { data } = this.props;
-      const { anime } = data;
-      const deletedFavoriteItem = favorites
-        .reverse()
-        .find(item => item.relationships.item.data.id === anime.id);
-      console.log(deletedFavoriteItem);
-
-      axios
-        .delete(
-          `https://kitsu.io/api/edge/favorites/${deletedFavoriteItem.id}`,
-          {
-            headers: {
-              "content-type": "application/vnd.api+json",
-              Authorization: "Bearer " + userStore.data.access_token
+      if (!isFavorite) {
+        axios
+          .post(
+            "https://kitsu.io/api/edge/favorites",
+            {
+              data: {
+                relationships: {
+                  user: { data: { type: "users", id: data.user.id } },
+                  item: { data: { type: data.anime.type, id: data.anime.id } }
+                },
+                type: "favorites"
+              }
+            },
+            {
+              headers: {
+                "content-type": "application/vnd.api+json",
+                Authorization: "Bearer " + userStore.data.access_token
+              }
             }
-          }
-        )
-        .then(data => {
-          console.log(data);
-          this.setState(state => {
-            const { isFavorite } = state;
-            return {
-              isFavorite: !isFavorite,
-              loadingBtn: false
+          )
+          .then(({ data: favData }) => {
+            favData.data.relationships = {
+              user: { data: { type: "users", id: data.user.id } },
+              item: { data: { type: data.anime.type, id: data.anime.id } }
             };
-          });
-        })
-        .catch(err => console.log(err));
+            this.setState(state => {
+              const { isFavorite, favorites = [] } = state;
+              return {
+                lastFavorite: favData,
+                isFavorite: !isFavorite,
+                favorites: [...favorites, favData.data],
+                loadingBtn: false
+              };
+            });
+          })
+          .catch(err => console.log(err));
+      } else {
+        const { favorites } = this.state;
+        console.log(favorites);
+        const { data } = this.props;
+        const { anime } = data;
+        const deletedFavoriteItem = favorites
+          .reverse()
+          .find(item => item.relationships.item.data.id === anime.id);
+
+        axios
+          .delete(
+            `https://kitsu.io/api/edge/favorites/${deletedFavoriteItem.id}`,
+            {
+              headers: {
+                "content-type": "application/vnd.api+json",
+                Authorization: "Bearer " + userStore.data.access_token
+              }
+            }
+          )
+          .then(data => {
+            console.log(data);
+            this.setState(state => {
+              const { isFavorite } = state;
+              return {
+                isFavorite: !isFavorite,
+                loadingBtn: false
+              };
+            });
+          })
+          .catch(err => console.log(err));
+      }
     }
   };
 
   render() {
     const { data } = this.props;
+    console.log(data);
     let {
       anime,
       loading,
@@ -131,9 +136,13 @@ class ItemView extends Component {
 
     const { isOpen, isFavorite, loadingBtn } = this.state;
 
+    if (!anime) {
+      return null;
+    }
+
     const { attributes } = anime;
     const {
-      coverImage,
+      coverImage = "",
       titles,
       posterImage,
       synopsis,
