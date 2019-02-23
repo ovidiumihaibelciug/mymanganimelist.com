@@ -63,10 +63,10 @@ export default class CharacterList extends Component {
     return (
       <AppWrapper title="123">
         <section className="o-main-layout">
-          <Sidebar />;
+          <Sidebar />
           <section className="o-main o-dashboard">
             <Header isFixed />
-            <div className="main-content anime-view anime-container anime-episodes">
+            <div className="main-content anime-view anime-container anime-episodes characters-list">
               <Molecule
                 agents={{
                   loader: EasyLoaderAgent.factory({ load: this.load }),

@@ -54,12 +54,12 @@ class CharacterView extends Component {
     const { slug } = this.props;
     const { image, canonicalName, description } = character.attributes;
     let { posterImage } = media[0].attributes;
-    console.log("Only episode", character);
 
     return (
-      <AppWrapper>
+      <AppWrapper title="123">
         <section className="anime-view o-main-layout character-view">
           <Sidebar small={true} />
+          <Header isFixed />
           <div
             className="o-main o-anime-view o-episode-view"
             style={{
@@ -68,7 +68,6 @@ class CharacterView extends Component {
               })`
             }}
           >
-            <Header />
             <div className="anime">
               <div className="anime-container episode-container">
                 <div className="secondary-item">

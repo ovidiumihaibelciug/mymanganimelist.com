@@ -20,7 +20,8 @@ class UserView extends React.Component {
   state = {
     user: {},
     stats: [],
-    loading: true
+    loading: true,
+    showRightSideBar: false
   };
 
   componentDidMount() {
@@ -134,7 +135,6 @@ class UserView extends React.Component {
           })
           .catch(err => console.log(err));
       } else {
-        console.log(follows);
         const deletedFollow = follows
           .reverse()
           .find(item => item.relationships.followed.data.id === user.id);
@@ -160,6 +160,16 @@ class UserView extends React.Component {
     }
   };
 
+  showRightSideInfo = () => {
+    this.setState(state => {
+      const { showRightSideBar } = state;
+
+      return {
+        showRightSideBar: !showRightSideBar
+      };
+    });
+  };
+
   render() {
     let {
       user,
@@ -170,6 +180,7 @@ class UserView extends React.Component {
       postLikes = [],
       comments,
       postUploads,
+      showRightSideBar,
       loading
     } = this.state;
 
@@ -197,7 +208,12 @@ class UserView extends React.Component {
         <section className="anime-view o-main-layout">
           <Sidebar small={true} />
           <div className="o-main o-anime-view o-post-view">
-            <Header isFixedNoBg profileId={user.id} />
+            <Header
+              isFixedNoBg
+              profileId={user.id}
+              showRightSideInfo={this.showRightSideInfo}
+              showRightSideBar={showRightSideBar}
+            />
             <div className="post-view">
               <div className="post-view__container">
                 <div className="post-view__info">
@@ -405,6 +421,7 @@ class UserView extends React.Component {
                 isUser
                 isFollowing={isFollowing}
                 onFollow={this.onFollow}
+                showRightSideBar={showRightSideBar}
               />
             </div>
           </div>

@@ -295,6 +295,10 @@
     &__content {
       margin-right: 20px;
 
+      @include mds-breakpoint('phone') {
+        margin-right: 0;
+      }
+
       &:not(:first-child) {
         padding-top: 75px;
         border-top: 1px solid rgba(255, 255, 255, 0.03);

@@ -121,14 +121,14 @@ class Feed extends Component {
   };
 
   render() {
-    const { posts, uploads, comments, episodes, loading } = this.state;
+    const { posts, uploads, episodes, loading } = this.state;
 
     if (loading) return <Loading />;
 
     return (
       <AppWrapper title="123">
         <section className="o-main-layout">
-          <Sidebar />;
+          <Sidebar />
           <section className="o-main o-dashboard">
             <Header isFixed />
             <div className="main-content">

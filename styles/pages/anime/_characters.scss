@@ -8,4 +8,13 @@
 
 .character-view {
   background-color: $o-color-bg;
+  .secondary-item {
+    @include mds-breakpoint('phone') {
+      flex-direction: column;
+      &__rightside {
+        margin: 0;
+        padding: 0;
+      }
+    }
+  }
 }

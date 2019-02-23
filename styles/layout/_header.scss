@@ -21,6 +21,15 @@
       position: fixed;
       width: calc(100% - 90px);
       z-index: 100;
+      .right-side {
+        @include mds-breakpoint('phone') {
+          margin-right: 30px;
+        }
+        @include mds-breakpoint('phone-small') {
+          margin-right: 60px;
+          margin-left: -30px;
+        }
+      }
       @include mds-breakpoint('phone') {
         width: calc(100vw + 90px);
         margin-left: -90px;
@@ -62,13 +71,6 @@
     align-items: center;
     z-index: 5;
     width: auto;
-    @include mds-breakpoint('phone') {
-      margin-right: 30px;
-    }
-    @include mds-breakpoint('phone-small') {
-      margin-right: 60px;
-      margin-left: -30px;
-    }
     * {
       margin: 0 5px;
     }

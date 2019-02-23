@@ -14,6 +14,12 @@
   .easy-list-wrapper {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+  }
+  &.characters-list {
+    @include mds-breakpoint('phone') {
+      width: 100vw;
+    }
   }
 
   .anime-box {
@@ -71,6 +77,9 @@
   justify-content: center;
   align-items: center;
   margin-right: 150px;
+  @include mds-breakpoint('phone') {
+    margin: 0;
+  }
   &--no-margin {
     margin-right: 0;
   }
@@ -136,6 +145,10 @@
         background-repeat: no-repeat;
         background-size: cover;
         cursor: pointer;
+
+        @include mds-breakpoint('phone') {
+          width: 100%;
+        }
 
         .play-button {
           color: #fff;

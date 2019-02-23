@@ -14,7 +14,8 @@ export class EpisodeView extends Component {
     anime: {},
     loading: true,
     streamingLinks: "",
-    videos: ""
+    videos: "",
+    showRightSideBar: false
   };
 
   static getInitialProps({ query: { slug, number } }) {
@@ -65,8 +66,25 @@ export class EpisodeView extends Component {
       .catch(err => console.log(err));
   }
 
+  showRightSideInfo = () => {
+    this.setState(state => {
+      const { showRightSideBar } = state;
+
+      return {
+        showRightSideBar: !showRightSideBar
+      };
+    });
+  };
+
   render() {
-    const { anime, episode, videos, streamingLinks, loading } = this.state;
+    const {
+      anime,
+      episode,
+      videos,
+      streamingLinks,
+      showRightSideBar,
+      loading
+    } = this.state;
     if (loading) {
       return <Loading />;
     }
@@ -99,7 +117,11 @@ export class EpisodeView extends Component {
               })`
             }}
           >
-            <Header isFixedNoBg />
+            <Header
+              isFixedNoBg
+              showRightSideInfo={this.showRightSideInfo}
+              showRightSideBar={showRightSideBar}
+            />
             <div className="anime episode">
               <EpisodeContent
                 thumbnail={thumbnail || posterImage || coverImage}
@@ -113,6 +135,7 @@ export class EpisodeView extends Component {
             <RightSidebar
               coverImage={coverImage || thumbnail}
               posterImage={posterImage || coverImage || thumbnail}
+              showRightSideBar={showRightSideBar}
             />
           </div>
           <div className="secondary">
