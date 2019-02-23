@@ -177,7 +177,7 @@ class MyAccount extends React.Component {
                 "https://i.ytimg.com/vi/qwzQPh7dW_4/maxresdefault.jpg"})`
             }}
           >
-            <Header />
+            <Header isFixedNoBg />
             <div className="anime">
               <div className="anime-container">
                 <div className="anime__info">
@@ -219,6 +219,7 @@ class MyAccount extends React.Component {
               status={status}
               user={user}
               isUser
+              isMyAccount
               // nextRelease={nextRelease}
             />
           </div>

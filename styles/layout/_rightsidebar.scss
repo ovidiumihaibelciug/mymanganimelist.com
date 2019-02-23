@@ -10,6 +10,10 @@
   background-repeat: no-repeat;
   background-position: center right;
   overflow: hidden;
+  @include mds-breakpoint('phone') {
+    width: 100%;
+    position: relative;
+  }
   &__content {
     height: 100vh;
     width: 100%;

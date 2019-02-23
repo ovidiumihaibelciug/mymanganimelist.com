@@ -13,16 +13,36 @@
     width: 80%;
     z-index: 100;
     background-color: $o-color-bg;
+    @include mds-breakpoint('phone') {
+      width: 100%;
+      padding-left: 50px;
+    }
     &--main-item {
       position: fixed;
       width: calc(100% - 90px);
       z-index: 100;
+      @include mds-breakpoint('phone') {
+        width: calc(100vw + 90px);
+        margin-left: -90px;
+        padding-left: 50px;
+        background-color: $o-color-bg;
+        transition: background-color .3s ease;
+      }
+      .left-side {
+        @include mds-breakpoint('phone') {
+          margin-left: 80px;
+        }
+      }
+    }
+    &--no-bg {
+      background-color: transparent;
+      transition: background-color .3s ease;
     }
   }
   .left-side {
     display: flex;
     flex: 1;
-    .icon {
+      .icon {
       padding: 0 10px;
       font-size: 2rem;
       color: #474d5b;
@@ -42,7 +62,7 @@
     align-items: center;
     z-index: 5;
     width: auto;
-    padding: 0 30px;
+    padding: 0 1  0px;
     * {
       margin: 0 5px;
     }

@@ -4,16 +4,24 @@
 
   .o-sidebar {
     position: fixed;
-    width: 18%;
+    width: 35vh;
     height: 100%;
     background-color: $o-color-nav;
+    @include mds-breakpoint('phone') {
+      width: 100%;
+    }
   }
 
   .o-main {
     padding-left: calc(18% + 30px);
-
+    @include mds-breakpoint('phone') {
+      padding-left: 0;
+    }
     &.o-anime-view {
       padding-left: 90px;
+      @include mds-breakpoint('phone') {
+        padding-left: 20px;
+      }
     }
 
     min-height: 100vh;

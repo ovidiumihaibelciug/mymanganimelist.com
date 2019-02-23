@@ -269,7 +269,7 @@ class UserView extends React.Component {
             }}
           >
             <Header isFixedNoBg profileId={user.id} />
-            <div className="anime">
+            <div className="anime user-view">
               <div className="anime-container">
                 <div className="anime__info">
                   <div className="anime__info__title-area">

@@ -20,7 +20,8 @@ const RightSidebar = ({
   user,
   onFollow,
   onFavorite,
-  loadingBtn
+  loadingBtn,
+  isMyAccount
 }) => {
   const duration = date => {
     let eventDate = moment(date);
@@ -74,7 +75,7 @@ const RightSidebar = ({
           </div>
         )}
         <div className="o-rightsidebar__content__main">
-          {isUser && (
+          {isUser && !isMyAccount && (
             <div className="o-rightsidebar__content__main__follow-btn">
               <div
                 className="o-btn o-btn__follow"

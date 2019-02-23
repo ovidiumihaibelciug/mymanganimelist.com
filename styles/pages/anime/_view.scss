@@ -8,6 +8,7 @@
   position: absolute;
   width: 80vw !important;
   height: 90vw;
+
   .modal-content-anime {
     iframe {
       width: 100%;
@@ -22,12 +23,22 @@
 
   .anime {
     height: calc(100vh - 120px);
+    @include mds-breakpoint('phone') {
+      min-height: calc(100vh - 120px);
+      height: auto;
+    }
+
     .anime-container {
       padding-right: 300px;
       height: 100%;
+      @include mds-breakpoint('phone') {
+        padding-right: 0;
+      }
     }
+
     margin-top: 120px;
     z-index: 5;
+
     &__info {
       display: grid;
       grid-template-rows: auto 150px auto 50px 1fr;
@@ -35,11 +46,13 @@
       align-items: flex-end;
       height: 100%;
       padding-bottom: 20px;
+
       &__title-area {
         display: flex;
         align-items: center;
         justify-content: space-between;
       }
+
       &__title {
         color: white;
         font-size: 3rem;
@@ -47,6 +60,7 @@
         letter-spacing: 2px;
         font-family: 'Roboto', 'Courier New', Courier, monospace;
       }
+
       &__btn-trailer {
         width: 60px;
         height: 60px;
@@ -60,21 +74,25 @@
         cursor: pointer;
         transition: all .1s ease-in-out;
         opacity: 1;
+
         i {
           width: 100%;
           text-align: center;
         }
+
         &:hover {
           transition: all .1s ease-in-out;
           opacity: .7;
         }
       }
     }
+
     &__rating {
       display: flex;
       align-items: flex-end;
       font-size: 1rem;
       margin-top: 40px;
+
       &__text {
         margin-left: 30px;
         font-size: 1.3rem;
@@ -85,19 +103,23 @@
         sans-serif;
         font-weight: 600;
       }
+
       &__star {
         &-block {
           padding: 10px 3px;
           font-size: 1.4rem;
+
           &--positive {
             color: $o-color-main;
           }
+
           &--negative {
             color: rgba(0, 0, 0, 0.75);
           }
         }
       }
     }
+
     &__description {
       font-size: 1.6rem;
       line-height: 3rem;
@@ -110,13 +132,16 @@
       sans-serif;
       text-indent: 10px;
     }
+
     &__details {
       display: flex;
       align-items: center;
       margin-top: 10px;
       margin-bottom: 20px;
+
       &__stats {
         display: flex;
+
         &__rightSide {
           @include mds-font-size(20px);
           color: rgba(white, .7);
@@ -129,45 +154,55 @@
           margin: 20px 0;
           margin-left: 20px;
           padding: 10px 30px;
+
           span {
             text-transform: capitalize;
           }
         }
       }
+
       &__rank {
         display: flex;
+
         &__number {
           font-size: 1rem;
           letter-spacing: 2px;
           color: rgba(255, 255, 255, 0.4);
         }
+
         &--popular {
           margin-right: 40px;
           display: flex;
           align-items: center;
+
           i {
             color: $o-color-red;
           }
         }
+
         &--rated {
           display: flex;
           align-items: center;
+
           i {
             color: $o-color-yellow;
           }
         }
       }
+
       i {
         padding: 0 5px;
         font-size: 1.8rem;
         margin-right: 7px;
       }
     }
+
     &__genres {
       display: flex;
       flex-wrap: wrap;
       cursor: pointer;
       align-items: flex-end;
+
       &__chip {
         height: 50px;
         width: 130px;
@@ -184,6 +219,7 @@
         border-radius: 3px;
         position: relative;
         padding: 3px;
+
         &::after {
           position: absolute;
           content: '';
@@ -193,6 +229,7 @@
           height: 12px;
           background-color: $o-color-main;
         }
+
         &::before {
           position: absolute;
           content: '';
@@ -204,22 +241,41 @@
         }
       }
     }
+
+    &.user-view {
+      .anime__info {
+        display: flex;
+        flex-direction: column;
+        align-items: normal;
+      }
+    }
   }
+
   .secondary {
     background-color: $o-color-bg;
     font-size: 5rem;
     padding: 50px 300px 100px 90px;
     margin-right: 100px;
+
+    @include mds-breakpoint('phone') {
+      margin: 0;
+      padding: 10px;
+    }
+
     &__content {
       margin-right: 20px;
+
       &:not(:first-child) {
         padding-top: 75px;
         border-top: 1px solid rgba(255, 255, 255, 0.03);
       }
+
       padding-bottom: 75px;
+
       &__title {
         display: flex;
         justify-content: space-between;
+
         &__text {
           color: white;
           font-size: 4rem;
@@ -229,6 +285,7 @@
           margin-bottom: 15px;
           width: 100px;
           white-space: nowrap;
+
           &__blur {
             position: absolute;
             top: 30%;
@@ -239,6 +296,7 @@
             filter: blur(30px);
             opacity: 0.5;
           }
+
           hr {
             width: 60px;
             border: 0;
@@ -247,6 +305,7 @@
             padding: 0;
           }
         }
+
         &__view-all {
           font-size: 1.4rem;
           display: flex;
@@ -254,6 +313,7 @@
           color: $o-color-main;
           opacity: 0.5;
           transition: all 0.1 ease-in-out;
+
           &:hover {
             opacity: 1;
             cursor: pointer;
@@ -261,10 +321,12 @@
           }
         }
       }
+
       &__items {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
+
         &__box {
           display: flex;
           flex-direction: column;
@@ -281,6 +343,7 @@
             transition: all 0.1s ease-in-out;
             cursor: pointer;
           }
+
           &__number {
             position: absolute;
             font-size: 4rem;
@@ -290,11 +353,13 @@
             top: -1rem;
             left: -2rem;
             text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.75);
+
             &--manga {
               left: -4.5rem !important;
               font-size: 3rem;
             }
           }
+
           &__img {
             flex: 3;
             width: 100%;
@@ -303,6 +368,7 @@
             background-size: cover;
             background-position: center center;
           }
+
           &__title {
             flex: 1;
             font-size: 1.5rem;
@@ -318,6 +384,7 @@
           }
         }
       }
+
       .view-more {
         display: flex;
         justify-content: center;
@@ -326,6 +393,7 @@
       }
     }
   }
+
   .o-main {
     position: relative;
   }

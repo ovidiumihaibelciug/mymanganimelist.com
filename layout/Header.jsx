@@ -7,17 +7,37 @@ import axios from "axios";
 import { KAPI } from "../utils";
 import { Router } from "../routes";
 import Link from "next/link";
+import _ from "underscore";
+import { detectPassiveEvents } from "../components/functions";
 
 class Header extends Component {
-  state = {
-    showInput: "",
-    user: false,
-    loading: true
-  };
+  constructor(props) {
+    super(props);
 
+    this.state = {
+      isVisible: false,
+      showInput: "",
+      user: false,
+      loading: true
+    };
+
+    this.scrollThrottle = _.throttle(this.isScrolled, 250);
+    this.passiveEvents = detectPassiveEvents();
+  }
   componentDidMount() {
     const userStore = JSON.parse(localStorage.getItem("user"));
     const { user } = this.props;
+
+    window.addEventListener(
+      "scroll",
+      this.scrollThrottle,
+      this.passiveEvents ? { passive: true } : false
+    );
+    window.addEventListener(
+      "resize",
+      this.scrollThrottle,
+      this.passiveEvents ? { passive: true } : false
+    );
 
     !user &&
       userStore &&
@@ -36,6 +56,38 @@ class Header extends Component {
         .catch(err => console.log(err));
   }
 
+  componentWillUnmount() {
+    window.removeEventListener(
+      "scroll",
+      this.scrollThrottle,
+      this.passiveEvents ? { passive: true } : false
+    );
+    window.removeEventListener(
+      "resize",
+      this.scrollThrottle,
+      this.passiveEvents ? { passive: true } : false
+    );
+  }
+
+  isScrolled = () => {
+    const { isVisible } = this.state;
+    const scrolled = window.pageYOffset;
+
+    if (scrolled > 0) {
+      if (!isVisible) {
+        this.setState({
+          isVisible: true
+        });
+      }
+    } else {
+      if (isVisible) {
+        this.setState({
+          isVisible: false
+        });
+      }
+    }
+  };
+
   goBack = () => {
     Router.back();
   };
@@ -45,7 +97,7 @@ class Header extends Component {
   };
 
   render() {
-    let { showInput, user, loading } = this.state;
+    let { showInput, user, isVisible, loading } = this.state;
 
     const { isFixed, isFixedNoBg, user: loggedUser } = this.props;
     const { avatar, name } = user && user.attributes;
@@ -56,7 +108,8 @@ class Header extends Component {
 
     const wrapperClassNames = classNames({
       "o-header__wrap": isFixed && !isFixedNoBg,
-      "o-header__wrap--main-item": isFixedNoBg
+      "o-header__wrap--main-item": isFixedNoBg,
+      "o-header__wrap--no-bg": !isVisible && window.innerWidth < 701
     });
 
     return (

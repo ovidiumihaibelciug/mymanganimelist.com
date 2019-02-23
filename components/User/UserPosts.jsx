@@ -20,7 +20,7 @@ const UserPosts = ({
           <hr />
         </div>
         <Link to="">
-          <div className="secondary__content__title__view-all">View all</div>
+          <div className="secondary__content__title__view-all" />
         </Link>
       </div>
       <div className={className}>

@@ -36,12 +36,16 @@ class Sidebar extends Component {
     const { categories, showSidebar, loading } = this.state;
 
     const classes = classNames("o-sidebar", {
-      "o-sidebar__hide": !showSidebar && small
+      "o-sidebar__hide": !showSidebar && (window.innerWidth < 701 || small)
     });
 
     const hamburgerClasses = classNames({
       "hamburger fa fa-bars": !showSidebar,
       "hamburger fas fa-times": showSidebar
+    });
+
+    const toggleSideBarClasses = classNames("toggle-sidebar", {
+      hide: !small
     });
 
     const mainRoutes = [
@@ -110,20 +114,18 @@ class Sidebar extends Component {
             </div>
           </div>
         </section>
-        {small && (
-          <div onClick={this.toggleSidebar} className="toggle-sidebar">
-            <i
-              className={classNames("hamburger fa fa-bars", {
-                "hamburger--hide": showSidebar
-              })}
-            />
-            <i
-              className={classNames("hamburger hamburger--close fas fa-times", {
-                "hamburger--hide": !showSidebar
-              })}
-            />
-          </div>
-        )}
+        <div onClick={this.toggleSidebar} className={toggleSideBarClasses}>
+          <i
+            className={classNames("hamburger fa fa-bars", {
+              "hamburger--hide": showSidebar
+            })}
+          />
+          <i
+            className={classNames("hamburger hamburger--close fas fa-times", {
+              "hamburger--hide": !showSidebar
+            })}
+          />
+        </div>
       </>
     );
   }
