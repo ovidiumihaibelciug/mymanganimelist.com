@@ -19,6 +19,10 @@
     justify-self: center;
     width: 500px;
 
+    @include mds-breakpoint('phone') {
+      width: 80vw;
+    }
+
     &__comments {
       border-top: none;
       background: rgba(10, 10, 20, .6) !important;

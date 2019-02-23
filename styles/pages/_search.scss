@@ -7,6 +7,9 @@
     box-shadow: $shadow-dp23 !important;
     background: rgba(15, 15, 20, 1) !important;
     border: 2px solid darken(rgba(15, 15, 20, 1), 50%) !important;
+    @include mds-breakpoint('phone') {
+      padding: 5px 10px;
+    }
     form {
       display: flex;
       align-items: center;
@@ -44,6 +47,12 @@
         display: none;
       }
     }
+  }
+}
+
+.search-items {
+  .easy-list-wrapper {
+    justify-content: center;
   }
 }
 

@@ -17,11 +17,19 @@
     align-items: baseline;
     border-bottom: 2px solid #222222;
     margin-bottom: 50px;
+    @include mds-breakpoint('phone') {
+      flex-direction: column;
+      border-bottom: none;
+    }
     &__title {
       color: $o-color-main;
     }
     &__items {
       display: flex;
+      @include mds-breakpoint('phone') {
+        flex-direction: column;
+        width: 100%;
+      }
       &__item {
         border-bottom: 2px solid transparent;
         padding: 20px;
@@ -31,6 +39,9 @@
         margin-bottom: -2px;
         cursor: pointer;
         position: relative;
+        @include mds-breakpoint('phone') {
+          width: 100%;
+        }
         &:hover {
           color: $o-color-main;
           border-color: $o-color-main;

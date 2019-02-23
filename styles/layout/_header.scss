@@ -62,7 +62,13 @@
     align-items: center;
     z-index: 5;
     width: auto;
-    padding: 0 1  0px;
+    @include mds-breakpoint('phone') {
+      margin-right: 30px;
+    }
+    @include mds-breakpoint('phone-small') {
+      margin-right: 60px;
+      margin-left: -30px;
+    }
     * {
       margin: 0 5px;
     }
@@ -160,8 +166,9 @@
   color: #898c92;
   @include mds-font-size(18px);
   margin-right: 15px;
+  z-index: 100;
   @include mds-breakpoint('phone') {
-    display: block;
+    display: flex
   }
   .hamburger-rightsidebar {
     padding: 5px;
@@ -169,4 +176,8 @@
       margin-left: -50%;
     }
   }
+}
+
+.icon--search {
+  color: #898c92;
 }

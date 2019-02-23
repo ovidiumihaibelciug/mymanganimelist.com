@@ -75,6 +75,10 @@
         transition: all .1s ease-in-out;
         opacity: 1;
 
+        @include mds-breakpoint('phone') {
+          margin: 0;
+        }
+
         i {
           width: 100%;
           text-align: center;
@@ -93,8 +97,21 @@
       font-size: 1rem;
       margin-top: 40px;
 
+      @include mds-breakpoint('phone') {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
       &__text {
-        margin-left: 30px;
+        &:first-child {
+          margin-left: 10px;
+        }
+        &:not(:first-child) {
+          margin-left: 30px;
+          @include mds-breakpoint('phone') {
+            margin-left: 10px;
+          }
+        }
         font-size: 1.3rem;
         color: rgba($o-color-main, 0.6);
         letter-spacing: 2px;
@@ -138,9 +155,22 @@
       align-items: center;
       margin-top: 10px;
       margin-bottom: 20px;
-
+      @include mds-breakpoint('phone') {
+        margin-bottom: 0;
+        flex-direction: column;
+      }
       &__stats {
         display: flex;
+
+        @include mds-breakpoint('phone') {
+          flex-direction: column;
+        }
+
+        &__chart {
+          @include mds-breakpoint('phone') {
+            width: 85vw;
+          }
+        }
 
         &__rightSide {
           @include mds-font-size(20px);

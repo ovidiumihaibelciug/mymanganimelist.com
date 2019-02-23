@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import Sidebar from "./Sidebar";
 import Header from "../layout/Header";
 import ModalVideo from "react-modal-video";

@@ -155,12 +155,11 @@ class Header extends Component {
             <div className="right-side">
               <div className="icon">
                 {!showInput ? (
-                  <i
-                    className="fa fa-search"
-                    onClick={() => {
-                      Router.push("/search");
-                    }}
-                  />
+                  <Link href="/search">
+                    <a className="icon--search">
+                      <i className="fa fa-search" />
+                    </a>
+                  </Link>
                 ) : (
                   <div className="o-search">
                     <AutoForm

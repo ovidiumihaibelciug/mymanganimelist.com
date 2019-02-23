@@ -35,7 +35,8 @@ class UserView extends React.Component {
   state = {
     user: {},
     stats: [],
-    loading: true
+    loading: true,
+    showRightSideBar: false
   };
 
   componentDidMount() {
@@ -193,6 +194,16 @@ class UserView extends React.Component {
     }
   };
 
+  showRightSideInfo = () => {
+    this.setState(state => {
+      const { showRightSideBar } = state;
+
+      return {
+        showRightSideBar: !showRightSideBar
+      };
+    });
+  };
+
   render() {
     const {
       user,
@@ -200,7 +211,8 @@ class UserView extends React.Component {
       stats,
       isFollowing,
       loading,
-      loadingBtn
+      loadingBtn,
+      showRightSideBar
     } = this.state;
     if (loading) {
       return <Loading />;
@@ -256,132 +268,141 @@ class UserView extends React.Component {
       };
     }
 
+    console.log(window.innerWidth);
+
     return (
       <AppWrapper title="123">
-        <section className="anime-view o-main-layout">
-          <Sidebar small={true} />
-          <div
-            className="o-main o-anime-view o-episode-view"
-            style={{
-              backgroundImage: `linear-gradient(15deg,rgba(20, 28, 36, 1) 10%, rgba(30, 34, 38, 0.97) 40%,  rgba(30, 34, 38, 0.99) 100%) , url(${
-                coverImage.original
-              })`
-            }}
-          >
-            <Header isFixedNoBg profileId={user.id} />
-            <div className="anime user-view">
-              <div className="anime-container">
-                <div className="anime__info">
-                  <div className="anime__info__title-area">
-                    <div className="anime__info__title">{name}</div>
-                  </div>
-                  <div className="anime__rating">
-                    {gender && (
-                      <div className="anime__rating__text">
-                        <i className="fa fa-user" /> {gender}
-                      </div>
-                    )}
-                    <br />
-                    {location && (
-                      <div className="anime__rating__text">
-                        <i className="fa fa-location-arrow" /> {location}
-                      </div>
-                    )}
-                    {birthday && (
-                      <div className="anime__rating__text">
-                        <i className="fa fa-birthday-cake" />{" "}
-                        {moment(birthday).format("MMM Do YYYY")}
-                      </div>
-                    )}
-
-                    {createdAt && (
-                      <div className="anime__rating__text">
-                        <i className="fa fa-calendar" />{" "}
-                        {moment(createdAt).format("MMM Do YYYY")}
-                      </div>
-                    )}
-                  </div>
-                  <div className="anime__description">
-                    {about ? about : "About Me: That's a secret"}
-                  </div>
-                  <div className="anime__details">
-                    <div className="anime__details__stats">
-                      <div>
-                        {stats[1].attributes.statsData.categories && (
-                          <Bar
-                            data={chartData}
-                            width={1000}
-                            height={400}
-                            options={{
-                              maintainAspectRatio: false
-                            }}
-                          />
-                        )}
-                      </div>
-
-                      <div className="anime__details__stats__rightSide">
-                        <div>
-                          <span className="o-is-primary">
-                            {moment
-                              .duration(animeDuration, "seconds")
-                              .humanize()}{" "}
-                          </span>
-                          spent watching Anime
+        <div>
+          <section className="anime-view o-main-layout">
+            <Sidebar small={true} />
+            <div
+              className="o-main o-anime-view o-episode-view"
+              style={{
+                backgroundImage: `linear-gradient(15deg,rgba(20, 28, 36, 1) 10%, rgba(30, 34, 38, 0.97) 40%,  rgba(30, 34, 38, 0.99) 100%) , url(${
+                  coverImage.original
+                })`
+              }}
+            >
+              <Header
+                isFixedNoBg
+                profileId={user.id}
+                showRightSideInfo={this.showRightSideInfo}
+                showRightSideBar={showRightSideBar}
+              />
+              <div className="anime user-view">
+                <div className="anime-container">
+                  <div className="anime__info">
+                    <div className="anime__info__title-area">
+                      <div className="anime__info__title">{name}</div>
+                    </div>
+                    <div className="anime__rating">
+                      {gender && (
+                        <div className="anime__rating__text">
+                          <i className="fa fa-user" /> {gender}
                         </div>
-                        {!!animeCompleted && (
+                      )}
+                      {location && (
+                        <div className="anime__rating__text">
+                          <i className="fa fa-location-arrow" /> {location}
+                        </div>
+                      )}
+                      {birthday && (
+                        <div className="anime__rating__text">
+                          <i className="fa fa-birthday-cake" />{" "}
+                          {moment(birthday).format("MMM Do YYYY")}
+                        </div>
+                      )}
+
+                      {createdAt && (
+                        <div className="anime__rating__text">
+                          <i className="fa fa-calendar" />{" "}
+                          {moment(createdAt).format("MMM Do YYYY")}
+                        </div>
+                      )}
+                    </div>
+                    <div className="anime__description">
+                      {about ? about : "About Me: That's a secret"}
+                    </div>
+                    <div className="anime__details">
+                      <div className="anime__details__stats">
+                        <div className="anime__details__stats__chart">
+                          {stats[1].attributes.statsData.categories && (
+                            <Bar
+                              data={chartData}
+                              width={800}
+                              height={400}
+                              options={{
+                                maintainAspectRatio: false
+                              }}
+                            />
+                          )}
+                        </div>
+
+                        <div className="anime__details__stats__rightSide">
                           <div>
                             <span className="o-is-primary">
-                              {animeCompleted}
-                            </span>{" "}
-                            Anime completed
+                              {moment
+                                .duration(animeDuration, "seconds")
+                                .humanize()}{" "}
+                            </span>
+                            spent watching Anime
                           </div>
-                        )}
-                        {!!animeMedia && (
-                          <div>
-                            <span className="o-is-primary">{animeMedia}</span>{" "}
-                            Anime started
-                          </div>
-                        )}
-                        {!!mangaCompleted && (
-                          <div>
-                            <span className="o-is-primary">
-                              {mangaCompleted}
-                            </span>{" "}
-                            Manga completed
-                          </div>
-                        )}
-                        {!!mangaMedia && (
-                          <div>
-                            <span className="o-is-primary">{mangaMedia}</span>{" "}
-                            Manga started
-                          </div>
-                        )}
+                          {!!animeCompleted && (
+                            <div>
+                              <span className="o-is-primary">
+                                {animeCompleted}
+                              </span>{" "}
+                              Anime completed
+                            </div>
+                          )}
+                          {!!animeMedia && (
+                            <div>
+                              <span className="o-is-primary">{animeMedia}</span>{" "}
+                              Anime started
+                            </div>
+                          )}
+                          {!!mangaCompleted && (
+                            <div>
+                              <span className="o-is-primary">
+                                {mangaCompleted}
+                              </span>{" "}
+                              Manga completed
+                            </div>
+                          )}
+                          {!!mangaMedia && (
+                            <div>
+                              <span className="o-is-primary">{mangaMedia}</span>{" "}
+                              Manga started
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+              <RightSidebar
+                coverImage={coverImage}
+                posterImage={avatar}
+                status={status}
+                user={user}
+                isUser
+                isFollowing={isFollowing}
+                loadingBtn={loadingBtn}
+                onFollow={this.onFollow}
+                showRightSideBar={showRightSideBar}
+              />
             </div>
-            <RightSidebar
-              coverImage={coverImage}
-              posterImage={avatar}
-              status={status}
-              user={user}
-              isUser
-              isFollowing={isFollowing}
-              loadingBtn={loadingBtn}
-              onFollow={this.onFollow}
-            />
-          </div>
-          <div className="secondary">
-            <FavoriteItems
-              anime={favoritesAnime}
-              manga={favoritesManga}
-              characters={favoritesCharacters}
-            />
-            <UserPostsWrapper className="o-posts" user={user} />
-          </div>
-        </section>
+            <div className="secondary">
+              <FavoriteItems
+                anime={favoritesAnime}
+                manga={favoritesManga}
+                characters={favoritesCharacters}
+              />
+              <UserPostsWrapper className="o-posts" user={user} />
+            </div>
+          </section>
+        </div>
       </AppWrapper>
     );
   }

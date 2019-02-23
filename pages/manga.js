@@ -97,7 +97,7 @@ export default class Dashboard extends Component {
         <section className="o-main-layout">
           <Sidebar isManga />
           <section className="o-main o-dashboard">
-            <Header />
+            <Header isFixed />
             <div className="main-content">
               {content.map((mangaItem, id) => {
                 const { title, url, items = [] } = mangaItem;

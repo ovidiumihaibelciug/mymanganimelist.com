@@ -9,7 +9,7 @@ import AnimeItem from "../components/Dashboard/AnimeItem";
 import MangaItem from "../components/Dashboard/MangaItem";
 import Loading from "../components/Loading";
 import { Button } from "antd";
-import "../styles/styles.scss";
+import AppWrapper from "../components/AppWrapper";
 
 class Search extends Component {
   state = {
@@ -112,51 +112,52 @@ class Search extends Component {
     if (loading) return <Loading />;
 
     return (
-      <section className="o-main-layout">
-        <Sidebar />
-        <section className="o-main o-dashboard">
-          <Header isFixed />
-          <div className="main-content">
-            <div className="o-search__form">
-              <AutoForm
-                onChange={(name, value) => console.log(name, value)}
-                onSubmit={this.onSubmit}
-                schema={SearchSchema}
-                autoComplete="off"
-              />
-              <label htmlFor="toggle1" className="toggle-1">
-                <input
-                  type="checkbox"
-                  id="toggle1"
-                  className="toggle-1__input"
-                  onChange={this.handleTypeChange}
+      <AppWrapper title="Search">
+        <section className="o-main-layout">
+          <Sidebar />
+          <section className="o-main o-dashboard">
+            <Header isFixed />
+            <div className="main-content">
+              <div className="o-search__form">
+                <AutoForm
+                  onSubmit={this.onSubmit}
+                  schema={SearchSchema}
+                  autoComplete="off"
                 />
-                <span className="toggle-1__button" />
-              </label>
-            </div>
-            <div className="main-content anime-view anime-container anime-episodes items">
-              <div className="easy-list-wrapper">
-                {!loadingData ? (
-                  results.map(item => {
-                    return type === "anime" ? (
-                      <AnimeItem item={item} />
-                    ) : (
-                      <MangaItem item={item} />
-                    );
-                  })
-                ) : (
-                  <Loading />
-                )}
+                <label htmlFor="toggle1" className="toggle-1">
+                  <input
+                    type="checkbox"
+                    id="toggle1"
+                    className="toggle-1__input"
+                    onChange={this.handleTypeChange}
+                  />
+                  <span className="toggle-1__button" />
+                </label>
               </div>
-              <div className="custom-btn">
-                <Button type="primary" ghost onClick={this.handleLoadMore}>
-                  Load More
-                </Button>
+              <div className="main-content anime-view anime-container anime-episodes items search-items">
+                <div className="easy-list-wrapper">
+                  {!loadingData ? (
+                    results.map(item => {
+                      return type === "anime" ? (
+                        <AnimeItem item={item} />
+                      ) : (
+                        <MangaItem item={item} />
+                      );
+                    })
+                  ) : (
+                    <Loading />
+                  )}
+                </div>
+                <div className="custom-btn">
+                  <Button type="primary" ghost onClick={this.handleLoadMore}>
+                    Load More
+                  </Button>
+                </div>
               </div>
             </div>
-          </div>
+          </section>
         </section>
-      </section>
+      </AppWrapper>
     );
   }
 }
