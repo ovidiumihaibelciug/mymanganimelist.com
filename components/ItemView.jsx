@@ -13,7 +13,8 @@ class ItemView extends Component {
     isOpen: false,
     isFavorite: false,
     loadingBtn: false,
-    favorites: ""
+    favorites: "",
+    showRightSideBar: false
   };
 
   componentDidMount() {
@@ -87,7 +88,6 @@ class ItemView extends Component {
           .catch(err => console.log(err));
       } else {
         const { favorites } = this.state;
-        console.log(favorites);
         const { data } = this.props;
         const { anime } = data;
         const deletedFavoriteItem = favorites
@@ -119,9 +119,18 @@ class ItemView extends Component {
     }
   };
 
+  showRightSideInfo = () => {
+    this.setState(state => {
+      const { showRightSideBar } = state;
+
+      return {
+        showRightSideBar: !showRightSideBar
+      };
+    });
+  };
+
   render() {
     const { data } = this.props;
-    console.log(data);
     let {
       anime,
       loading,
@@ -134,7 +143,7 @@ class ItemView extends Component {
       genres
     } = data;
 
-    const { isOpen, isFavorite, loadingBtn } = this.state;
+    const { isOpen, isFavorite, showRightSideBar, loadingBtn } = this.state;
 
     if (!anime) {
       return null;
@@ -175,7 +184,13 @@ class ItemView extends Component {
               })`
             }}
           >
-            <Header user={data.user} isFavorite={isFavorite} isFixedNoBg />
+            <Header
+              user={data.user}
+              isFavorite={isFavorite}
+              isFixedNoBg
+              showRightSideInfo={this.showRightSideInfo}
+              showRightSideBar={showRightSideBar}
+            />
             <AnimeInfo
               starCount={starCount}
               titles={titles}
@@ -197,6 +212,7 @@ class ItemView extends Component {
               isMedia
               isFavorite={isFavorite}
               onFavorite={isFavorite => this.onFavorite(isFavorite)}
+              showRightSideBar={showRightSideBar}
             />
           </div>
           <div className="secondary">

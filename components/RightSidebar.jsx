@@ -21,7 +21,8 @@ const RightSidebar = ({
   onFollow,
   onFavorite,
   loadingBtn,
-  isMyAccount
+  isMyAccount,
+  showRightSideBar
 }) => {
   const duration = date => {
     let eventDate = moment(date);
@@ -32,9 +33,13 @@ const RightSidebar = ({
     "o-btn__follow--is-favorite": isFavorite
   });
 
+  const sideBarClasses = classNames("o-rightsidebar", {
+    "o-rightsidebar--hide": !showRightSideBar
+  });
+
   return (
     <div
-      className="o-rightsidebar"
+      className={sideBarClasses}
       style={{
         backgroundImage: `linear-gradient(to left, rgba(1,5,10,.8), rgba(1, 7, 14,.9)) , url(${
           coverImage.original

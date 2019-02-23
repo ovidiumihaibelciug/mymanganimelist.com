@@ -99,7 +99,13 @@ class Header extends Component {
   render() {
     let { showInput, user, isVisible, loading } = this.state;
 
-    const { isFixed, isFixedNoBg, user: loggedUser } = this.props;
+    const {
+      isFixed,
+      isFixedNoBg,
+      user: loggedUser,
+      showRightSideInfo,
+      showRightSideBar
+    } = this.props;
     const { avatar, name } = user && user.attributes;
     const img =
       !loading && avatar
@@ -109,7 +115,8 @@ class Header extends Component {
     const wrapperClassNames = classNames({
       "o-header__wrap": isFixed && !isFixedNoBg,
       "o-header__wrap--main-item": isFixedNoBg,
-      "o-header__wrap--no-bg": !isVisible && window.innerWidth < 701
+      "o-header__wrap--no-bg":
+        (!isVisible && window.innerWidth < 701) || showRightSideBar
     });
 
     return (
@@ -125,6 +132,26 @@ class Header extends Component {
               </div>
             </div>
             <div />
+            {isFixedNoBg && (
+              <div className="mobile-show-more" onClick={showRightSideInfo}>
+                <i
+                  className={classNames(
+                    "hamburger hamburger-rightsidebar far fa-heart",
+                    {
+                      "hamburger--hide": showRightSideBar
+                    }
+                  )}
+                />
+                <i
+                  className={classNames(
+                    "hamburger hamburger-rightsidebar fas fa-times",
+                    {
+                      "hamburger--hide": !showRightSideBar
+                    }
+                  )}
+                />
+              </div>
+            )}
             <div className="right-side">
               <div className="icon">
                 {!showInput ? (

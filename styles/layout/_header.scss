@@ -154,3 +154,19 @@
     }
   }
 }
+
+.mobile-show-more {
+  display: none;
+  color: #898c92;
+  @include mds-font-size(18px);
+  margin-right: 15px;
+  @include mds-breakpoint('phone') {
+    display: block;
+  }
+  .hamburger-rightsidebar {
+    padding: 5px;
+    &.fa-times {
+      margin-left: -50%;
+    }
+  }
+}

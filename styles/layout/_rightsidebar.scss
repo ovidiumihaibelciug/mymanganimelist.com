@@ -10,9 +10,19 @@
   background-repeat: no-repeat;
   background-position: center right;
   overflow: hidden;
+  transform: translateY(0);
+  transition: transform .2s ease-in-out;
   @include mds-breakpoint('phone') {
-    width: 100%;
-    position: relative;
+    height: 100vh;
+    width: 100vw;
+    margin-left: -20px;
+  }
+  &--hide {
+      @include mds-breakpoint('phone') {
+        transform: translateY(-100%);
+        transition: transform .2s ease-in-out;
+
+      }
   }
   &__content {
     height: 100vh;
