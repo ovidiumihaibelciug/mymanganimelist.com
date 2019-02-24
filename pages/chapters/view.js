@@ -28,7 +28,6 @@ export class ChapterView extends Component {
         }
       })
       .then(({ data }) => {
-        console.log("manga", data);
         const { id } = data.data[0];
         this.setState({
           anime: data.data[0]
@@ -83,7 +82,7 @@ export class ChapterView extends Component {
               })`
             }}
           >
-            <Header />
+            <Header isFixedNoBg />
             <div className="anime episode">
               <div className="anime-container episode-container">
                 <div className="episode-row">

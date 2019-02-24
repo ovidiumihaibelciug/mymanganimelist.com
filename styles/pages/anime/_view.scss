@@ -59,6 +59,9 @@
         font-weight: 700;
         letter-spacing: 2px;
         font-family: 'Roboto', 'Courier New', Courier, monospace;
+        @include mds-breakpoint('phone') {
+          width: 80%;
+        }
       }
 
       &__btn-trailer {

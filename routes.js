@@ -102,6 +102,11 @@ module.exports = routes()
     page: "/chapters/view"
   })
   .add({
+    name: "chaptersList",
+    pattern: "/manga/:slug/chapters",
+    page: "/chapters/list"
+  })
+  .add({
     name: "myAccount",
     pattern: "/my-account",
     page: "/user/my-account"

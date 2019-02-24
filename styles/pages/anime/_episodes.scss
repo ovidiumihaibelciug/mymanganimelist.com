@@ -177,3 +177,15 @@
     }
   }
 }
+
+.anime-episodes {
+  .anime-container {
+    margin-top: 150px;
+    @include mds-breakpoint('phone') {
+      padding-right: 0;
+      .filters-secondary {
+        margin-right: 0;
+      }
+    }
+  }
+}

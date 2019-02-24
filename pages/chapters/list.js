@@ -5,6 +5,7 @@ import { KAPI } from "../../utils";
 import SimpleSchema from "simpl-schema";
 import Template from "../../components/SecondaryItems/Template";
 import Loading from "../../components/Loading";
+import AppWrapper from "../../components/AppWrapper";
 
 export class ChapterList extends Component {
   static getInitialProps({ query: { slug } }) {
@@ -115,20 +116,24 @@ export class ChapterList extends Component {
 
   render() {
     let { loading } = this.state;
+    const { slug } = this.props;
     if (loading) return <Loading />;
     return (
-      <Template
-        functions={{
-          load: this.load,
-          count: this.count,
-          onSubmit: this.onSubmit,
-          toggleFilters: this.toggleFilters,
-          stopFiltering: this.stopFiltering
-        }}
-        data={this.state}
-        schema={FilterSchema}
-        itemType={"chapters"}
-      />
+      <AppWrapper title="123">
+        <Template
+          functions={{
+            load: this.load,
+            count: this.count,
+            onSubmit: this.onSubmit,
+            toggleFilters: this.toggleFilters,
+            stopFiltering: this.stopFiltering
+          }}
+          data={this.state}
+          slug={slug}
+          schema={FilterSchema}
+          itemType={"chapters"}
+        />
+      </AppWrapper>
     );
   }
 }

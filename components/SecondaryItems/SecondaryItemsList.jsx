@@ -1,8 +1,8 @@
-import React, { Fragment } from 'react';
-import EasyList from 'easify/dist/atoms/EasyList/EasyList';
-import AnimeContentItem from '../Anime/AnimeContentItem';
-import EasyLoadMore from 'easify/dist/atoms/EasyLoadMore/EasyLoadMore';
-import AnimeContentCharacter from '../Anime/AnimeContentCharacter';
+import React, { Fragment } from "react";
+import EasyList from "easify/dist/atoms/EasyList/EasyList";
+import AnimeContentItem from "../Anime/AnimeContentItem";
+import EasyLoadMore from "easify/dist/atoms/EasyLoadMore/EasyLoadMore";
+import AnimeContentCharacter from "../Anime/AnimeContentCharacter";
 
 const SecondaryItemsList = ({ slug, posterImage, itemType, isAnime }) => (
   <Fragment>
@@ -15,11 +15,11 @@ const SecondaryItemsList = ({ slug, posterImage, itemType, isAnime }) => (
             number,
             canonicalName,
             canonicalTitle,
-            thumbnail,
+            thumbnail
           } = item.attributes;
           const characterSlug = item.attributes.slug;
 
-          return itemType === 'characters' ? (
+          return itemType === "characters" ? (
             <AnimeContentCharacter
               url={`/characters/view/` + characterSlug}
               bgImage={image ? image.original : posterImage}
@@ -33,7 +33,7 @@ const SecondaryItemsList = ({ slug, posterImage, itemType, isAnime }) => (
               canonicalTitle={canonicalName ? canonicalName : canonicalTitle}
               slug={slug}
               url={
-                `/${isAnime ? 'anime' : 'manga'}/` +
+                `/${isAnime && itemType !== "chapters" ? "anime" : "manga"}/` +
                 slug +
                 `/${itemType}/` +
                 number

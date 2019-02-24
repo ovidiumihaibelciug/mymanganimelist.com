@@ -13,9 +13,7 @@ import {
   EasyLoadMore,
   EasyFilters
 } from "easify";
-import "../../styles/styles.scss";
-import { KAPI } from "../../utils";
-import AnimeContentCharacter from "../../components/Anime/AnimeContentCharacter";
+import AppWrapper from "../../components/AppWrapper";
 
 export default class AnimeList extends Component {
   static getInitialProps({ query: { type } }) {
@@ -124,35 +122,37 @@ export default class AnimeList extends Component {
     const { loading } = this.state;
     if (loading) return <Loading />;
     return (
-      <section className="o-main-layout">
-        <Sidebar />;
-        <section className="o-main o-dashboard">
-          <Header isFixed />
-          <div className="main-content anime-view anime-container anime-episodes items">
-            <Molecule
-              agents={{
-                loader: EasyLoaderAgent.factory({ load: this.load }),
-                loadMore: EasyLoadMoreAgent.factory({
-                  count: this.count,
-                  initialItemsCount: 20,
-                  loadItemsCount: 20
-                })
-              }}
-            >
-              <EasyList>
-                {({ data }) => {
-                  return data.map(item => {
-                    return <AnimeItem item={item} />;
-                  });
+      <AppWrapper title="asd">
+        <section className="o-main-layout">
+          <Sidebar />
+          <section className="o-main o-dashboard">
+            <Header isFixed />
+            <div className="main-content anime-view anime-container anime-episodes items">
+              <Molecule
+                agents={{
+                  loader: EasyLoaderAgent.factory({ load: this.load }),
+                  loadMore: EasyLoadMoreAgent.factory({
+                    count: this.count,
+                    initialItemsCount: 20,
+                    loadItemsCount: 20
+                  })
                 }}
-              </EasyList>
-              <div className="custom-btn">
-                <EasyLoadMore />
-              </div>
-            </Molecule>
-          </div>
+              >
+                <EasyList>
+                  {({ data }) => {
+                    return data.map(item => {
+                      return <AnimeItem item={item} />;
+                    });
+                  }}
+                </EasyList>
+                <div className="custom-btn">
+                  <EasyLoadMore />
+                </div>
+              </Molecule>
+            </div>
+          </section>
         </section>
-      </section>
+      </AppWrapper>
     );
   }
 }

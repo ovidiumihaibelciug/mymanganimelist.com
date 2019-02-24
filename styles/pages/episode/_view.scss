@@ -7,6 +7,9 @@
     display: flex;
     min-height: 70vh;
     width: 100%;
+    @include mds-breakpoint('phone') {
+      flex-direction: column;
+    }
     .leftside {
       min-height: 500px;
       height: 100%;

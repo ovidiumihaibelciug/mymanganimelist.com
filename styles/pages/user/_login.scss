@@ -6,6 +6,11 @@
   overflow: hidden;
   font-family: Roboto, Arial, Helvetica, sans-serif;
 
+  @include mds-breakpoint('phone') {
+    flex-direction: column;
+    padding-top: 100px;
+  }
+
   &__description {
     flex: 4;
     display: flex;
@@ -13,6 +18,11 @@
     align-items: center;
     position: relative;
     overflow: hidden;
+    @include mds-breakpoint('phone') {
+      margin-top: 200px;
+      overflow: visible;
+      flex: 1;
+    }
     &::after {
       content: '';
       position: absolute;

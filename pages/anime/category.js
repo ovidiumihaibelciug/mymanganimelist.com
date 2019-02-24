@@ -5,7 +5,7 @@ import Sidebar from "../../components/Sidebar";
 import axios from "axios";
 import Loading from "../../components/Loading";
 import ItemsRow from "../../components/Dashboard/ItemsRow";
-import "../../styles/styles.scss";
+import AppWrapper from "../../components/AppWrapper";
 
 export default class AnimeByCategory extends Component {
   static getInitialProps({ query: { category } }) {
@@ -95,25 +95,27 @@ export default class AnimeByCategory extends Component {
     ];
 
     return (
-      <section className="o-main-layout">
-        <Sidebar />
-        <section className="o-main o-dashboard">
-          <Header isFixed />
-          <div className="main-content">
-            {content.map((contentItem, id) => {
-              const { title, items = [] } = contentItem;
-              if (!items.length) return null;
-              return (
-                <ItemsRow id={id} title={title}>
-                  {items.map(anime => (
-                    <AnimeItem item={anime} />
-                  ))}
-                </ItemsRow>
-              );
-            })}
-          </div>
+      <AppWrapper title="123">
+        <section className="o-main-layout">
+          <Sidebar />
+          <section className="o-main o-dashboard">
+            <Header isFixed />
+            <div className="main-content">
+              {content.map((contentItem, id) => {
+                const { title, items = [] } = contentItem;
+                if (!items.length) return null;
+                return (
+                  <ItemsRow id={id} title={title}>
+                    {items.map(anime => (
+                      <AnimeItem item={anime} />
+                    ))}
+                  </ItemsRow>
+                );
+              })}
+            </div>
+          </section>
         </section>
-      </section>
+      </AppWrapper>
     );
   }
 }

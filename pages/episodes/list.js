@@ -4,7 +4,7 @@ import { KAPI } from "../../utils";
 import SimpleSchema from "simpl-schema";
 import Template from "../../components/SecondaryItems/Template";
 import Loading from "../../components/Loading";
-import "../../styles/styles.scss";
+import AppWrapper from "../../components/AppWrapper";
 
 export class EpisodeList extends Component {
   static getInitialProps({ query: { slug } }) {
@@ -115,19 +115,22 @@ export class EpisodeList extends Component {
     let { loading } = this.state;
     const { slug } = this.props;
     if (loading) return <Loading />;
+
     return (
-      <Template
-        functions={{
-          load: this.load,
-          count: this.count,
-          onSubmit: this.onSubmit,
-          toggleFilters: this.toggleFilters,
-          stopFiltering: this.stopFiltering
-        }}
-        data={this.state}
-        schema={FilterSchema}
-        slug={slug}
-      />
+      <AppWrapper title="asd">
+        <Template
+          functions={{
+            load: this.load,
+            count: this.count,
+            onSubmit: this.onSubmit,
+            toggleFilters: this.toggleFilters,
+            stopFiltering: this.stopFiltering
+          }}
+          data={this.state}
+          schema={FilterSchema}
+          slug={slug}
+        />
+      </AppWrapper>
     );
   }
 }

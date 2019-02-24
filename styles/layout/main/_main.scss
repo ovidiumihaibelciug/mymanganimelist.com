@@ -6,6 +6,7 @@
     position: fixed;
     width: 35vh;
     height: 100%;
+    top: 0;
     background-color: $o-color-nav;
     @include mds-breakpoint('phone') {
       width: 100vw;
