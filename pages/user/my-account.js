@@ -13,7 +13,8 @@ import AppWrapper from "../../components/AppWrapper";
 class MyAccount extends React.Component {
   state = {
     user: {},
-    loading: true
+    loading: true,
+    showRightSideBar: false
   };
 
   componentDidMount() {
@@ -71,7 +72,6 @@ class MyAccount extends React.Component {
 
                   return item;
                 });
-            console.log(comments);
             const posts = userFeed.data.included
               .filter(item => item.type === "posts")
               .map(post => {
@@ -125,15 +125,24 @@ class MyAccount extends React.Component {
       .catch(err => console.log(err));
   }
 
+  showRightSideInfo = () => {
+    this.setState(state => {
+      const { showRightSideBar } = state;
+
+      return {
+        showRightSideBar: !showRightSideBar
+      };
+    });
+  };
+
   render() {
     const {
       user,
       posts = [],
       uploads = [],
-      media = [],
       episodes = [],
       favorites,
-      comments,
+      showRightSideBar,
       loading
     } = this.state;
     if (loading) {
@@ -177,7 +186,11 @@ class MyAccount extends React.Component {
                 "https://i.ytimg.com/vi/qwzQPh7dW_4/maxresdefault.jpg"})`
             }}
           >
-            <Header isFixedNoBg />
+            <Header
+              isFixedNoBg
+              showRightSideInfo={this.showRightSideInfo}
+              showRightSideBar={showRightSideBar}
+            />
             <div className="anime">
               <div className="anime-container">
                 <div className="anime__info">
@@ -220,6 +233,7 @@ class MyAccount extends React.Component {
               user={user}
               isUser
               isMyAccount
+              showRightSideBar={showRightSideBar}
               // nextRelease={nextRelease}
             />
           </div>

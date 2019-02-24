@@ -13,16 +13,20 @@
     width: 80%;
     z-index: 100;
     background-color: $o-color-bg;
-    @include mds-breakpoint('phone') {
-      width: 100%;
+    @include mds-breakpoint('to-tablet-p') {
+      width: 100vw;
       padding-left: 50px;
     }
+    @include mds-breakpoint('tablet-l') {
+      width: calc(100% - 30vw);
+    }
+
     &--main-item {
       position: fixed;
       width: calc(100% - 90px);
       z-index: 100;
       .right-side {
-        @include mds-breakpoint('phone') {
+        @include mds-breakpoint('to-tablet-p') {
           margin-right: 30px;
         }
         @include mds-breakpoint('phone-small') {
@@ -30,7 +34,7 @@
           margin-left: -30px;
         }
       }
-      @include mds-breakpoint('phone') {
+      @include mds-breakpoint('to-tablet-p') {
         width: calc(100vw + 90px);
         margin-left: -90px;
         padding-left: 50px;
@@ -38,7 +42,7 @@
         transition: background-color .3s ease;
       }
       .left-side {
-        @include mds-breakpoint('phone') {
+        @include mds-breakpoint('to-tablet-p') {
           margin-left: 80px;
         }
       }
@@ -169,7 +173,7 @@
   @include mds-font-size(18px);
   margin-right: 15px;
   z-index: 100;
-  @include mds-breakpoint('phone') {
+  @include mds-breakpoint('to-tablet-p') {
     display: flex
   }
   .hamburger-rightsidebar {

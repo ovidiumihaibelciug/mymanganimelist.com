@@ -6,7 +6,7 @@
   overflow: hidden;
   font-family: Roboto, Arial, Helvetica, sans-serif;
 
-  @include mds-breakpoint('phone') {
+  @include mds-breakpoint('to-tablet-p') {
     flex-direction: column;
     padding-top: 100px;
   }
@@ -18,7 +18,7 @@
     align-items: center;
     position: relative;
     overflow: hidden;
-    @include mds-breakpoint('phone') {
+    @include mds-breakpoint('to-tablet-p') {
       margin-top: 200px;
       overflow: visible;
       flex: 1;

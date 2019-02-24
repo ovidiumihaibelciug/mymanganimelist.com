@@ -1,8 +1,8 @@
 .post-view {
   min-height: calc(100vh - 120px);
   margin-top: 120px;
-  margin-right: 300px;
-  @include mds-breakpoint('phone') {
+  margin-right: 22vw;
+  @include mds-breakpoint('to-tablet-p') {
     margin-right: 0;
   }
 }

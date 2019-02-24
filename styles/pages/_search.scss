@@ -7,7 +7,7 @@
     box-shadow: $shadow-dp23 !important;
     background: rgba(15, 15, 20, 1) !important;
     border: 2px solid darken(rgba(15, 15, 20, 1), 50%) !important;
-    @include mds-breakpoint('phone') {
+    @include mds-breakpoint('to-tablet-p') {
       padding: 5px 10px;
     }
     form {

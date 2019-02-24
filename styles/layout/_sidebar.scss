@@ -5,8 +5,11 @@
   align-items: center;
   transform: translateX(0);
   transition: transform .2s ease-in-out;
-  @include mds-breakpoint('phone') {
+  @include mds-breakpoint('to-tablet-p') {
     width: 100%;
+  }
+  @include mds-breakpoint('to-tablet-p') {
+    width: 100% !important;
   }
   &__hide {
     transform: translateX(-100%);
@@ -116,7 +119,7 @@
   &:hover {
     cursor: pointer;
   }
-  @include mds-breakpoint('phone') {
+  @include mds-breakpoint('to-tablet-p') {
     display: block !important;
   }
 }

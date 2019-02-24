@@ -36,7 +36,7 @@ class Sidebar extends Component {
     const { categories, showSidebar, loading } = this.state;
 
     const classes = classNames("o-sidebar", {
-      "o-sidebar__hide": !showSidebar && (window.innerWidth < 701 || small)
+      "o-sidebar__hide": !showSidebar && (window.innerWidth < 901 || small)
     });
 
     const hamburgerClasses = classNames({

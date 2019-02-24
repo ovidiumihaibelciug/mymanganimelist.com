@@ -23,16 +23,20 @@
 
   .anime {
     height: calc(100vh - 120px);
-    @include mds-breakpoint('phone') {
+    @include mds-breakpoint('to-tablet-p') {
       min-height: calc(100vh - 120px);
       height: auto;
     }
 
     .anime-container {
-      padding-right: 300px;
+      padding-right: 21vw;
       height: 100%;
-      @include mds-breakpoint('phone') {
+      @include mds-breakpoint('to-tablet-p') {
         padding-right: 0;
+      }
+
+      @include mds-breakpoint('tablet-l') {
+        padding-right: 26vw;
       }
     }
 
@@ -59,7 +63,7 @@
         font-weight: 700;
         letter-spacing: 2px;
         font-family: 'Roboto', 'Courier New', Courier, monospace;
-        @include mds-breakpoint('phone') {
+        @include mds-breakpoint('to-tablet-p') {
           width: 80%;
         }
       }
@@ -78,7 +82,7 @@
         transition: all .1s ease-in-out;
         opacity: 1;
 
-        @include mds-breakpoint('phone') {
+        @include mds-breakpoint('to-tablet-p') {
           margin: 0;
         }
 
@@ -100,7 +104,7 @@
       font-size: 1rem;
       margin-top: 40px;
 
-      @include mds-breakpoint('phone') {
+      @include mds-breakpoint('to-tablet-p') {
         flex-direction: column;
         align-items: flex-start;
       }
@@ -111,7 +115,7 @@
         }
         &:not(:first-child) {
           margin-left: 30px;
-          @include mds-breakpoint('phone') {
+          @include mds-breakpoint('to-tablet-p') {
             margin-left: 10px;
           }
         }
@@ -158,20 +162,23 @@
       align-items: center;
       margin-top: 10px;
       margin-bottom: 20px;
-      @include mds-breakpoint('phone') {
+      @include mds-breakpoint('to-tablet') {
         margin-bottom: 0;
         flex-direction: column;
       }
       &__stats {
         display: flex;
 
-        @include mds-breakpoint('phone') {
+        @include mds-breakpoint('to-tablet') {
           flex-direction: column;
         }
 
         &__chart {
-          @include mds-breakpoint('phone') {
+          @include mds-breakpoint('to-tablet') {
             width: 85vw;
+          }
+          @include mds-breakpoint('tablet-l') {
+            width: 60vw;
           }
         }
 
@@ -290,15 +297,18 @@
     padding: 50px 300px 100px 90px;
     margin-right: 100px;
 
-    @include mds-breakpoint('phone') {
+    @include mds-breakpoint('to-tablet-p') {
       margin: 0;
       padding: 10px;
+    }
+    @include mds-breakpoint('tablet-l') {
+      padding-right: 26vw;
     }
 
     &__content {
       margin-right: 20px;
 
-      @include mds-breakpoint('phone') {
+      @include mds-breakpoint('to-tablet') {
         margin-right: 0;
       }
 

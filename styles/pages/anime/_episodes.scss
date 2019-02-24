@@ -8,7 +8,11 @@
   }
 
   .anime-container {
-    padding-right: 300px;
+    padding-right: 21vw;
+    @include mds-breakpoint('tablet-l') {
+      width: 24vw;
+      min-width: 270px;
+    }
   }
 
   .easy-list-wrapper {
@@ -17,7 +21,7 @@
     justify-content: center;
   }
   &.characters-list {
-    @include mds-breakpoint('phone') {
+    @include mds-breakpoint('to-tablet-p') {
       width: 100vw;
     }
   }
@@ -77,7 +81,7 @@
   justify-content: center;
   align-items: center;
   margin-right: 150px;
-  @include mds-breakpoint('phone') {
+  @include mds-breakpoint('to-tablet-p') {
     margin: 0;
   }
   &--no-margin {
@@ -146,7 +150,7 @@
         background-size: cover;
         cursor: pointer;
 
-        @include mds-breakpoint('phone') {
+        @include mds-breakpoint('to-tablet') {
           width: 100%;
         }
 
@@ -181,7 +185,7 @@
 .anime-episodes {
   .anime-container {
     margin-top: 150px;
-    @include mds-breakpoint('phone') {
+    @include mds-breakpoint('to-tablet') {
       padding-right: 0;
       .filters-secondary {
         margin-right: 0;

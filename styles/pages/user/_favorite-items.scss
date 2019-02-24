@@ -17,7 +17,7 @@
     align-items: baseline;
     border-bottom: 2px solid #222222;
     margin-bottom: 50px;
-    @include mds-breakpoint('phone') {
+    @include mds-breakpoint('to-tablet-p') {
       flex-direction: column;
       border-bottom: none;
     }
@@ -26,7 +26,7 @@
     }
     &__items {
       display: flex;
-      @include mds-breakpoint('phone') {
+      @include mds-breakpoint('to-tablet-p') {
         flex-direction: column;
         width: 100%;
       }
@@ -39,7 +39,7 @@
         margin-bottom: -2px;
         cursor: pointer;
         position: relative;
-        @include mds-breakpoint('phone') {
+        @include mds-breakpoint('to-tablet-p') {
           width: 100%;
         }
         &:hover {

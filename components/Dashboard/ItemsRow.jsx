@@ -37,16 +37,20 @@ const ItemsRow = ({ id, title, url, children }) => {
     },
     effect: "slide",
     breakpoints: {
-      400: {
+      600: {
         slidesPerView: 2,
         spaceBetween: 0
       },
-      800: {
-        slidesPerView: 2,
+      900: {
+        slidesPerView: 4,
         spaceBetween: 0
       },
       1200: {
-        slidesPerView: "auto",
+        slidesPerView: 4,
+        spaceBetween: 0
+      },
+      1500: {
+        slidesPerView: 6,
         spaceBetween: 0
       }
     },

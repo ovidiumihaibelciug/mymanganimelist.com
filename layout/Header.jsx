@@ -116,7 +116,7 @@ class Header extends Component {
       "o-header__wrap": isFixed && !isFixedNoBg,
       "o-header__wrap--main-item": isFixedNoBg,
       "o-header__wrap--no-bg":
-        (!isVisible && window.innerWidth < 701) || showRightSideBar
+        (!isVisible && window.innerWidth < 901) || showRightSideBar
     });
 
     return (

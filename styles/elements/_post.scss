@@ -19,7 +19,7 @@
     justify-self: center;
     width: 500px;
 
-    @include mds-breakpoint('phone') {
+    @include mds-breakpoint('to-tablet-p') {
       width: 80vw;
     }
 

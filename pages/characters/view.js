@@ -59,7 +59,7 @@ class CharacterView extends Component {
       <AppWrapper title="123">
         <section className="anime-view o-main-layout character-view">
           <Sidebar small={true} />
-          <Header isFixed />
+          <Header isFixedNoBg />
           <div
             className="o-main o-anime-view o-episode-view"
             style={{
