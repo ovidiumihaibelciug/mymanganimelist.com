@@ -1,6 +1,7 @@
 import React from "react";
 import moment from "moment";
 import classNames from "classnames";
+import { defaultCoverImage, defaultImage } from "../utils/general";
 
 const toggleSidebar = () => {
   const sidebar = document.querySelector(".o-sidebar");
@@ -41,9 +42,10 @@ const RightSidebar = ({
     <div
       className={sideBarClasses}
       style={{
-        backgroundImage: `linear-gradient(to left, rgba(1,5,10,.8), rgba(1, 7, 14,.9)) , url(${
-          coverImage.original
-        })`
+        backgroundImage: `linear-gradient(to left, rgba(1,5,10,.8), rgba(1, 7, 14,.9)) , url(
+        ${(coverImage && coverImage.original) ||
+          (posterImage && posterImage.original) ||
+          defaultCoverImage})`
       }}
     >
       <div className="o-rightsidebar__content">
@@ -52,11 +54,13 @@ const RightSidebar = ({
             className="o-rightsidebar__content__poster"
             style={{
               backgroundImage: `url(${(posterImage && posterImage.original) ||
-                ""})`
+                (coverImage && coverImage.original) ||
+                defaultImage})`
             }}
           />
           <div className="o-rightsidebar__content__username">
-            {(user && user.attributes.name) || title}
+            {(user && user.attributes.name) ||
+              `${title && title.slice(0, 30) + title.length > 30 ? "..." : ""}`}
           </div>
         </div>
         {isMedia && (

@@ -59,7 +59,6 @@ class CharacterView extends Component {
       <AppWrapper title="123">
         <section className="anime-view o-main-layout character-view">
           <Sidebar small={true} />
-          <Header isFixedNoBg />
           <div
             className="o-main o-anime-view o-episode-view"
             style={{
@@ -68,6 +67,7 @@ class CharacterView extends Component {
               })`
             }}
           >
+            <Header isFixedNoBg />
             <div className="anime">
               <div className="anime-container episode-container">
                 <div className="secondary-item">

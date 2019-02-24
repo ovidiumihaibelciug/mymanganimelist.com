@@ -8,6 +8,7 @@ import RightSidebar from "../../components/RightSidebar";
 import EpisodeContent from "../../components/Episode/EpisodeContent";
 import VideosSrc from "../../components/Episode/VideosSrc";
 import AppWrapper from "../../components/AppWrapper";
+import { defaultImage } from "../../utils/general";
 
 export class EpisodeView extends Component {
   state = {
@@ -31,7 +32,6 @@ export class EpisodeView extends Component {
         }
       })
       .then(({ data }) => {
-        console.log(data);
         let videos = "";
         if (data.included) {
           videos = data.included.filter(item => item.type === "video");
@@ -78,13 +78,10 @@ export class EpisodeView extends Component {
           <div
             className="o-main o-anime-view o-episode-view"
             style={{
-              backgroundImage: `linear-gradient(15deg,rgba(20, 28, 36, 1) 10%, rgba(30, 34, 38, 0.99) 40%,  rgba(30, 34, 38, 0.95) 100%) , url(${
-                coverImage
-                  ? coverImage.original
-                  : thumbnail.original
-                  ? thumbnail.original
-                  : ""
-              })`
+              backgroundImage: `linear-gradient(15deg,rgba(20, 28, 36, 1) 10%, rgba(30, 34, 38, 0.99) 40%,  rgba(30, 34, 38, 0.95) 100%) , url(${(coverImage &&
+                coverImage.original) ||
+                (thumbnail && thumbnail.original) ||
+                defaultImage})`
             }}
           >
             <Header isFixedNoBg />

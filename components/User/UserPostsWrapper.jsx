@@ -28,7 +28,7 @@ class UserPostsWrapper extends Component {
         }
       )
       .then(({ data }) => {
-          console.log(data);
+        console.log(data);
         const users = data.included.filter(item => item.type === "users");
         const anime = data.included.filter(item => item.type === "anime");
         const uploads = data.included.filter(item => item.type === "uploads");

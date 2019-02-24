@@ -7,6 +7,7 @@ import RightSidebar from "./RightSidebar";
 import SecondaryContent from "./Anime/SecondaryContent";
 import axios from "axios";
 import { Router } from "../routes";
+import { defaultCoverImage } from "../utils/general";
 
 class ItemView extends Component {
   state = {
@@ -179,9 +180,10 @@ class ItemView extends Component {
           <div
             className="o-main o-anime-view"
             style={{
-              backgroundImage: `linear-gradient(15deg,rgba(20, 28, 36, 1) 10%, rgba(30, 34, 38, 0.99) 40%,  rgba(30, 34, 38, 0.95) 100%) , url(${
-                coverImage.original
-              })`
+              backgroundImage: `linear-gradient(15deg,rgba(20, 28, 36, 1) 10%, rgba(30, 34, 38, 0.99) 40%,  rgba(30, 34, 38, 0.95) 100%) , url(${(coverImage &&
+                coverImage.original) ||
+                (posterImage && posterImage.original) ||
+                defaultCoverImage})`
             }}
           >
             <Header
@@ -203,10 +205,14 @@ class ItemView extends Component {
               openModal={this.openModal}
             />
             <RightSidebar
-              coverImage={coverImage}
-              posterImage={posterImage}
+              coverImage={coverImage || posterImage}
+              posterImage={posterImage || coverImage}
               status={status}
-              title={anime.attributes.titles.en}
+              title={
+                anime.attributes.titles.en ||
+                anime.attributes.titles.en_jp ||
+                anime.attributes.titles.ja_jp
+              }
               nextRelease={nextRelease}
               loadingBtn={loadingBtn}
               isMedia

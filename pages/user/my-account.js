@@ -9,6 +9,7 @@ import moment from "moment";
 import FavoriteItems from "../../components/User/FavoriteItems";
 import UserPosts from "../../components/User/UserPosts";
 import AppWrapper from "../../components/AppWrapper";
+import { defaultImage, defaultCoverImage } from "../../utils/general";
 
 class MyAccount extends React.Component {
   state = {
@@ -158,7 +159,7 @@ class MyAccount extends React.Component {
     let {
       coverImage,
       avatar = {
-        original: "https://i.ytimg.com/vi/qwzQPh7dW_4/maxresdefault.jpg"
+        original: defaultImage
       },
       name,
       about,
@@ -170,8 +171,7 @@ class MyAccount extends React.Component {
 
     if (!coverImage) {
       coverImage = {
-        original:
-          "https://atiinc.org/wp-content/uploads/2017/01/cover-default.jpg"
+        original: defaultCoverImage
       };
     }
 
@@ -183,7 +183,7 @@ class MyAccount extends React.Component {
             className="o-main o-anime-view o-episode-view"
             style={{
               backgroundImage: `linear-gradient(15deg,rgba(20, 28, 36, 1) 10%, rgba(30, 34, 38, 0.99) 40%,  rgba(30, 34, 38, 0.95) 100%) , url(${coverImage.original ||
-                "https://i.ytimg.com/vi/qwzQPh7dW_4/maxresdefault.jpg"})`
+                defaultImage})`
             }}
           >
             <Header
@@ -222,11 +222,10 @@ class MyAccount extends React.Component {
               </div>
             </div>
             <RightSidebar
-              coverImage={coverImage}
+              coverImage={coverImage || defaultImage}
               posterImage={
                 avatar || {
-                  original:
-                    "https://i.ytimg.com/vi/qwzQPh7dW_4/maxresdefault.jpg"
+                  original: defaultImage
                 }
               }
               status={status}

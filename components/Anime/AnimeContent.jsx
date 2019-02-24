@@ -31,7 +31,7 @@ const AnimeContent = ({ title, type, data = [], slug, posterImage = null }) => {
           <hr />
         </div>
         {type !== "franchise" && type !== "actors" && (
-          <Link to={url}>
+          <Link href={url}>
             <div className="secondary__content__title__view-all">View all</div>
           </Link>
         )}
@@ -76,8 +76,11 @@ const AnimeContent = ({ title, type, data = [], slug, posterImage = null }) => {
           if (type === "franchise") {
             franchiseImage = item.attributes.posterImage;
             franchiseType = item.type;
+            const franchiseSlug = item.attributes.slug;
             mainUrl =
-              franchiseType === "anime" ? "/anime/" + slug : "/manga/" + slug;
+              franchiseType === "anime"
+                ? "/anime/" + franchiseSlug || slug
+                : "/manga/" + franchiseSlug || slug;
           }
 
           return (

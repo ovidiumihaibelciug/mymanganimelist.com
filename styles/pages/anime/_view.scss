@@ -294,8 +294,8 @@
   .secondary {
     background-color: $o-color-bg;
     font-size: 5rem;
-    padding: 50px 300px 100px 90px;
-    margin-right: 100px;
+    padding: 50px 20vw 100px 90px;
+    width: 100%;
 
     @include mds-breakpoint('to-tablet-p') {
       margin: 0;

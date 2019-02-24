@@ -9,6 +9,7 @@ import { Router } from "../routes";
 import Link from "next/link";
 import _ from "underscore";
 import { detectPassiveEvents } from "../components/functions";
+import { defaultImage } from "../utils/general";
 
 class Header extends Component {
   constructor(props) {
@@ -110,7 +111,7 @@ class Header extends Component {
     const img =
       !loading && avatar
         ? user.avatar.original || loggedUser.avatar.original
-        : "https://i.ytimg.com/vi/qwzQPh7dW_4/maxresdefault.jpg";
+        : defaultImage;
 
     const wrapperClassNames = classNames({
       "o-header__wrap": isFixed && !isFixedNoBg,

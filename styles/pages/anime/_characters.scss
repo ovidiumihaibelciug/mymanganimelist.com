@@ -8,6 +8,10 @@
 
 .character-view {
   background-color: $o-color-bg;
+  .anime {
+    min-height: 70vw;
+    height: auto;
+  }
   .secondary-item {
     @include mds-breakpoint('to-tablet') {
       flex-direction: column;
