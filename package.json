@@ -29,6 +29,7 @@
     "react": "^16.7.0",
     "react-chartjs-2": "^2.7.4",
     "react-dom": "^16.7.0",
+    "react-ga": "^2.5.7",
     "react-id-swiper": "^1.6.8",
     "react-modal-video": "^1.2.1",
     "react-molecule": "^0.1.5",

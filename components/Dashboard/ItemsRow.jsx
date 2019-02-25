@@ -67,12 +67,14 @@ const ItemsRow = ({ id, title, url, children }) => {
   return (
     <div className="items-row">
       <div className="text-row">
-        <div className="title">{title}</div>
-        {url && (
-          <Link href={url}>
-            <a className="view-more">View more</a>
-          </Link>
-        )}
+        <h1 className="title">{title}</h1>
+        <h3>
+          {url && (
+            <Link href={url}>
+              <a className="view-more">View more</a>
+            </Link>
+          )}
+        </h3>
       </div>
       <div className="items">
         <Swiper id={id} options={params}>

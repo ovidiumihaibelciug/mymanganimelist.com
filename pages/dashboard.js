@@ -4,7 +4,7 @@ import AnimeItem from "../components/Dashboard/AnimeItem";
 import Sidebar from "../components/Sidebar";
 import axios from "axios";
 import Loading from "../components/Loading";
-
+import { seoData } from "../seoData";
 import { KAPI } from "../utils";
 import ItemsRow from "../components/Dashboard/ItemsRow";
 import AppWrapper from "../components/AppWrapper";
@@ -101,7 +101,7 @@ export default class Dashboard extends Component {
     ];
 
     return (
-      <AppWrapper title={"Dashboard"}>
+      <AppWrapper {...seoData.dashboard}>
         <section className="o-main-layout">
           <Sidebar />
           <section className="o-main o-dashboard">

@@ -7,6 +7,7 @@ import axios from "axios";
 import Loading from "../components/Loading";
 import { KAPI } from "../utils";
 import AppWrapper from "../components/AppWrapper";
+import { seoData } from "../seoData";
 
 export default class Dashboard extends Component {
   state = {
@@ -93,7 +94,7 @@ export default class Dashboard extends Component {
       }
     ];
     return (
-      <AppWrapper title="123">
+      <AppWrapper {...seoData.manga}>
         <section className="o-main-layout">
           <Sidebar isManga />
           <section className="o-main o-dashboard">

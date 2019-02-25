@@ -23,7 +23,7 @@
 
   .anime {
     height: calc(100vh - 120px);
-    @include mds-breakpoint('to-tablet-p') {
+    @include mds-breakpoint('to-tablet') {
       min-height: calc(100vh - 120px);
       height: auto;
     }

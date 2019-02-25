@@ -10,6 +10,7 @@ import MangaItem from "../components/Dashboard/MangaItem";
 import Loading from "../components/Loading";
 import { Button } from "antd";
 import AppWrapper from "../components/AppWrapper";
+import { seoData } from "../seoData";
 
 class Search extends Component {
   state = {
@@ -107,12 +108,12 @@ class Search extends Component {
   };
 
   render() {
-    const { results, selected, type, loading, loadingData } = this.state;
+    const { results, type, loading, loadingData } = this.state;
 
     if (loading) return <Loading />;
 
     return (
-      <AppWrapper title="Search">
+      <AppWrapper {...seoData.search}>
         <section className="o-main-layout">
           <Sidebar />
           <section className="o-main o-dashboard">

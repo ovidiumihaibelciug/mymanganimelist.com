@@ -97,11 +97,11 @@ export default class Anime extends Component {
   };
 
   render() {
-    const { loading } = this.state;
+    const { anime, loading } = this.state;
     if (loading) return <Loading />;
 
     return (
-      <AppWrapper title={"Dashboard"}>
+      <AppWrapper title={`${anime.attributes.titles.en} - MyMangAnimeList`}>
         <ItemView data={this.state} />
       </AppWrapper>
     );
