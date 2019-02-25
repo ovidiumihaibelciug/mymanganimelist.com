@@ -29,7 +29,6 @@ export class EpisodeList extends Component {
         }
       })
       .then(({ data }) => {
-        console.log(data.data);
         this.setState({
           anime: data.data[0],
           loading: false
@@ -112,12 +111,24 @@ export class EpisodeList extends Component {
   };
 
   render() {
-    let { loading } = this.state;
+    let { anime, loading } = this.state;
     const { slug } = this.props;
     if (loading) return <Loading />;
 
     return (
-      <AppWrapper title="asd">
+      <AppWrapper
+        title={
+          "Watch " +
+          (anime.attributes.titles.en
+            ? anime.attributes.titles.en
+            : anime.attributes.titles.en_jp) +
+          " Episodes Online - MyMangAnimeList"
+        }
+        description={
+          "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis optio, saepe! Aliquam asperiores blanditiis consectetur ex facere in incidunt iure, labore, minima officia praesentium quae sed soluta ullam velit voluptates!"
+        }
+        keywords="anime, manga, anime episodes, watch anime online"
+      >
         <Template
           functions={{
             load: this.load,

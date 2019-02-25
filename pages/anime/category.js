@@ -95,7 +95,19 @@ export default class AnimeByCategory extends Component {
     ];
 
     return (
-      <AppWrapper title="123">
+      <AppWrapper
+        title={category.attributes.title + " Anime - MyMangAnimeList"}
+        description={
+          "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid consequatur eligendi neque sint vel? Accusantium ad aspernatur cumque, deserunt ea fugit, hic maxime nostrum odio officiis possimus quia reiciendis sed."
+        }
+        keywords={
+          "anime," +
+          category.attributes.title.toLowerCase() +
+          ",watch" +
+          category.attributes.title.toLowerCase() +
+          " anime"
+        }
+      >
         <section className="o-main-layout">
           <Sidebar />
           <section className="o-main o-dashboard">

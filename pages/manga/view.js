@@ -108,11 +108,21 @@ export default class AnimeView extends Component {
   };
 
   render() {
-    const { loading } = this.state;
+    const { anime, loading } = this.state;
     if (loading) return <Loading />;
 
     return (
-      <AppWrapper title="123">
+      <AppWrapper
+        title={`${anime.attributes.titles.en ||
+          anime.attributes.titles.en_jp} Manga - MyMangAnimeList`}
+        keywords={
+          anime.attributes.titles.en ||
+          anime.attributes.titles.en_jp + "Anime, Watch Anime"
+        }
+        description={
+          "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto, eos."
+        }
+      >
         <ItemView data={this.state} />
       </AppWrapper>
     );

@@ -10,6 +10,7 @@ import { loadState, saveState } from "../utils/localStorage";
 import AppWrapper from "../components/AppWrapper";
 import LoginDefault from "../components/svg/imgs/LoginDefault";
 import { Router } from "../routes";
+import { seoData } from "../seoData";
 
 class Login extends React.Component {
   state = {
@@ -44,7 +45,7 @@ class Login extends React.Component {
   render() {
     const { errors } = this.state;
     return (
-      <AppWrapper title="Login">
+      <AppWrapper {...seoData.login}>
         <div className="o-login">
           <div className="o-login__form">
             <h1 className="o-login__form__title">

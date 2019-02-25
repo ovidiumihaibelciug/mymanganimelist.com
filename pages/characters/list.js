@@ -12,6 +12,7 @@ import {
 } from "easify";
 import AnimeContentCharacter from "../../components/Anime/AnimeContentCharacter";
 import AppWrapper from "../../components/AppWrapper";
+import { seoData } from "../../seoData";
 
 export default class CharacterList extends Component {
   state = {
@@ -61,7 +62,7 @@ export default class CharacterList extends Component {
     const { loading } = this.state;
     if (loading) return <Loading />;
     return (
-      <AppWrapper title="123">
+      <AppWrapper {...seoData.characters}>
         <section className="o-main-layout">
           <Sidebar />
           <section className="o-main o-dashboard">

@@ -31,11 +31,13 @@ class CharacterView extends Component {
         }
       })
       .then(({ data }) => {
-        console.log(data);
-        let people = data.included.filter(item => item.type === "people");
-        let media = data.included.filter(
-          item => item.type === "anime" || item.type === "manga"
-        );
+        let people =
+          data.included && data.included.filter(item => item.type === "people");
+        let media =
+          data.included &&
+          data.included.filter(
+            item => item.type === "anime" || item.type === "manga"
+          );
         this.setState({
           character: data.data[0],
           people,
@@ -52,11 +54,22 @@ class CharacterView extends Component {
       return <Loading />;
     }
     const { slug } = this.props;
-    const { image, canonicalName, description } = character.attributes;
+    if (!character) return null;
+    const { image, canonicalName, description } =
+      character && character.attributes;
     let { posterImage } = media[0].attributes;
-
+    console.log(character);
     return (
-      <AppWrapper title="123">
+      <AppWrapper
+        title={
+          canonicalName +
+          " - " +
+          (media[0] &&
+            (media[0].attributes.titles.en ||
+              media[0].attributes.titles.en_jp)) +
+          " - MyMangAnimeList"
+        }
+      >
         <section className="anime-view o-main-layout character-view">
           <Sidebar small={true} />
           <div

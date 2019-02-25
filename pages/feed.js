@@ -8,6 +8,7 @@ import Loading from "../components/Loading";
 import { Button } from "antd";
 
 import AppWrapper from "../components/AppWrapper";
+import { seoData } from "../seoData";
 
 class Feed extends Component {
   state = {
@@ -126,7 +127,7 @@ class Feed extends Component {
     if (loading) return <Loading />;
 
     return (
-      <AppWrapper title="123">
+      <AppWrapper {...seoData.feed}>
         <section className="o-main-layout">
           <Sidebar />
           <section className="o-main o-dashboard">

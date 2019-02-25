@@ -15,6 +15,50 @@ import {
 } from "easify";
 import AppWrapper from "../../components/AppWrapper";
 
+const types = [
+  {
+    type: "trending",
+    url: "https://kitsu.io/api/edge/trending/anime?limit=20",
+    text: "Trending"
+  },
+  {
+    type: "top-airing",
+    url:
+      "https://kitsu.io/api/edge/anime?filter%5Bstatus%5D=current&sort=-userCount",
+    params: {
+      "filter[status]": "current",
+      sort: "-userCount"
+    },
+    text: "Top Airing"
+  },
+  {
+    type: "top-upcoming",
+    url:
+      "https://kitsu.io/api/edge/anime?filter%5Bstatus%5D=upcoming&sort=-userCount",
+    params: {
+      "filter%5Bstatus%5D": "upcoming",
+      sort: "-userCount"
+    },
+    text: "Top Upcoming"
+  },
+  {
+    type: "highest-rated",
+    url: "https://kitsu.io/api/edge/anime?sort=-averageRating",
+    params: {
+      sort: "-averageRating"
+    },
+    text: "Highest Rated"
+  },
+  {
+    type: "most-popular",
+    url: "https://kitsu.io/api/edge/anime?sort=-userCount",
+    params: {
+      sort: "-userCount"
+    },
+    text: "Most Popular"
+  }
+];
+
 export default class AnimeList extends Component {
   static getInitialProps({ query: { type } }) {
     return { type };
@@ -27,45 +71,6 @@ export default class AnimeList extends Component {
   };
 
   componentDidMount() {
-    const types = [
-      {
-        type: "trending",
-        url: "https://kitsu.io/api/edge/trending/anime?limit=20"
-      },
-      {
-        type: "top-airing",
-        url:
-          "https://kitsu.io/api/edge/anime?filter%5Bstatus%5D=current&sort=-userCount",
-        params: {
-          "filter[status]": "current",
-          sort: "-userCount"
-        }
-      },
-      {
-        type: "top-upcoming",
-        url:
-          "https://kitsu.io/api/edge/anime?filter%5Bstatus%5D=upcoming&sort=-userCount",
-        params: {
-          "filter%5Bstatus%5D": "upcoming",
-          sort: "-userCount"
-        }
-      },
-      {
-        type: "highest-rated",
-        url: "https://kitsu.io/api/edge/anime?sort=-averageRating",
-        params: {
-          sort: "-averageRating"
-        }
-      },
-      {
-        type: "most-popular",
-        url: "https://kitsu.io/api/edge/anime?sort=-userCount",
-        params: {
-          sort: "-userCount"
-        }
-      }
-    ];
-
     const { type } = this.props;
 
     const activeType = types.find(item => item.type === type);
@@ -120,9 +125,18 @@ export default class AnimeList extends Component {
 
   render() {
     const { loading } = this.state;
+    const { type } = this.props;
+    const activeType = types.find(item => item.type === type);
+
     if (loading) return <Loading />;
     return (
-      <AppWrapper title="asd">
+      <AppWrapper
+        title={activeType.text + " Anime - MyMangAnimeList"}
+        description={
+          "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut, iure sequi? Autem consequuntur corporis deserunt eligendi fuga fugiat fugit illo impedit mollitia omnis pariatur, quam quasi qui recusandae repellendus ut."
+        }
+        keywords={"anime,manga" + activeType.text + " anime"}
+      >
         <section className="o-main-layout">
           <Sidebar />
           <section className="o-main o-dashboard">

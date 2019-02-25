@@ -70,18 +70,27 @@ export class AnimeCharacterList extends Component {
         }
       })
       .then(({ data }) => {
-        console.log(data);
         return data.meta.count;
       })
       .catch(err => console.log(err));
   };
 
   render() {
-    let { loading } = this.state;
+    let { anime, loading } = this.state;
     if (loading) return <Loading />;
 
     return (
-      <AppWrapper>
+      <AppWrapper
+        title={
+          (anime.attributes.titles.en || anime.attributes.titles.en_jp) +
+          " Characters" +
+          " - MyMangAnimeList"
+        }
+        description={
+          "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid dolore fugit illum, nostrum nulla perferendis tempore. A dignissimos expedita illum, quam rem voluptatibus. Accusantium culpa earum magnam molestias repellat tempore!"
+        }
+        keywords="anime,anime characters, manga, anime news"
+      >
         <Template
           functions={{
             load: this.load,

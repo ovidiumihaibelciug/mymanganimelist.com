@@ -33,7 +33,6 @@ export class EpisodeView extends Component {
         }
       })
       .then(({ data }) => {
-        console.log(data);
         const streamingLinks =
           data.included &&
           data.included.filter(item => item.type === "streamingLinks");
@@ -106,7 +105,17 @@ export class EpisodeView extends Component {
       }
     };
     return (
-      <AppWrapper title="1234">
+      <AppWrapper
+        title={
+          "Watch Episode " +
+          (relativeNumber ? relativeNumber : number) +
+          " - " +
+          (anime.attributes.titles.en
+            ? anime.attributes.titles.en
+            : anime.attributes.titles.en_jp) +
+          " - MyMangAnimeList"
+        }
+      >
         <section className="anime-view o-main-layout character-view">
           <Sidebar small={true} />
           <div

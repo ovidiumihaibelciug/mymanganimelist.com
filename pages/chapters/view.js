@@ -66,8 +66,20 @@ export class ChapterView extends Component {
       number,
       length
     } = episode;
+
     return (
-      <AppWrapper title="asdasda">
+      <AppWrapper
+        title={
+          (canonicalTitle || "Chapter " + number) +
+          " " +
+          (anime.attributes.titles.en || anime.attributes.titles.en_jp) +
+          " - MyMangAnimeList"
+        }
+        description={
+          "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores cupiditate debitis eaque esse ex expedita inventore ipsum minus molestias nemo obcaecati perferendis praesentium quasi qui quibusdam saepe tempore, voluptates voluptatum!"
+        }
+        keywords="anime, anime chapter, manga"
+      >
         <section className="anime-view o-main-layout">
           <Sidebar small={true} />
           <div
