@@ -124,9 +124,12 @@ export class ChapterList extends Component {
           (anime.attributes.titles.en || anime.attributes.titles.en_jp) +
           " Manga Chapters - MyMangAnimeList"
         }
-        description={
-          "Lorem ipsum dolor sit amet, consectetur adipisicing elit. A laborum nulla odit qui repellat reprehenderit tempora velit! Accusamus beatae error et hic, id modi nesciunt quod recusandae, sint unde, voluptas."
-        }
+        description={`
+          Explore new ${anime.attributes.titles.en ||
+            anime.attributes.titles.en_jp} Chapters. Read online ${anime
+          .attributes.titles.en ||
+          anime.attributes.titles.en_jp} manga chapters for free.
+        `}
         keywords="anime, manga, anime chapters, manga chapters"
       >
         <Template

@@ -125,7 +125,16 @@ export class EpisodeList extends Component {
           " Episodes Online - MyMangAnimeList"
         }
         description={
-          "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis optio, saepe! Aliquam asperiores blanditiis consectetur ex facere in incidunt iure, labore, minima officia praesentium quae sed soluta ullam velit voluptates!"
+          `"Watch " +
+          ${
+            anime.attributes.titles.en
+              ? anime.attributes.titles.en
+              : anime.attributes.titles.en_jp
+          } + " episodes online for free. Here you can find best anime espides free. Explore new " + ${
+            anime.attributes.titles.en
+              ? anime.attributes.titles.en
+              : anime.attributes.titles.en_jp
+          }` + " episodes"
         }
         keywords="anime, manga, anime episodes, watch anime online"
       >

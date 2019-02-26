@@ -86,9 +86,11 @@ export class AnimeCharacterList extends Component {
           " Characters" +
           " - MyMangAnimeList"
         }
-        description={
-          "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid dolore fugit illum, nostrum nulla perferendis tempore. A dignissimos expedita illum, quam rem voluptatibus. Accusantium culpa earum magnam molestias repellat tempore!"
-        }
+        description={`Best manga characters. Search your favorite ${anime
+          .attributes.titles.en ||
+          anime.attributes.titles
+            .en_jp} character on myMANGANIMElist. Search male and female manga characters. Explore all ${anime
+          .attributes.titles.en || anime.attributes.titles.en_jp} characters.`}
         keywords="anime,anime characters, manga, anime news"
       >
         <Template

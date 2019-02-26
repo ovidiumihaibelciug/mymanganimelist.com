@@ -75,9 +75,13 @@ export class ChapterView extends Component {
           (anime.attributes.titles.en || anime.attributes.titles.en_jp) +
           " - MyMangAnimeList"
         }
-        description={
-          "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores cupiditate debitis eaque esse ex expedita inventore ipsum minus molestias nemo obcaecati perferendis praesentium quasi qui quibusdam saepe tempore, voluptates voluptatum!"
-        }
+        description={`
+        Read Chapter
+          ${canonicalTitle ||
+            "Chapter " + number} for free, Read ${canonicalTitle ||
+          "Chapter " + number} ${anime.attributes.titles.en ||
+          anime.attributes.titles.en_jp} online for free
+        `}
         keywords="anime, anime chapter, manga"
       >
         <section className="anime-view o-main-layout">

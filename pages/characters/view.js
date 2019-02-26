@@ -58,7 +58,7 @@ class CharacterView extends Component {
     const { image, canonicalName, description } =
       character && character.attributes;
     let { posterImage } = media[0].attributes;
-    console.log(character);
+
     return (
       <AppWrapper
         title={
@@ -69,6 +69,15 @@ class CharacterView extends Component {
               media[0].attributes.titles.en_jp)) +
           " - MyMangAnimeList"
         }
+        description={`View ${canonicalName +
+          " " +
+          (media[0] &&
+            (media[0].attributes.titles.en ||
+              media[0].attributes.titles.en_jp))} character.  ${media[0] &&
+          (media[0].attributes.titles.en ||
+            media[0].attributes.titles
+              .en_jp)} characters. Best manga and anime characters`}
+        keywords={canonicalName + "anime, manga, manganime, mymanganimelist"}
       >
         <section className="anime-view o-main-layout character-view">
           <Sidebar small={true} />
@@ -89,10 +98,10 @@ class CharacterView extends Component {
                     style={{ backgroundImage: `url("${image.original}")` }}
                   />
                   <div className="secondary-item__rightside">
-                    <div className="secondary-item__rightside__title">
+                    <h1 className="secondary-item__rightside__title">
                       {canonicalName}
-                    </div>
-                    <div
+                    </h1>
+                    <h2
                       className="secondary-item__rightside__description"
                       dangerouslySetInnerHTML={{ __html: description }}
                     />

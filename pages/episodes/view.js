@@ -78,9 +78,13 @@ export class EpisodeView extends Component {
           (relativeNumber ? relativeNumber : number) +
           " online - MyMangAnimeList"
         }
-        description={
-          "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos maiores molestias nisi recusandae voluptatem. Aliquam aut eum numquam officia saepe. Consequuntur facere id optio reprehenderit vero voluptatem voluptatum. Eos, soluta?"
-        }
+        description={`
+        Watch Episode
+          ${relativeNumber ? relativeNumber : number} for free, Watch ${
+          relativeNumber ? relativeNumber : number
+        } ${anime.attributes.titles.en ||
+          anime.attributes.titles.en_jp} online for free
+        `}
         keywords="anime,manga,watch anime online"
       >
         <section className="anime-view o-main-layout character-view">
