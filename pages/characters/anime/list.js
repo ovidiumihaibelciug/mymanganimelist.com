@@ -69,7 +69,6 @@ export class AnimeCharacterList extends Component {
         }
       })
       .then(({ data }) => {
-        console.log(data);
         return data.meta.count;
       })
       .catch(err => console.log(err));

@@ -40,7 +40,6 @@ export class ChapterView extends Component {
             }
           })
           .then(({ data }) => {
-            console.log("chapter", data);
             this.setState({
               episode: data.data[0].attributes,
               loading: false
@@ -85,7 +84,7 @@ export class ChapterView extends Component {
         keywords="anime, anime chapter, manga"
       >
         <section className="anime-view o-main-layout">
-          <Sidebar small={true} />
+          <Sidebar small />
           <div
             className="o-main o-anime-view o-episode-view"
             style={{

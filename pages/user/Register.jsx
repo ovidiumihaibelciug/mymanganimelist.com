@@ -1,24 +1,25 @@
-import React from 'react';
-import Link from 'next/link';
-import SimpleSchema from 'simpl-schema';
-import { AutoForm, AutoField, ErrorField } from 'uniforms-antd';
-import Button from 'antd/lib/button';
-import notification from 'antd/lib/notification';;
-import { Roles } from 'meteor/alanning:roles';
+import React from "react";
+import Link from "next/link";
+import SimpleSchema from "simpl-schema";
+import { AutoForm, AutoField, ErrorField } from "uniforms-antd";
+import Button from "antd/lib/button";
+import notification from "antd/lib/notification";
+import { Roles } from "meteor/alanning:roles";
 
 class Register extends React.Component {
   constructor(props) {
     super(props);
   }
 
-  state = {};characterdat
+  state = {};
+  characterdat;
 
   onSubmit({ email, username, password, rpassword }) {
     const history = this.props;
     if (password !== rpassword) {
       notification.open({
-        message: 'Error',
-        description: 'pass !== rpass',
+        message: "Error",
+        description: "pass !== rpass"
       });
     } else {
       try {
@@ -27,16 +28,15 @@ class Register extends React.Component {
           username,
           password,
           profile: {},
-          roles: [],
+          roles: []
         };
-        Meteor.call('user.register', user, err => {
+        Meteor.call("user.register", user, err => {
           console.log(err);
         });
       } catch (error) {
-        console.log(error);
         notification.open({
-          message: 'Error',
-          description: 'aa',
+          message: "Error",
+          description: "aa"
         });
       }
     }
@@ -72,7 +72,7 @@ class Register extends React.Component {
           <Button type="primary" htmlType="submit">
             Register
           </Button>
-          <Link to={'/login'}>Already registered? Login now!</Link>
+          <Link to={"/login"}>Already registered? Login now!</Link>
           <ErrorField name="email" />
           <ErrorField name="username" />
           <ErrorField name="password" />
@@ -87,15 +87,15 @@ export default Register;
 
 const RegisterSchema = new SimpleSchema({
   email: {
-    type: String,
+    type: String
   },
   username: {
-    type: String,
+    type: String
   },
   password: {
-    type: String,
+    type: String
   },
   rpassword: {
-    type: String,
-  },
+    type: String
+  }
 });

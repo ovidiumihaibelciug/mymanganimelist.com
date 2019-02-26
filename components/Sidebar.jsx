@@ -23,7 +23,6 @@ class Sidebar extends Component {
   }
 
   toggleSidebar = () => {
-    console.log(this.state.showSidebar);
     this.setState(state => {
       const { showSidebar } = state;
       return {

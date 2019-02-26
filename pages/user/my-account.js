@@ -53,7 +53,6 @@ class MyAccount extends React.Component {
             }?filter[kind]=posts&include=media,actor,unit,subject,target,target.comments,target.comments.user,target.user,target.target_user,target.spoiled_unit,target.media,target.target_group,target.uploads,subject.user,subject.target_user,subject.spoiled_unit,subject.media,subject.target_group,subject.uploads,subject.followed,subject.library_entry,subject.anime,subject.manga`
           )
           .then(userFeed => {
-            console.log(userFeed);
             const follows =
               userFeed.data.included &&
               userFeed.data.included.filter(item => item.type === "follows");
@@ -80,15 +79,11 @@ class MyAccount extends React.Component {
                 const { data } = post.relationships.comments;
 
                 const commentsIds = data.map(item => item.id);
-                console.log(commentsIds);
 
                 post.user = users.find(user => user.id === userId);
                 post.comments = comments.filter(item =>
                   commentsIds.includes(item.id)
                 );
-
-                console.log(post.comments);
-
                 return post;
               });
 

@@ -58,7 +58,6 @@ export class ChapterList extends Component {
         params
       })
       .then(({ data }) => {
-        console.log("123", data);
         return data.data;
       })
       .catch(err => console.log(err));
@@ -107,7 +106,6 @@ export class ChapterList extends Component {
   toggleFilters = () => {
     this.setState(prevState => {
       const { search } = prevState;
-      console.log(prevState);
       return {
         search: !search
       };

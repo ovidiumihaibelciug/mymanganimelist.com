@@ -168,7 +168,6 @@ class UserView extends React.Component {
           })
           .catch(err => console.log(err));
       } else {
-        console.log(follows);
         const deletedFollow = follows
           .reverse()
           .find(item => item.relationships.followed.data.id === user.id);

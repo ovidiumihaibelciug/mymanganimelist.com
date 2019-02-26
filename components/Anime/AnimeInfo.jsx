@@ -13,7 +13,6 @@ const AnimeInfo = ({
   openModal,
   type
 }) => {
-  console.log(titles);
   return (
     <div className="anime">
       <div className="anime-container">

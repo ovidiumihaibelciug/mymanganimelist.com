@@ -40,7 +40,6 @@ class UserView extends React.Component {
         })
       ])
       .then(([{ data }, { data: commentsData }]) => {
-        console.log(commentsData);
         const user = data.included.find(item => item.type === "users");
         const commentsUser =
           commentsData.included &&
@@ -194,7 +193,7 @@ class UserView extends React.Component {
 
     let { coverImage, avatar, name } = user.attributes;
 
-    const { createdAt, contentFormatted } = post.attributes;
+    const { createdAt, contentFormatted, content } = post.attributes;
 
     if (!coverImage) {
       coverImage = {
@@ -212,9 +211,11 @@ class UserView extends React.Component {
     return (
       <AppWrapper
         title={seoTitle}
-        description={
-          "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, aut beatae blanditiis cumque dignissimos ipsum itaque laboriosam magnam maxime non nulla odit quam quibusdam quisquam soluta tempore ut voluptates. Molestias."
-        }
+        description={`${
+          anime.length && anime[0].attributes && anime[0].attributes.titles
+            ? anime[0].attributes.titles.en || anime[0].attributes.titles.en_jp
+            : ""
+        } News, Explore latest anime & manga news. Watch your favorite anime online, Read your favorite manga online`}
         keywords="anime,posts,manga"
       >
         <section className="anime-view o-main-layout">
@@ -258,7 +259,10 @@ class UserView extends React.Component {
                   <div className="post__uploads">
                     {postUploads.map(item => {
                       return (
-                        <img src={item.attributes.content.original} alt="" />
+                        <img
+                          src={item.attributes.content.original}
+                          alt={content || contentFormatted}
+                        />
                       );
                     })}
                   </div>
@@ -295,6 +299,7 @@ class UserView extends React.Component {
                                                 .original
                                           : false
                                       }
+                                      alt={mediaType || "image"}
                                     />
                                   )
                                 }
@@ -397,9 +402,6 @@ class UserView extends React.Component {
                         itemLayout="vertical"
                         size="large"
                         pagination={{
-                          onChange: page => {
-                            console.log(page);
-                          },
                           pageSize: 3
                         }}
                         dataSource={comments}

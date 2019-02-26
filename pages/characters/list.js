@@ -38,7 +38,6 @@ export default class CharacterList extends Component {
         this.setState({
           loading: false
         });
-        console.log(data);
         return data.data;
       })
       .catch(err => console.log(err));

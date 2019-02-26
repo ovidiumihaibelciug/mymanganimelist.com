@@ -28,7 +28,6 @@ class UserPostsWrapper extends Component {
         }
       )
       .then(({ data }) => {
-        console.log(data);
         const users = data.included.filter(item => item.type === "users");
         const anime = data.included.filter(item => item.type === "anime");
         const uploads = data.included.filter(item => item.type === "uploads");
@@ -42,7 +41,6 @@ class UserPostsWrapper extends Component {
 
             return post;
           });
-        console.log(posts);
         this.setState({
           uploads,
           episodes,
@@ -69,7 +67,6 @@ class UserPostsWrapper extends Component {
         }
       })
       .then(({ data }) => {
-        console.log(data);
         const users = data.included.filter(item => item.type === "users");
         const anime = data.included.filter(item => item.type === "anime");
         const posts = data.included

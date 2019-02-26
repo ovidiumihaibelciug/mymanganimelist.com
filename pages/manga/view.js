@@ -41,7 +41,6 @@ export default class AnimeView extends Component {
         }
       })
       .then(({ data }) => {
-        console.log(data);
         const categories =
           data.included &&
           data.included.filter(item => item.type === "categories");

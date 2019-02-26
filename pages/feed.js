@@ -54,7 +54,6 @@ class Feed extends Component {
 
             return post;
           });
-        console.log(posts);
         this.setState({
           comments,
           uploads,
@@ -81,7 +80,6 @@ class Feed extends Component {
         }
       })
       .then(({ data }) => {
-        console.log(data);
         const users = data.included.filter(item => item.type === "users");
         const comments = data.included
           .filter(item => item.type === "comments")
@@ -103,7 +101,6 @@ class Feed extends Component {
 
             return post;
           });
-        console.log(posts);
 
         const uploads = data.included.filter(item => item.type === "uploads");
         const episodes = data.included.filter(item => item.type === "episodes");

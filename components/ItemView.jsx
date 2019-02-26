@@ -106,7 +106,6 @@ class ItemView extends Component {
             }
           )
           .then(data => {
-            console.log(data);
             this.setState(state => {
               const { isFavorite } = state;
               return {

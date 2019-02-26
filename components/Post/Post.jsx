@@ -57,7 +57,6 @@ const Post = ({
     const mediaItem = episodes.find(item => item.id === mediaId);
     postMedia = mediaItem;
     mediaType = "episode";
-    console.log(postMedia);
   } else if (
     post &&
     post.relationships.media &&
