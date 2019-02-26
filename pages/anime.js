@@ -104,12 +104,17 @@ export default class Anime extends Component {
       <AppWrapper
         title={`${anime.attributes.titles.en ||
           anime.attributes.titles.en_jp} Anime - MyMangAnimeList`}
+        description={`Explore ${anime.attributes.titles.en ||
+          anime.attributes.titles.en_jp} news. Watch ${anime.attributes.titles
+          .en || anime.attributes.titles.en_jp} online. Explore ${anime
+          .attributes.titles.en ||
+          anime.attributes.titles.en_jp} characters. Watch ${anime.attributes
+          .titles.en ||
+          anime.attributes.titles
+            .en_jp} episodes online. Explore related anime`}
         keywords={
           anime.attributes.titles.en ||
           anime.attributes.titles.en_jp + "Anime, Watch Anime"
-        }
-        description={
-          "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto, eos."
         }
       >
         <ItemView data={this.state} />

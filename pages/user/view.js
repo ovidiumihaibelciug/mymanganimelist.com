@@ -268,10 +268,15 @@ class UserView extends React.Component {
       };
     }
 
-    console.log(window.innerWidth);
-
     return (
-      <AppWrapper title="123">
+      <AppWrapper
+        title={name + "'s Profile - MyMangAnimeList"}
+        description={
+          name +
+          " is using mymanganimelist.com to track theirs progress and share theirs anime & manga experiences."
+        }
+        keywords="anime, anime user, manga, mymanganimelist"
+      >
         <div>
           <section className="anime-view o-main-layout">
             <Sidebar small={true} />
@@ -293,36 +298,36 @@ class UserView extends React.Component {
                 <div className="anime-container">
                   <div className="anime__info">
                     <div className="anime__info__title-area">
-                      <div className="anime__info__title">{name}</div>
+                      <h1 className="anime__info__title">{name}</h1>
                     </div>
                     <div className="anime__rating">
                       {gender && (
-                        <div className="anime__rating__text">
+                        <h3 className="anime__rating__text">
                           <i className="fa fa-user" /> {gender}
-                        </div>
+                        </h3>
                       )}
                       {location && (
-                        <div className="anime__rating__text">
+                        <h3 className="anime__rating__text">
                           <i className="fa fa-location-arrow" /> {location}
-                        </div>
+                        </h3>
                       )}
                       {birthday && (
-                        <div className="anime__rating__text">
+                        <h3 className="anime__rating__text">
                           <i className="fa fa-birthday-cake" />{" "}
                           {moment(birthday).format("MMM Do YYYY")}
-                        </div>
+                        </h3>
                       )}
 
                       {createdAt && (
-                        <div className="anime__rating__text">
+                        <h3 className="anime__rating__text">
                           <i className="fa fa-calendar" />{" "}
                           {moment(createdAt).format("MMM Do YYYY")}
-                        </div>
+                        </h3>
                       )}
                     </div>
-                    <div className="anime__description">
+                    <h2 className="anime__description">
                       {about ? about : "About Me: That's a secret"}
-                    </div>
+                    </h2>
                     <div className="anime__details">
                       <div className="anime__details__stats">
                         <div className="anime__details__stats__chart">

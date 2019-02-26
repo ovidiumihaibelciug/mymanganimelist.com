@@ -39,13 +39,13 @@ export default class AnimeItem extends Component {
                 : ""}
             </h2>
             <div className="details">
-              <div className="genre">{genre}</div>
+              <h6 className="genre">{genre}</h6>
               <span>&nbsp; &middot; &nbsp;</span>
-              <div className="duration">
+              <h6 className="duration">
                 {episodeCount ? episodeCount + "e" : ""}
-              </div>
+              </h6>
               <span>&nbsp; &middot; &nbsp;</span>
-              <div className="year">{new Date(createdAt).getFullYear()}</div>
+              <h6 className="year">{new Date(createdAt).getFullYear()}</h6>
             </div>
           </div>
         </a>

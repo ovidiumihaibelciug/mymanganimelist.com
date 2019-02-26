@@ -177,7 +177,9 @@
         .span {
           flex: 1;
         }
-        div {
+        > * {
+          color: rgba(255, 255, 255, .5) !important;
+          @include mds-font-size(12px);
           flex: 5;
         }
       }

@@ -132,9 +132,11 @@ export default class AnimeList extends Component {
     return (
       <AppWrapper
         title={activeType.text + " Anime - MyMangAnimeList"}
-        description={
-          "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut, iure sequi? Autem consequuntur corporis deserunt eligendi fuga fugiat fugit illo impedit mollitia omnis pariatur, quam quasi qui recusandae repellendus ut."
-        }
+        description={`Explore ${activeType.text} Anime. Watch ${
+          activeType.text
+        } anime episodes. Search ${activeType.text} anime characters. Watch ${
+          activeType.text
+        } anime episodes online for free`}
         keywords={"anime,manga" + activeType.text + " anime"}
       >
         <section className="o-main-layout">

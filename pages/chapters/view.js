@@ -111,9 +111,9 @@ export class ChapterView extends Component {
                     }}
                   />
                   <div className="rightside">
-                    <div className="title">
+                    <h2 className="title">
                       {canonicalTitle || `Chapter ${number}`}
-                    </div>
+                    </h2>
                     <div className="description">{synopsis}</div>
                     {length && (
                       <div className="date">

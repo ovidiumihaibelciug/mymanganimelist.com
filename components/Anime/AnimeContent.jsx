@@ -25,14 +25,14 @@ const AnimeContent = ({ title, type, data = [], slug, posterImage = null }) => {
   return (
     <div className={classes}>
       <div className="secondary__content__title">
-        <div className="secondary__content__title__text">
+        <h6 className="secondary__content__title__text">
           {title}
           <div className="secondary__content__title__text__blur" />
           <hr />
-        </div>
+        </h6>
         {type !== "franchise" && type !== "actors" && (
           <Link href={url}>
-            <div className="secondary__content__title__view-all">View all</div>
+            <h4 className="secondary__content__title__view-all">View all</h4>
           </Link>
         )}
       </div>
@@ -100,11 +100,11 @@ const AnimeContent = ({ title, type, data = [], slug, posterImage = null }) => {
         })}
       </div>
       {type !== "franchise" && type !== "actors" && (
-        <div className="custom-btn custom-btn--no-margin">
+        <h4 className="custom-btn custom-btn--no-margin">
           <Link href={url}>
             <a>View More</a>
           </Link>
-        </div>
+        </h4>
       )}
     </div>
   );

@@ -19,9 +19,9 @@ const AnimeInfo = ({
       <div className="anime-container">
         <div className="anime__info">
           <div className="anime__info__title-area">
-            <div className="anime__info__title">
+            <h1 className="anime__info__title">
               {titles.en || titles.en_jp || titles.ja_jp}
-            </div>
+            </h1>
             <div className="anime__info__btn-trailer" onClick={openModal}>
               <i className="fa fa-play" />
             </div>
@@ -38,15 +38,15 @@ const AnimeInfo = ({
           <div className="anime__details">
             <div className="anime__details__rank anime__details__rank--popular">
               <i className="fa fa-heart" />
-              <div className="anime__details__rank__number">
+              <h2 className="anime__details__rank__number">
                 Rank #{popularityRank} (Most Popular Anime)
-              </div>
+              </h2>
             </div>
             <div className="anime__details__rank anime__details__rank--rated">
               <i className="fa fa-star" />
-              <div className="anime__details__rank__number">
+              <h2 className="anime__details__rank__number">
                 Rank #{ratingRank} (Highest Rated Anime)
-              </div>
+              </h2>
             </div>
           </div>
           <div className="anime__details__rank anime__genres">

@@ -96,9 +96,7 @@ export default class AnimeByCategory extends Component {
     return (
       <AppWrapper
         title={category.attributes.title + " Manga - MyMangAnimeList"}
-        description={
-          "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid consequatur eligendi neque sint vel? Accusantium ad aspernatur cumque, deserunt ea fugit, hic maxime nostrum odio officiis possimus quia reiciendis sed."
-        }
+        description={`Explore newly released ${category.attributes.title.toLowerCase()} manga,  trending ${category.attributes.title.toLowerCase()} manga, most popular newly released ${category.attributes.title.toLowerCase()} manga, Watch online ${category.attributes.title.toLowerCase()} manga,`}
         keywords={
           "anime," +
           category.attributes.title.toLowerCase() +

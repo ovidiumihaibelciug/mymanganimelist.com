@@ -20,9 +20,9 @@ const AnimeContentItem = ({
       <Link href={url}>
         <a>
           <div>
-            <div className={classes}>
+            <h4 className={classes}>
               #{number ? number : franchiseType === "manga" ? "Manga" : "Anime"}
-            </div>
+            </h4>
             <div
               className="secondary__content__items__box__img"
               style={{
@@ -31,9 +31,9 @@ const AnimeContentItem = ({
                 })`
               }}
             />
-            <div className="secondary__content__items__box__title">
+            <h5 className="secondary__content__items__box__title">
               {relativeNumber ? "Episode " + relativeNumber : canonicalTitle}
-            </div>
+            </h5>
           </div>
         </a>
       </Link>

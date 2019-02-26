@@ -20,9 +20,23 @@
     justify-content: center;
     align-items: center;
     color: white;
-    font-size: 2rem;
+    width: 70%;
+    height: auto;
+    justify-self: center;
     text-transform: uppercase;
     font-family: Roboto, Arial, Helvetica, sans-serif;
+    @include mds-breakpoint('to-tablet-p') {
+      width: auto;
+      height: auto;
+      font-size: 20rem;
+      justify-self: center;
+    }
+    @include mds-breakpoint('phone') {
+      width: auto;
+      height: auto;
+      font-size: 10rem !important;
+      justify-self: center;
+    }
   }
   &__main, &__sec {
     &__title {
@@ -56,7 +70,10 @@
         }
         &__container {
            padding: 10px 0;
-        }
+            @include mds-breakpoint('phone-small') {
+              padding: 0;
+            }
+          }
       }
 
     }
@@ -67,6 +84,9 @@
       flex-direction: column;
       &__container {
         padding: 5px 0;
+        @include mds-breakpoint('phone-small') {
+          padding: 0;
+        }
       }
       &__item {
         color: #656a77;

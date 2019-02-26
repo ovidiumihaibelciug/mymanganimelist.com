@@ -119,9 +119,14 @@ export default class AnimeView extends Component {
           anime.attributes.titles.en ||
           anime.attributes.titles.en_jp + "Anime, Watch Anime"
         }
-        description={
-          "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto, eos."
-        }
+        description={`Explore ${anime.attributes.titles.en ||
+          anime.attributes.titles.en_jp} news. Watch ${anime.attributes.titles
+          .en || anime.attributes.titles.en_jp} online. Explore ${anime
+          .attributes.titles.en ||
+          anime.attributes.titles.en_jp} characters. Read ${anime.attributes
+          .titles.en ||
+          anime.attributes.titles
+            .en_jp} chapters online. Explore related manga`}
       >
         <ItemView data={this.state} />
       </AppWrapper>

@@ -27,21 +27,21 @@ export class Item extends Component {
               }}
             />
             <div className="item--presentation">
-              <div className="title">
+              <h2 className="title">
                 {titles.en
                   ? titles.en
                   : titles.en_us
                   ? titles.en_us
                   : titles.en_jp}
-              </div>
+              </h2>
               <div className="details">
-                <div className="genre">{genre}</div>
+                <h3 className="genre">{genre}</h3>
                 <span>&nbsp; &middot; &nbsp;</span>
-                <div className="duration">
+                <h3 className="duration">
                   {episodeCount ? episodeCount + "e" : ""}
-                </div>
+                </h3>
                 <span>&nbsp; &middot; &nbsp;</span>
-                <div className="year">{new Date(createdAt).getFullYear()}</div>
+                <h3 className="year">{new Date(createdAt).getFullYear()}</h3>
               </div>
             </div>
           </div>

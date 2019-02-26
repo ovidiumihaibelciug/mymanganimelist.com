@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import AnimeItem from '../Dashboard/AnimeItem';
-import AnimeContentCharacter from '../Anime/AnimeContentCharacter';
-import classNames from 'classnames';
+import React, { Component } from "react";
+import AnimeItem from "../Dashboard/AnimeItem";
+import AnimeContentCharacter from "../Anime/AnimeContentCharacter";
+import classNames from "classnames";
 
 class FavoriteItems extends Component {
   state = {
-    activeItem: 1,
+    activeItem: 1
   };
 
   render() {
@@ -15,19 +15,19 @@ class FavoriteItems extends Component {
     const items = [
       {
         id: 1,
-        title: 'Anime',
-        items: anime,
+        title: "Anime",
+        items: anime
       },
       {
         id: 2,
-        title: 'Manga',
-        items: manga,
+        title: "Manga",
+        items: manga
       },
       {
         id: 3,
-        title: 'Characters',
-        items: characters,
-      },
+        title: "Characters",
+        items: characters
+      }
     ];
 
     const { items: activeItems } = items.find(item => item.id === activeItem);
@@ -35,13 +35,13 @@ class FavoriteItems extends Component {
     return (
       <>
         <div className="o-favorite-items__navbar">
-          <div className="o-favorite-items__navbar__title">Favorites</div>
+          <h2 className="o-favorite-items__navbar__title">Favorites</h2>
           <div className="o-favorite-items__navbar__items">
             {items.map(item => (
               <div
-                className={classNames('o-favorite-items__navbar__items__item', {
-                  'o-favorite-items__navbar__items__item--active':
-                    activeItem === item.id,
+                className={classNames("o-favorite-items__navbar__items__item", {
+                  "o-favorite-items__navbar__items__item--active":
+                    activeItem === item.id
                 })}
                 onClick={() => this.setState({ activeItem: item.id })}
               >
@@ -53,7 +53,7 @@ class FavoriteItems extends Component {
         <div className="o-favorite-items__row items">
           {activeItems.length ? (
             activeItems.map(item => {
-              let { image = '', name = '', slug = '' } = item.item.attributes;
+              let { image = "", name = "", slug = "" } = item.item.attributes;
               return activeItem !== 3 ? (
                 <div className="o-favorite-items__anime__item">
                   <AnimeItem item={item.item} />

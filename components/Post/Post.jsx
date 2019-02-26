@@ -130,15 +130,20 @@ const Post = ({
                 {postMedia && (
                   <Meta
                     title={
-                      postMedia.attributes.canonicalTitle
-                        ? postMedia.attributes.canonicalTitle
-                        : "" +
-                          `${mediaType === "episode" &&
-                            " Episode " + postMedia.attributes.number}`
+                      <h1 className="post-media-title">
+                        {postMedia.attributes.canonicalTitle
+                          ? postMedia.attributes.canonicalTitle
+                          : "" +
+                            `${mediaType === "episode" &&
+                              " Episode " + postMedia.attributes.number}`}
+                      </h1>
                     }
                     description={
-                      postMedia.attributes.synopsis &&
-                      postMedia.attributes.synopsis.substr(0, 200) + "..."
+                      <h2 className="post-media-description">
+                        {postMedia.attributes.synopsis &&
+                          postMedia.attributes.synopsis.substr(0, 200) +
+                            "..."}{" "}
+                      </h2>
                     }
                   />
                 )}

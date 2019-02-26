@@ -72,7 +72,17 @@ export class EpisodeView extends Component {
       }
     };
     return (
-      <AppWrapper title="1234">
+      <AppWrapper
+        title={
+          "Watch Episode " +
+          (relativeNumber ? relativeNumber : number) +
+          " online - MyMangAnimeList"
+        }
+        description={
+          "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos maiores molestias nisi recusandae voluptatem. Aliquam aut eum numquam officia saepe. Consequuntur facere id optio reprehenderit vero voluptatem voluptatum. Eos, soluta?"
+        }
+        keywords="anime,manga,watch anime online"
+      >
         <section className="anime-view o-main-layout character-view">
           <Sidebar small={true} />
           <div

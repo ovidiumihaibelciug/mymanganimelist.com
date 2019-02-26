@@ -12,7 +12,7 @@ const AnimeContentCharacter = ({ url, bgImage, name }) => (
               backgroundImage: `url(${bgImage})`
             }}
           />
-          <div className="secondary__content__items__box__title">{name}</div>
+          <h3 className="secondary__content__items__box__title">{name}</h3>
         </div>
       </a>
     </Link>

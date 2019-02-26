@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Link from "next/link";
 import classNames from "classnames";
 import axios from "axios";
+import Logo from "../components/svg/imgs/Logo";
 
 class Sidebar extends Component {
   state = {
@@ -70,7 +71,7 @@ class Sidebar extends Component {
     return (
       <>
         <section className={classes}>
-          <div className="o-sidebar__brand">MyMangaAnimeList</div>
+          <Logo className="o-sidebar__brand" />
           <div className="o-sidebar__main">
             <div className="o-sidebar__main__title">Browse</div>
             <div className="o-sidebar__main__title___content">

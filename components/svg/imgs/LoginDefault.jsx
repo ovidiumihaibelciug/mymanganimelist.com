@@ -1,7 +1,7 @@
 import React from "react";
 
 const LoginDefault = props => (
-  <svg width="1em" height="1em" viewBox="0 0 1188 795.33" {...props}>
+  <svg width={1188} height={795.33} viewBox="0 0 1188 795.33" {...props}>
     <defs>
       <linearGradient
         id="a"

@@ -42,9 +42,9 @@ class UserView extends React.Component {
       .then(([{ data }, { data: commentsData }]) => {
         console.log(commentsData);
         const user = data.included.find(item => item.type === "users");
-        const commentsUser = commentsData.included.filter(
-          item => item.type === "users"
-        );
+        const commentsUser =
+          commentsData.included &&
+          commentsData.included.filter(item => item.type === "users");
         const postLikes = data.included.filter(
           item => item.type === "postLikes"
         );
@@ -203,8 +203,20 @@ class UserView extends React.Component {
       };
     }
 
+    const seoTitle =
+      anime.length && anime[0].attributes && anime[0].attributes.titles
+        ? (anime[0].attributes.titles.en || anime[0].attributes.titles.en_jp) +
+          " News - MyMangAnimeList"
+        : "Anime & Manga Posts - MyMangAnimeList";
+
     return (
-      <AppWrapper title="123">
+      <AppWrapper
+        title={seoTitle}
+        description={
+          "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, aut beatae blanditiis cumque dignissimos ipsum itaque laboriosam magnam maxime non nulla odit quam quibusdam quisquam soluta tempore ut voluptates. Molestias."
+        }
+        keywords="anime,posts,manga"
+      >
         <section className="anime-view o-main-layout">
           <Sidebar small={true} />
           <div className="o-main o-anime-view o-post-view">

@@ -6,11 +6,11 @@ const Chip = ({ item, type, noLink = false }) => {
     return <div className="anime__genres__chip">{item.attributes.title}</div>;
   }
   return (
-    <div>
+    <h2>
       <Link href={`/${type}/category/${item.attributes.slug}`}>
         <a className="anime__genres__chip">{item.attributes.title}</a>
       </Link>
-    </div>
+    </h2>
   );
 };
 

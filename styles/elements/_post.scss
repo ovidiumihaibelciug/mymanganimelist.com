@@ -6,6 +6,10 @@
   justify-content: center;
   grid-row-gap: 50px;
 
+  .ant-list-item-meta-description {
+    word-break: break-all;
+  }
+
   &__item {
     &__container {
       align-self: center;
@@ -140,4 +144,14 @@
       }
     }
   }
+}
+
+.post-media-title {
+  @include mds-font-size(16px);
+  color: rgba(255, 255, 255, .9);
+}
+
+.post-media-description {
+  @include mds-font-size(16px);
+  color: rgba(255, 255, 255, .6);
 }

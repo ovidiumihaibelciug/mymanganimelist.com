@@ -176,7 +176,11 @@ class MyAccount extends React.Component {
     }
 
     return (
-      <AppWrapper title="123">
+      <AppWrapper
+        title="My Account - MyMangAnimeList"
+        description="I'm using mymanganimelist.com to track my progress and share my anime & manga experiences."
+        keywords="anime, manga, mymanganimelist"
+      >
         <section className="anime-view o-main-layout">
           <Sidebar small={true} />
           <div

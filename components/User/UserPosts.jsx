@@ -14,11 +14,11 @@ const UserPosts = ({
   return (
     <div className="secondary__content">
       <div className="secondary__content__title">
-        <div className="secondary__content__title__text">
+        <h2 className="secondary__content__title__text">
           Posts
           <div className="secondary__content__title__text__blur" />
           <hr />
-        </div>
+        </h2>
         <Link to="">
           <div className="secondary__content__title__view-all" />
         </Link>
