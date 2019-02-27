@@ -1,13 +1,13 @@
 import React from "react";
-import NextHead from "next/head";
+import Head from "next/head";
 import { string } from "prop-types";
 
 const defaultDescription = "";
 const defaultOGURL = "";
 const defaultOGImage = "";
 
-const Head = props => (
-  <NextHead>
+const NextHead = props => (
+  <Head>
     <meta charSet="UTF-8" />
     <title>{props.title || ""}</title>
     <meta
@@ -61,7 +61,21 @@ const Head = props => (
     <meta property="og:image" content={props.ogImage || defaultOGImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-  </NextHead>
+    <script
+      async
+      src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+    />
+    <script
+      dangerouslySetInnerHTML={{
+        __html: `
+          (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-6013691979503718",
+              enable_page_level_ads: true`
+      }}
+    >
+      });
+    </script>
+  </Head>
 );
 
 Head.propTypes = {
@@ -71,4 +85,4 @@ Head.propTypes = {
   ogImage: string
 };
 
-export default Head;
+export default NextHead;
