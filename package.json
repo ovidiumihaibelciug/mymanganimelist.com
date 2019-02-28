@@ -8,7 +8,7 @@
     "svg-imgs": "svgo --config .svg/svgo-imgs.config.json -f .svg/imgs&& svgr --ext jsx --no-svgo --keep-useless-defs --tab-width 4 -d components/svg/imgs .svg/imgs",
     "svg-imgs-unstyled": "svgo --config .svg/svgo-icons.config.json -f .svg/imgs-unstyled&& svgr --ext jsx --no-svgo --tab-width 4 -d components/svg/imgs .svg/imgs-unstyled",
     "lint-staged": "lint-staged",
-    "start": "node server.js -p $PORT",
+    "start": "NODE_ENV=production node server.js",
     "export": "npm run build && next export"
   },
   "dependencies": {
