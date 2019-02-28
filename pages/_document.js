@@ -28,6 +28,20 @@ export default class extends Document {
           `
             }}
           />
+          <script
+            async
+            src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+          />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                (adsbygoogle = window.adsbygoogle || []).push({
+                google_ad_client: "ca-pub-6013691979503718",
+                enable_page_level_ads: true
+            })
+            `
+            }}
+          />
         </Head>
         <body>
           <Main />
