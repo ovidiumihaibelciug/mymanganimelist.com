@@ -9,6 +9,53 @@ import EpisodeContent from "../components/Episode/EpisodeContent";
 import VideosSrc from "../components/Episode/VideosSrc";
 import AppWrapper from "../components/AppWrapper";
 
+async function getData({ slug, number }) {
+  let returnedObj = {};
+
+  await axios
+    .get(KAPI + "/anime", {
+      params: {
+        "filter[slug]": slug,
+        include: "streamingLinks"
+      }
+    })
+    .then(({ data }) => {
+      const streamingLinks =
+        data.included &&
+        data.included.filter(item => item.type === "streamingLinks");
+      returnedObj = {
+        ...returnedObj,
+        anime: data.data[0],
+        streamingLinks
+      };
+    })
+    .catch(err => console.log(err));
+  const { id } = returnedObj.anime;
+  await axios
+    .get(KAPI + "/episodes", {
+      params: {
+        include: "videos",
+        "filter[mediaId]": id,
+        "filter[number]": number
+      }
+    })
+    .then(({ data }) => {
+      let videos = "";
+      if (data.included) {
+        videos = data.included.filter(item => item.type === "video");
+      }
+      returnedObj = {
+        ...returnedObj,
+        episode: data.data[0].attributes,
+        videos,
+        loading: false
+      };
+    })
+    .catch(err => console.log(err));
+
+  return returnedObj;
+}
+
 export class EpisodeView extends Component {
   state = {
     anime: {},
@@ -18,51 +65,10 @@ export class EpisodeView extends Component {
     showRightSideBar: false
   };
 
-  static getInitialProps({ query: { slug, number } }) {
-    return { slug, number };
-  }
+  static async getInitialProps({ query: { slug, number } }) {
+    const initProps = await getData({ slug, number });
 
-  componentDidMount() {
-    const { slug, number } = this.props;
-
-    axios
-      .get(KAPI + "/anime", {
-        params: {
-          "filter[slug]": slug,
-          include: "streamingLinks"
-        }
-      })
-      .then(({ data }) => {
-        const streamingLinks =
-          data.included &&
-          data.included.filter(item => item.type === "streamingLinks");
-        this.setState({
-          anime: data.data[0],
-          streamingLinks
-        });
-        const { id } = data.data[0];
-        axios
-          .get(KAPI + "/episodes", {
-            params: {
-              include: "videos",
-              "filter[mediaId]": id,
-              "filter[number]": number
-            }
-          })
-          .then(({ data }) => {
-            let videos = "";
-            if (data.included) {
-              videos = data.included.filter(item => item.type === "video");
-            }
-            this.setState({
-              episode: data.data[0].attributes,
-              videos,
-              loading: false
-            });
-          })
-          .catch(err => console.log(err));
-      })
-      .catch(err => console.log(err));
+    return { ...initProps, slug, number };
   }
 
   showRightSideInfo = () => {
@@ -83,7 +89,8 @@ export class EpisodeView extends Component {
       streamingLinks,
       showRightSideBar,
       loading
-    } = this.state;
+    } = this.props;
+
     if (loading) {
       return <Loading />;
     }

@@ -10,7 +10,67 @@ import { Button } from "antd";
 import AppWrapper from "../components/AppWrapper";
 import { seoData } from "../seoData";
 
+async function getData() {
+  let returnedObj = {
+    loading: false
+  };
+
+  await axios
+    .get(
+      "https://kitsu.io/api/edge/feeds/global/global?filter%5Bkind%5D=posts&include=media%2Cactor%2Cunit%2Csubject%2Ctarget%2Ctarget.user%2Ctarget.target_user%2Ctarget.spoiled_unit%2Ctarget.media%2Ctarget.target_group%2Ctarget.uploads%2Csubject.user%2Csubject.target_user%2Csubject.spoiled_unit%2Csubject.media%2Csubject.target_group%2Ctarget,subject.uploads%2Csubject.followed%2Csubject.library_entry%2Csubject.anime%2Csubject.manga&page%5Blimit%5D=10",
+      {
+        params: {
+          "page[limit]": 10
+        }
+      }
+    )
+    .then(({ data }) => {
+      const users = data.included.filter(item => item.type === "users");
+      const comments = data.included
+        .filter(item => item.type === "comments")
+        .map(item => {
+          const { id: userId, type } = item.relationships.user.data;
+          const user = users.find(
+            item => item.id === userId && item.type === type
+          );
+          item.user = user;
+
+          return item;
+        });
+      const uploads = data.included.filter(item => item.type === "uploads");
+      const episodes = data.included.filter(item => item.type === "episodes");
+      const posts = data.included
+        .filter(item => item.type === "posts")
+        .map(post => {
+          const { id: userId } = post.relationships.user.data;
+
+          post.user = users.find(user => user.id === userId);
+
+          return post;
+        });
+      returnedObj = {
+        ...returnedObj,
+        comments,
+        uploads,
+        episodes,
+        posts: posts,
+        loading: false,
+        next: data.links.next
+      };
+    })
+    .catch(err => console.log(err));
+  return returnedObj;
+}
+
 class Feed extends Component {
+  static async getInitialProps(req) {
+    const initProps = await getData();
+
+    return {
+      ...initProps
+    };
+  }
+
   state = {
     comments: [],
     uploads: [],
@@ -21,49 +81,9 @@ class Feed extends Component {
   };
 
   componentDidMount() {
-    axios
-      .get(
-        "https://kitsu.io/api/edge/feeds/global/global?filter%5Bkind%5D=posts&include=media%2Cactor%2Cunit%2Csubject%2Ctarget%2Ctarget.user%2Ctarget.target_user%2Ctarget.spoiled_unit%2Ctarget.media%2Ctarget.target_group%2Ctarget.uploads%2Csubject.user%2Csubject.target_user%2Csubject.spoiled_unit%2Csubject.media%2Csubject.target_group%2Ctarget,subject.uploads%2Csubject.followed%2Csubject.library_entry%2Csubject.anime%2Csubject.manga&page%5Blimit%5D=10",
-        {
-          params: {
-            "page[limit]": 10
-          }
-        }
-      )
-      .then(({ data }) => {
-        const users = data.included.filter(item => item.type === "users");
-        const comments = data.included
-          .filter(item => item.type === "comments")
-          .map(item => {
-            const { id: userId, type } = item.relationships.user.data;
-            const user = users.find(
-              item => item.id === userId && item.type === type
-            );
-            item.user = user;
-
-            return item;
-          });
-        const uploads = data.included.filter(item => item.type === "uploads");
-        const episodes = data.included.filter(item => item.type === "episodes");
-        const posts = data.included
-          .filter(item => item.type === "posts")
-          .map(post => {
-            const { id: userId } = post.relationships.user.data;
-
-            post.user = users.find(user => user.id === userId);
-
-            return post;
-          });
-        this.setState({
-          comments,
-          uploads,
-          episodes,
-          posts: posts,
-          loading: false,
-          next: data.links.next
-        });
-      })
-      .catch(err => console.log(err));
+    this.setState({
+      ...this.props
+    });
   }
 
   handleLoadMore = () => {

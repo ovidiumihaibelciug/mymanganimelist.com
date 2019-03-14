@@ -7,28 +7,50 @@ import MangaItem from "../../components/Dashboard/MangaItem";
 import ItemsRow from "../../components/Dashboard/ItemsRow";
 import AppWrapper from "../../components/AppWrapper";
 
-export default class AnimeByCategory extends Component {
-  static getInitialProps({ query: { category } }) {
-    return { category };
-  }
+async function getData({ category }) {
+  let returnedObj = {};
+  await axios
+    .get("https://kitsu.io/api/edge/categories/", {
+      params: {
+        "filter[slug]": category
+      }
+    })
+    .then(({ data }) => {
+      returnedObj = { ...returnedObj, categoryData: data.data[0] };
+    })
+    .catch(err => console.log(err));
+  await axios
+    .all([
+      axios.get(
+        `https://kitsu.io/api/edge/manga?filter%5Bstatus%5D=current&filter%5Bcategories%5D=${category}&page%5Blimit%5D=15&sort=-start_date`
+      ),
+      axios.get(
+        `https://kitsu.io/api/edge/trending/manga?limit=15&in_category=true&category=${
+          returnedObj.categoryData.id
+        }`
+      ),
+      axios.get(
+        `https://kitsu.io/api/edge/manga?filter%5Bcategories%5D=${category}&page%5Blimit%5D=15&sort=-user_count`
+      )
+    ])
+    .then(([newlyReleased, trendingAnime, mostPopularAnimes]) => {
+      returnedObj = {
+        ...returnedObj,
+        trendingAnimes: trendingAnime.data.data,
+        newlyReleased: newlyReleased.data.data,
+        mostPopularAnimes: mostPopularAnimes.data.data
+      };
+    })
+    .catch(err => console.log(err));
 
-  state = {
-    trendingAnimes: [],
-    topAiring: [],
-    topUpcomingAnimes: [],
-    highestRatedAnimes: [],
-    mostPopularAnimes: [],
-    category: "",
-    loading: true
-  };
+  return returnedObj;
+}
 
-  componentDidMount() {
-    this.getData(this.props);
-  }
+class AnimeByCategory extends Component {
+  static async getInitialProps({ query: { category } }) {
+    const initProps = await getData({ category });
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({ loading: true });
-    this.getData(nextProps);
+    return { ...initProps, category };
   }
 
   getData = props => {
@@ -73,35 +95,34 @@ export default class AnimeByCategory extends Component {
       trendingAnimes,
       mostPopularAnimes,
       newlyReleased,
-      category,
+      categoryData,
       loading
-    } = this.state;
-    if (loading) return <Loading />;
+    } = this.props;
 
     const content = [
       {
-        title: `Newly Released ${category.attributes.title} Manga`,
+        title: `Newly Released ${categoryData.attributes.title} Manga`,
         items: newlyReleased
       },
       {
-        title: `Trending ${category.attributes.title} Manga`,
+        title: `Trending ${categoryData.attributes.title} Manga`,
         items: trendingAnimes
       },
       {
-        title: `Most popular ${category.attributes.title} Manga`,
+        title: `Most popular ${categoryData.attributes.title} Manga`,
         items: mostPopularAnimes
       }
     ];
 
     return (
       <AppWrapper
-        title={category.attributes.title + " Manga - MyMangAnimeList"}
-        description={`Explore newly released ${category.attributes.title.toLowerCase()} manga,  trending ${category.attributes.title.toLowerCase()} manga, most popular newly released ${category.attributes.title.toLowerCase()} manga, Watch online ${category.attributes.title.toLowerCase()} manga,`}
+        title={categoryData.attributes.title + " Manga - MyMangAnimeList"}
+        description={`Explore newly released ${categoryData.attributes.title.toLowerCase()} manga,  trending ${categoryData.attributes.title.toLowerCase()} manga, most popular newly released ${categoryData.attributes.title.toLowerCase()} manga, Watch online ${categoryData.attributes.title.toLowerCase()} manga,`}
         keywords={
           "anime," +
-          category.attributes.title.toLowerCase() +
+          categoryData.attributes.title.toLowerCase() +
           ",watch" +
-          category.attributes.title.toLowerCase() +
+          categoryData.attributes.title.toLowerCase() +
           " anime"
         }
       >
@@ -127,3 +148,4 @@ export default class AnimeByCategory extends Component {
     );
   }
 }
+export default AnimeByCategory;

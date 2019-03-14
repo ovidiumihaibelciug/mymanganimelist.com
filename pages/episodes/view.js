@@ -10,7 +10,41 @@ import VideosSrc from "../../components/Episode/VideosSrc";
 import AppWrapper from "../../components/AppWrapper";
 import { defaultImage } from "../../utils/general";
 
+async function getData({ id }) {
+  let returnedObj = {};
+
+  await axios
+    .get(KAPI + "/episodes/" + id, {
+      params: {
+        include: "media,videos"
+      }
+    })
+    .then(({ data }) => {
+      let videos = "";
+      if (data.included) {
+        videos = data.included.filter(item => item.type === "video");
+      }
+      const anime = data.included.find(
+        item => item.type === "anime" || item.type === "manga"
+      );
+
+      returnedObj = {
+        episode: data.data.attributes,
+        videos,
+        anime
+      };
+    })
+    .catch(err => console.log(err));
+  return returnedObj;
+}
+
 export class EpisodeView extends Component {
+  static async getInitialProps({ query: { id } }) {
+    const initProps = await getData({ id });
+
+    return { ...initProps, id };
+  }
+
   state = {
     anime: {},
     loading: true,
@@ -18,43 +52,8 @@ export class EpisodeView extends Component {
     videos: ""
   };
 
-  static getInitialProps({ query: { id } }) {
-    return { id };
-  }
-
-  componentDidMount() {
-    const { id } = this.props;
-
-    axios
-      .get(KAPI + "/episodes/" + id, {
-        params: {
-          include: "media,videos"
-        }
-      })
-      .then(({ data }) => {
-        let videos = "";
-        if (data.included) {
-          videos = data.included.filter(item => item.type === "video");
-        }
-        const anime = data.included.find(
-          item => item.type === "anime" || item.type === "manga"
-        );
-
-        this.setState({
-          episode: data.data.attributes,
-          videos,
-          anime,
-          loading: false
-        });
-      })
-      .catch(err => console.log(err));
-  }
-
   render() {
-    const { anime, episode, videos, streamingLinks, loading } = this.state;
-    if (loading) {
-      return <Loading />;
-    }
+    const { anime, episode, videos, streamingLinks } = this.props;
 
     const { coverImage, posterImage } = anime.attributes;
     const {

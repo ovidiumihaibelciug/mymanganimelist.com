@@ -32,7 +32,7 @@ export const seoData = {
   characters: {
     title: "Manga & Anime Characters - MyMangAnimeList.com",
     description:
-      "Explore new manga and anime characters or popular ones like Dragon Ball Super, Attack on Titan, Naruto Shippuden, My Hero Academia, One Piece characters and more. Search your favorite anime character or manga character",
+      "Explore new manga and anime characters or popular ones from Dragon Ball Super, Attack on Titan, Naruto Shippuden, My Hero Academia, One Piece characters and more. Search your favorite anime character or manga character",
     keywords: "anime, manga, characters"
   }
 };

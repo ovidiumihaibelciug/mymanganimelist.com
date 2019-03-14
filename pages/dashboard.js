@@ -9,56 +9,60 @@ import { KAPI } from "../utils";
 import ItemsRow from "../components/Dashboard/ItemsRow";
 import AppWrapper from "../components/AppWrapper";
 
-export default class Dashboard extends Component {
-  state = {
-    trendingAnimes: [],
-    topAiring: [],
-    topUpcomingAnimes: [],
-    highestRatedAnimes: [],
-    mostPopularAnimes: [],
+async function getData() {
+  let returnedObj = {
     loading: true
   };
-
-  componentDidMount() {
-    axios
-      .all([
-        axios.get(KAPI + "/trending/anime", {
-          params: {
-            include: "anime.categories"
-          }
-        }),
-        axios.get(
-          "https://kitsu.io/api/edge/anime?filter%5Bstatus%5D=current&page%5Blimit%5D=10&sort=-user_count"
-        ),
-        axios.get(
-          "https://kitsu.io/api/edge/anime?filter%5Bstatus%5D=upcoming&page%5Blimit%5D=10&sort=-user_count"
-        ),
-        axios.get(
-          "https://kitsu.io/api/edge/anime?page%5Blimit%5D=10&sort=-average_rating"
-        ),
-        axios.get(
-          "https://kitsu.io/api/edge/anime?page%5Blimit%5D=10&sort=-user_count"
-        )
-      ])
-      .then(
-        ([
-          trendingAnimes,
-          topAiring,
-          topUpcomingAnimes,
-          highestRatedAnimes,
-          mostPopularAnimes
-        ]) => {
-          this.setState({
-            trendingAnimes: trendingAnimes.data.data,
-            topAiring: topAiring.data.data,
-            topUpcomingAnimes: topUpcomingAnimes.data.data,
-            highestRatedAnimes: highestRatedAnimes.data.data,
-            mostPopularAnimes: mostPopularAnimes.data.data,
-            loading: false
-          });
+  await axios
+    .all([
+      axios.get(KAPI + "/trending/anime", {
+        params: {
+          include: "anime.categories"
         }
+      }),
+      axios.get(
+        "https://kitsu.io/api/edge/anime?filter%5Bstatus%5D=current&page%5Blimit%5D=10&sort=-user_count"
+      ),
+      axios.get(
+        "https://kitsu.io/api/edge/anime?filter%5Bstatus%5D=upcoming&page%5Blimit%5D=10&sort=-user_count"
+      ),
+      axios.get(
+        "https://kitsu.io/api/edge/anime?page%5Blimit%5D=10&sort=-average_rating"
+      ),
+      axios.get(
+        "https://kitsu.io/api/edge/anime?page%5Blimit%5D=10&sort=-user_count"
       )
-      .catch(err => console.log(err));
+    ])
+    .then(
+      ([
+        trendingAnimes,
+        topAiring,
+        topUpcomingAnimes,
+        highestRatedAnimes,
+        mostPopularAnimes
+      ]) => {
+        returnedObj = {
+          ...returnedObj,
+          trendingAnimes: trendingAnimes.data.data,
+          topAiring: topAiring.data.data,
+          topUpcomingAnimes: topUpcomingAnimes.data.data,
+          highestRatedAnimes: highestRatedAnimes.data.data,
+          mostPopularAnimes: mostPopularAnimes.data.data,
+          loading: false
+        };
+      }
+    )
+    .catch(err => console.log(err));
+  return returnedObj;
+}
+
+export default class Dashboard extends Component {
+  static async getInitialProps(req) {
+    const initProps = await getData();
+
+    return {
+      ...initProps
+    };
   }
 
   render() {
@@ -69,7 +73,8 @@ export default class Dashboard extends Component {
       highestRatedAnimes,
       mostPopularAnimes,
       loading
-    } = this.state;
+    } = this.props;
+
     if (loading) return <Loading />;
 
     const content = [

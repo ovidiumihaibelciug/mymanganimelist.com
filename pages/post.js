@@ -12,9 +12,64 @@ import Link from "next/link";
 import { Card, List, Avatar } from "antd";
 const { Meta } = Card;
 
+async function fetchData({ id }) {
+  let returnedObj = {};
+
+  await axios
+    .all([
+      axios.get(KAPI + "/posts/" + id, {
+        params: { include: "user,uploads,media,spoiledUnit,ama,postLikes" }
+      }),
+      axios.get(KAPI + "/comments", {
+        params: {
+          "filter[postId]": id,
+          include: "user,uploads,replies,likes"
+        }
+      })
+    ])
+    .then(([{ data }, { data: commentsData }]) => {
+      const user = data.included.find(item => item.type === "users");
+      const commentsUser =
+        commentsData.included &&
+        commentsData.included.filter(item => item.type === "users");
+      const postLikes = data.included.filter(item => item.type === "postLikes");
+      const postUploads = data.included.filter(item => item.type === "uploads");
+
+      const anime = data.included.filter(item => item.type === "anime");
+      const episodes = data.included.filter(item => item.type === "episodes");
+
+      const commentsUploads =
+        commentsData.data.length &&
+        commentsData.included.filter(item => item.type === "uploads");
+
+      const comments = commentsData.data.map(item => {
+        const userId = item.relationships.user.data.id;
+
+        item.user = commentsUser.find(item => item.id === userId);
+        item.replies = "";
+      });
+
+      returnedObj = {
+        user,
+        commentsUser,
+        anime,
+        episodes,
+        postLikes,
+        comments: commentsData.data,
+        post: data.data,
+        postUploads,
+        commentsUploads
+      };
+    })
+    .catch(err => console.log(err));
+  return returnedObj;
+}
+
 class UserView extends React.Component {
-  static getInitialProps({ query: { id } }) {
-    return { id };
+  static async getInitialProps({ query: { id } }) {
+    const initProps = await fetchData({ id });
+
+    return { ...initProps, id };
   }
 
   state = {
@@ -24,66 +79,9 @@ class UserView extends React.Component {
     showRightSideBar: false
   };
 
-  componentDidMount() {
-    const { id } = this.props;
-
-    axios
-      .all([
-        axios.get(KAPI + "/posts/" + id, {
-          params: { include: "user,uploads,media,spoiledUnit,ama,postLikes" }
-        }),
-        axios.get(KAPI + "/comments", {
-          params: {
-            "filter[postId]": id,
-            include: "user,uploads,replies,likes"
-          }
-        })
-      ])
-      .then(([{ data }, { data: commentsData }]) => {
-        const user = data.included.find(item => item.type === "users");
-        const commentsUser =
-          commentsData.included &&
-          commentsData.included.filter(item => item.type === "users");
-        const postLikes = data.included.filter(
-          item => item.type === "postLikes"
-        );
-        const postUploads = data.included.filter(
-          item => item.type === "uploads"
-        );
-
-        const anime = data.included.filter(item => item.type === "anime");
-        const episodes = data.included.filter(item => item.type === "episodes");
-
-        const commentsUploads =
-          commentsData.data.length &&
-          commentsData.included.filter(item => item.type === "uploads");
-
-        const comments = commentsData.data.map(item => {
-          const userId = item.relationships.user.data.id;
-
-          item.user = commentsUser.find(item => item.id === userId);
-          item.replies = "";
-        });
-
-        this.setState({
-          user,
-          commentsUser,
-          anime,
-          episodes,
-          postLikes,
-          comments: commentsData.data,
-          post: data.data,
-          postUploads,
-          commentsUploads,
-          loading: false
-        });
-      })
-      .catch(err => console.log(err));
-  }
-
   onFollow = isFollowing => {
     const userStore = JSON.parse(localStorage.getItem("user"));
-    const { user, loggedUser, follows } = this.state;
+    const { user, loggedUser, follows } = this.props;
     this.setState({
       loadingBtn: true
     });
@@ -113,7 +111,7 @@ class UserView extends React.Component {
           )
           .then(({ data }) => {
             this.setState(state => {
-              const { isFollowing, follows } = state;
+              const { isFollowing, follows } = props;
 
               return {
                 isFollowing: !isFollowing,
@@ -179,9 +177,9 @@ class UserView extends React.Component {
       postLikes = [],
       comments,
       postUploads,
-      showRightSideBar,
       loading
-    } = this.state;
+    } = this.props;
+    const { showRightSideBar } = this.state;
 
     if (!user || !post) {
       return null;

@@ -33,7 +33,9 @@ class Template extends Component {
       match,
       itemType = "episodes",
       isAnime = true,
-      slug
+      slug,
+      pageTitle,
+      pageDescription
     } = this.props;
 
     const { showRightSideBar } = this.state;
@@ -62,6 +64,14 @@ class Template extends Component {
                 showRightSideBar={showRightSideBar}
               />
               <div className="anime-container">
+                {pageTitle && (
+                  <div className="characters__text characters__text--no-border">
+                    <h1 className="characters__text__title">{pageTitle}</h1>
+                    <h2 className="characters__text__description">
+                      {pageDescription}
+                    </h2>
+                  </div>
+                )}
                 {schema && (
                   <SecondaryFilters
                     onSubmit={onSubmit}

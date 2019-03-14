@@ -14,17 +14,33 @@ import AnimeContentCharacter from "../../components/Anime/AnimeContentCharacter"
 import AppWrapper from "../../components/AppWrapper";
 import { seoData } from "../../seoData";
 
+async function load({ filters, options }) {
+  return axios
+    .get("https://kitsu.io/api/edge/characters", {
+      params: {
+        "page[limit]": options.limit,
+        "page[offset]": options.skip
+      }
+    })
+    .then(({ data }) => {
+      return data.data;
+    })
+    .catch(err => console.log(err));
+}
+
 export default class CharacterList extends Component {
+  static async getInitialProps(req) {
+    const initProps = await load({ filters: "", options: "" });
+
+    return {
+      ...initProps
+    };
+  }
+
   state = {
     characters: [],
     loading: true
   };
-
-  componentDidMount() {
-    this.setState({
-      loading: false
-    });
-  }
 
   load = ({ filters, options }) => {
     return axios
@@ -58,7 +74,7 @@ export default class CharacterList extends Component {
   };
 
   render() {
-    const { loading } = this.state;
+    const { loading } = this.props;
     if (loading) return <Loading />;
     return (
       <AppWrapper {...seoData.characters}>
@@ -67,9 +83,20 @@ export default class CharacterList extends Component {
           <section className="o-main o-dashboard">
             <Header isFixed />
             <div className="main-content anime-view anime-container anime-episodes characters-list">
+              <div className="characters__text">
+                <h1 className="characters__text__title">
+                  Manga & Anime Characters
+                </h1>
+                <h2 className="characters__text__description">
+                  Discover new characters from your favorite Manga or Anime.
+                  Explore new manga and anime characters or popular ones from
+                  Dragon Ball Super, Attack on Titan, Naruto Shippuden, My Hero
+                  Academia, One Piece characters and more.
+                </h2>
+              </div>
               <Molecule
                 agents={{
-                  loader: EasyLoaderAgent.factory({ load: this.load }),
+                  loader: EasyLoaderAgent.factory({ load }),
                   loadMore: EasyLoadMoreAgent.factory({
                     count: this.count,
                     initialItemsCount: 20,
@@ -80,7 +107,7 @@ export default class CharacterList extends Component {
                 <EasyList>
                   {({ data }) => {
                     return data.map(item => {
-                      let { image, name, slug } = item.attributes;
+                      let { image = "", name, slug } = item.attributes;
                       return (
                         <AnimeContentCharacter
                           url={`/characters/view/${slug}`}

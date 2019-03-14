@@ -35,9 +35,11 @@
     "react-modal-video": "^1.2.1",
     "react-molecule": "^0.1.5",
     "react-router-dom": "^4.3.1",
+    "serve-favicon": "^2.5.0",
     "simpl-schema": "^1.5.3",
     "svgo": "^1.1.1",
     "svgr": "^1.9.2",
+    "underscore": "^1.9.1",
     "uniforms": "^1.31.0",
     "uniforms-antd": "^1.31.0"
   }

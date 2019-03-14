@@ -9,56 +9,60 @@ import { KAPI } from "../utils";
 import AppWrapper from "../components/AppWrapper";
 import { seoData } from "../seoData";
 
-export default class Dashboard extends Component {
-  state = {
-    trendingManga: [],
-    topPublishingManga: [],
-    topUpcomingManga: [],
-    highestRatedManga: [],
-    mostPopularManga: [],
+async function getData() {
+  let returnedObj = {
     loading: true
   };
-
-  componentDidMount() {
-    axios
-      .all([
-        axios.get(KAPI + "/trending/manga", {
-          params: {
-            include: "manga.categories"
-          }
-        }),
-        axios.get(
-          "https://kitsu.io/api/edge/manga?filter%5Bstatus%5D=current&page%5Blimit%10D=5&sort=-user_count"
-        ),
-        axios.get(
-          "https://kitsu.io/api/edge/manga?filter%5Bstatus%5D=upcoming&page%5Blimit%5D=10&sort=-user_count"
-        ),
-        axios.get(
-          "https://kitsu.io/api/edge/manga?page%5Blimit%5D=10&sort=-average_rating"
-        ),
-        axios.get(
-          "https://kitsu.io/api/edge/manga?page%5Blimit%5D=10&sort=-user_count"
-        )
-      ])
-      .then(
-        ([
-          trendingManga,
-          topPublishingManga,
-          topUpcomingManga,
-          highestRatedManga,
-          mostPopularManga
-        ]) => {
-          this.setState({
-            trendingManga: trendingManga.data.data,
-            topPublishingManga: topPublishingManga.data.data,
-            topUpcomingManga: topUpcomingManga.data.data,
-            highestRatedManga: highestRatedManga.data.data,
-            mostPopularManga: mostPopularManga.data.data,
-            loading: false
-          });
+  await axios
+    .all([
+      axios.get(KAPI + "/trending/manga", {
+        params: {
+          include: "manga.categories"
         }
+      }),
+      axios.get(
+        "https://kitsu.io/api/edge/manga?filter%5Bstatus%5D=current&page%5Blimit%10D=5&sort=-user_count"
+      ),
+      axios.get(
+        "https://kitsu.io/api/edge/manga?filter%5Bstatus%5D=upcoming&page%5Blimit%5D=10&sort=-user_count"
+      ),
+      axios.get(
+        "https://kitsu.io/api/edge/manga?page%5Blimit%5D=10&sort=-average_rating"
+      ),
+      axios.get(
+        "https://kitsu.io/api/edge/manga?page%5Blimit%5D=10&sort=-user_count"
       )
-      .catch(err => console.log(err));
+    ])
+    .then(
+      ([
+        trendingManga,
+        topPublishingManga,
+        topUpcomingManga,
+        highestRatedManga,
+        mostPopularManga
+      ]) => {
+        returnedObj = {
+          ...returnedObj,
+          trendingManga: trendingManga.data.data,
+          topPublishingManga: topPublishingManga.data.data,
+          topUpcomingManga: topUpcomingManga.data.data,
+          highestRatedManga: highestRatedManga.data.data,
+          mostPopularManga: mostPopularManga.data.data,
+          loading: false
+        };
+      }
+    )
+    .catch(err => console.log(err));
+  return returnedObj;
+}
+
+export default class Dashboard extends Component {
+  static async getInitialProps(req) {
+    const initProps = await getData();
+
+    return {
+      ...initProps
+    };
   }
 
   render() {
@@ -69,8 +73,10 @@ export default class Dashboard extends Component {
       topUpcomingManga,
       mostPopularManga,
       loading
-    } = this.state;
+    } = this.props;
+
     if (loading) return <Loading />;
+
     const content = [
       {
         title: "Trending this week",

@@ -3,7 +3,6 @@ import Header from "../../layout/Header";
 import MangaItem from "../../components/Dashboard/MangaItem";
 import Sidebar from "../../components/Sidebar";
 import axios from "axios";
-import Loading from "../../components/Loading";
 import { Molecule } from "react-molecule";
 import {
   EasyList,
@@ -57,9 +56,35 @@ const types = [
   }
 ];
 
+async function load({ filters, options }, { type }) {
+  const activeType = types.find(item => item.type === type);
+  const { url, params } = activeType;
+
+  return axios
+    .get(
+      url,
+      type !== "trending" && {
+        params: {
+          "page[limit]": options.limit,
+          "page[offset]": options.skip,
+          ...params
+        }
+      }
+    )
+    .then(({ data }) => {
+      return data.data;
+    })
+    .catch(err => console.log(err));
+}
+
 export default class MangaListType extends Component {
-  static getInitialProps({ query: { type } }) {
-    return { type };
+  static async getInitialProps({ query: { type } }) {
+    const initProps = await load(
+      { filters: {}, options: { limit: 20, skip: 0 } },
+      { type }
+    );
+
+    return { ...initProps, type };
   }
 
   state = {
@@ -68,45 +93,11 @@ export default class MangaListType extends Component {
     loading: true
   };
 
-  componentDidMount() {
-    const { type } = this.props;
-
-    const activeType = types.find(item => item.type === type);
-
-    this.setState({
-      loading: false,
-      activeType
-    });
-  }
-
-  load = ({ filters, options }) => {
-    const {
-      activeType: { type, url, params }
-    } = this.state;
-    return axios
-      .get(
-        url,
-        type !== "trending" && {
-          params: {
-            "page[limit]": options.limit,
-            "page[offset]": options.skip,
-            ...params
-          }
-        }
-      )
-      .then(({ data }) => {
-        this.setState({
-          loading: false
-        });
-        return data.data;
-      })
-      .catch(err => console.log(err));
-  };
-
   count = filters => {
-    const {
-      activeType: { url }
-    } = this.state;
+    const { type } = this.props;
+    const activeType = types.find(item => item.type === type);
+    const { url } = activeType;
+
     return axios
       .get(url, {
         params: {
@@ -122,8 +113,6 @@ export default class MangaListType extends Component {
   };
 
   render() {
-    const { loading } = this.state;
-    if (loading) return <Loading />;
     const { type } = this.props;
     const activeType = types.find(item => item.type === type);
 
@@ -144,7 +133,10 @@ export default class MangaListType extends Component {
             <div className="main-content anime-view anime-container anime-episodes items">
               <Molecule
                 agents={{
-                  loader: EasyLoaderAgent.factory({ load: this.load }),
+                  loader: EasyLoaderAgent.factory({
+                    load: ({ filters, options }) =>
+                      load({ filters, options }, { type })
+                  }),
                   loadMore: EasyLoadMoreAgent.factory({
                     count: this.count,
                     initialItemsCount: 20,

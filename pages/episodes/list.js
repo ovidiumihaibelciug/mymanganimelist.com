@@ -6,39 +6,41 @@ import Template from "../../components/SecondaryItems/Template";
 import Loading from "../../components/Loading";
 import AppWrapper from "../../components/AppWrapper";
 
+async function getData({ slug }) {
+  let returnedObj = {};
+  await axios
+    .get("https://kitsu.io/api/edge/anime", {
+      params: {
+        "filter[slug]": slug
+      }
+    })
+    .then(({ data }) => {
+      returnedObj = {
+        ...returnedObj,
+        anime: data.data[0],
+        loading: false
+      };
+    })
+    .catch(err => console.log(err));
+  return returnedObj;
+}
+
 export class EpisodeList extends Component {
-  static getInitialProps({ query: { slug } }) {
-    return { slug };
+  static async getInitialProps({ query: { slug } }) {
+    const initProps = await getData({ slug });
+
+    return { ...initProps, slug };
   }
 
   state = {
-    anime: "",
-    loading: true,
     isFiltering: false,
     filteredItems: [],
+    toggleFilters: false,
     search: false
   };
 
-  componentDidMount() {
-    const { slug } = this.props;
-
-    axios
-      .get("https://kitsu.io/api/edge/anime", {
-        params: {
-          "filter[slug]": slug
-        }
-      })
-      .then(({ data }) => {
-        this.setState({
-          anime: data.data[0],
-          loading: false
-        });
-      })
-      .catch(err => console.log(err));
-  }
-
   load = ({ filters, options }) => {
-    const { anime } = this.state;
+    const { anime } = this.props;
     const { id } = anime;
 
     let params = {
@@ -58,7 +60,7 @@ export class EpisodeList extends Component {
   };
 
   count = filters => {
-    const { anime } = this.state;
+    const { anime } = this.props;
     const { id } = anime;
     return axios
       .get(KAPI + "/episodes", {
@@ -73,7 +75,7 @@ export class EpisodeList extends Component {
   };
 
   onSubmit = (data, molecule) => {
-    const { id } = this.state.anime;
+    const { id } = this.props.anime;
     const filters = data;
     let params = {};
     let ok = 0;
@@ -111,10 +113,7 @@ export class EpisodeList extends Component {
   };
 
   render() {
-    let { anime, loading } = this.state;
-    const { slug } = this.props;
-    if (loading) return <Loading />;
-
+    const { anime, slug } = this.props;
     return (
       <AppWrapper
         title={
@@ -124,18 +123,17 @@ export class EpisodeList extends Component {
             : anime.attributes.titles.en_jp) +
           " Episodes Online - MyMangAnimeList"
         }
-        description={
-          `"Watch " +
+        description={`Watch
           ${
             anime.attributes.titles.en
               ? anime.attributes.titles.en
               : anime.attributes.titles.en_jp
-          } + " episodes online for free. Here you can find best anime espides free. Explore new " + ${
-            anime.attributes.titles.en
-              ? anime.attributes.titles.en
-              : anime.attributes.titles.en_jp
-          }` + " episodes"
-        }
+          } episodes online for free. Here you can find best anime espides free. Explore new
+           ${
+             anime.attributes.titles.en
+               ? anime.attributes.titles.en
+               : anime.attributes.titles.en_jp
+           } episodes`}
         keywords="anime, manga, anime episodes, watch anime online"
       >
         <Template
@@ -146,7 +144,26 @@ export class EpisodeList extends Component {
             toggleFilters: this.toggleFilters,
             stopFiltering: this.stopFiltering
           }}
-          data={this.state}
+          pageTitle={
+            (anime.attributes.titles.en
+              ? anime.attributes.titles.en
+              : anime.attributes.titles.en_jp) + " Episodes"
+          }
+          pageDescription={`Watch
+          ${
+            anime.attributes.titles.en
+              ? anime.attributes.titles.en
+              : anime.attributes.titles.en_jp
+          } episodes online for free. Here you can find best anime espides free. Explore new
+           ${
+             anime.attributes.titles.en
+               ? anime.attributes.titles.en
+               : anime.attributes.titles.en_jp
+           } episodes`}
+          data={{
+            ...this.props,
+            ...this.state
+          }}
           schema={FilterSchema}
           slug={slug}
         />

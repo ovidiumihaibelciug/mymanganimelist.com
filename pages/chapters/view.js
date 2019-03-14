@@ -8,15 +8,49 @@ import { Icon } from "antd";
 import RightSidebar from "../../components/RightSidebar";
 import AppWrapper from "../../components/AppWrapper";
 
-export class ChapterView extends Component {
-  static getInitialProps({ query: { slug, number } }) {
-    return { slug, number };
-  }
+async function getData({ slug, number }) {
+  let returnedObj = {};
 
-  state = {
-    anime: {},
-    loading: true
-  };
+  await axios
+    .get(KAPI + "/manga", {
+      params: {
+        "filter[slug]": slug
+      }
+    })
+    .then(({ data }) => {
+      const { id } = data.data[0];
+      returnedObj = {
+        ...returnedObj,
+        anime: data.data[0]
+      };
+    })
+    .catch(err => console.log(err));
+  const { id } = returnedObj.anime;
+
+  await axios
+    .get(KAPI + "/chapters", {
+      params: {
+        "filter[mangaId]": id,
+        "filter[number]": number
+      }
+    })
+    .then(({ data }) => {
+      returnedObj = {
+        ...returnedObj,
+        episode: data.data[0].attributes,
+        loading: false
+      };
+    })
+    .catch(err => console.log(err));
+  return returnedObj;
+}
+
+export class ChapterView extends Component {
+  static async getInitialProps({ query: { slug, number } }) {
+    const initProps = await getData({ slug, number });
+
+    return { ...initProps, slug, number };
+  }
 
   componentDidMount() {
     const { slug, number } = this.props;
@@ -51,10 +85,7 @@ export class ChapterView extends Component {
   }
 
   render() {
-    const { anime, episode, loading } = this.state;
-    if (loading) {
-      return <Loading />;
-    }
+    const { anime, episode } = this.props;
 
     const { coverImage, posterImage } = anime.attributes;
     const {
@@ -139,7 +170,6 @@ export class ChapterView extends Component {
             <RightSidebar
               coverImage={posterImage ? posterImage : thumbnail}
               posterImage={posterImage ? posterImage : thumbnail}
-              status={status}
             />
           </div>
         </section>

@@ -8,9 +8,40 @@ import RightSidebar from "../../components/RightSidebar";
 import SecondaryContent from "../../components/Anime/SecondaryContent";
 import AppWrapper from "../../components/AppWrapper";
 
+async function getData({ slug }) {
+  let returnedObj = {};
+  await axios
+    .get(KAPI + "/characters", {
+      params: {
+        "filter[slug]": slug,
+        include: "castings.person,mediaCharacters.media"
+      }
+    })
+    .then(({ data }) => {
+      let people =
+        data.included && data.included.filter(item => item.type === "people");
+      let media =
+        data.included &&
+        data.included.filter(
+          item => item.type === "anime" || item.type === "manga"
+        );
+      returnedObj = {
+        ...returnedObj,
+        character: data.data[0],
+        people,
+        media,
+        loading: false
+      };
+    })
+    .catch(err => console.log(err));
+  return returnedObj;
+}
+
 class CharacterView extends Component {
-  static getInitialProps({ query: { slug } }) {
-    return { slug };
+  static async getInitialProps({ query: { slug } }) {
+    const initProps = await getData({ slug });
+
+    return { ...initProps, slug };
   }
 
   state = {
@@ -49,11 +80,10 @@ class CharacterView extends Component {
   }
 
   render() {
-    const { character, people, media, loading } = this.state;
-    if (loading) {
-      return <Loading />;
-    }
+    const { character, people, media } = this.props;
+
     const { slug } = this.props;
+
     if (!character) return null;
     const { image, canonicalName, description } =
       character && character.attributes;
@@ -112,7 +142,6 @@ class CharacterView extends Component {
             <RightSidebar
               coverImage={posterImage}
               posterImage={image}
-              status={status}
               // nextRelease={nextRelease}
             />
           </div>

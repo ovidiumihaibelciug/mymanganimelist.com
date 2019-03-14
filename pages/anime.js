@@ -5,9 +5,62 @@ import ItemView from "../components/ItemView";
 import AppWrapper from "../components/AppWrapper";
 import Loading from "../components/Loading";
 
+async function getAnime(props) {
+  const { slug } = props;
+  let returnedObj = {};
+  await axios
+    .get(KAPI + "/anime", {
+      params: {
+        "filter[slug]": slug,
+        include: "genres,categories,mediaRelationships.destination"
+      }
+    })
+    .then(({ data }) => {
+      const categories = data.included.filter(
+        item => item.type === "categories"
+      );
+      const franchises = data.included.filter(
+        item => item.type === "manga" || item.type === "anime"
+      );
+      returnedObj = {
+        ...returnedObj,
+        anime: data.data[0],
+        categories,
+        franchises
+      };
+    })
+    .catch(err => console.log(err));
+  await axios
+    .all([
+      axios.get(KAPI + "/episodes", {
+        params: {
+          "filter[mediaId]": returnedObj.anime.id,
+          "page[limit]": 8,
+          "page[offset]": 0
+        }
+      }),
+      axios.get(KAPI + "/anime-characters", {
+        params: {
+          "filter[animeId]": returnedObj.anime.id,
+          "page[limit]": 8,
+          include: "character"
+        }
+      })
+    ])
+    .then(([episodeData, charactersData]) => {
+      returnedObj = {
+        ...returnedObj,
+        episodes: episodeData.data.data,
+        characters: charactersData.data.included
+      };
+    });
+  return returnedObj;
+}
+
 export default class Anime extends Component {
-  static getInitialProps({ query: { slug } }) {
-    return { slug };
+  static async getInitialProps({ query: { slug } }) {
+    const test = await getAnime({ slug });
+    return { ...test, slug };
   }
 
   state = {
@@ -16,88 +69,12 @@ export default class Anime extends Component {
     episodes: [],
     characters: [],
     franchises: [],
-    user: false,
     loading: true,
     isOpen: false
   };
 
-  componentWillReceiveProps(nextProps) {
-    this.getAnime(nextProps);
-  }
-
-  componentDidMount() {
-    this.getAnime(this.props);
-  }
-
-  getAnime = props => {
-    const { slug } = props;
-    axios
-      .get(KAPI + "/anime", {
-        params: {
-          "filter[slug]": slug,
-          include: "genres,categories,mediaRelationships.destination"
-        }
-      })
-      .then(({ data }) => {
-        const categories = data.included.filter(
-          item => item.type === "categories"
-        );
-        const franchises = data.included.filter(
-          item => item.type === "manga" || item.type === "anime"
-        );
-        this.setState({
-          anime: data.data[0],
-          categories,
-          franchises
-        });
-        const userStore = JSON.parse(localStorage.getItem("user"));
-
-        axios
-          .all([
-            axios.get(KAPI + "/episodes", {
-              params: {
-                "filter[mediaId]": data.data[0].id,
-                "page[limit]": 8,
-                "page[offset]": 0
-              }
-            }),
-            axios.get(KAPI + "/anime-characters", {
-              params: {
-                "filter[animeId]": data.data[0].id,
-                "page[limit]": 8,
-                include: "character"
-              }
-            }),
-            userStore &&
-              axios.get(KAPI + "/users?filter%5Bself%5D=true", {
-                headers: {
-                  Authorization: "Bearer " + userStore.data.access_token
-                },
-                params: {
-                  include: "favorites.item"
-                }
-              })
-          ])
-          .then(([episodeData, charactersData, userData = false]) => {
-            const user = userData
-              ? {
-                  ...userData.data.data[0],
-                  included: userData.data.included
-                }
-              : false;
-            this.setState({
-              episodes: episodeData.data.data,
-              characters: charactersData.data.included,
-              user,
-              loading: false
-            });
-          });
-      })
-      .catch(err => console.log(err));
-  };
-
   render() {
-    const { anime, loading } = this.state;
+    let { anime, loading } = this.props;
     if (loading) return <Loading />;
 
     return (
@@ -117,7 +94,7 @@ export default class Anime extends Component {
           anime.attributes.titles.en_jp + "Anime, Watch Anime"
         }
       >
-        <ItemView data={this.state} />
+        <ItemView data={this.props} />
       </AppWrapper>
     );
   }

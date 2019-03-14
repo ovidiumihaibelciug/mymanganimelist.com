@@ -7,102 +7,87 @@ import Loading from "../../components/Loading";
 import ItemsRow from "../../components/Dashboard/ItemsRow";
 import AppWrapper from "../../components/AppWrapper";
 
-export default class AnimeByCategory extends Component {
-  static getInitialProps({ query: { category } }) {
-    return { category };
+async function getData({ category }) {
+  let returnedObj = {};
+  await axios
+    .get("https://kitsu.io/api/edge/categories/", {
+      params: {
+        "filter[slug]": category
+      }
+    })
+    .then(({ data }) => {
+      returnedObj = { ...returnedObj, categoryData: data.data[0] };
+    })
+    .catch(err => console.log(err));
+  const { id } = returnedObj.categoryData;
+  await axios
+    .all([
+      axios.get(
+        `https://kitsu.io/api/edge/anime?filter%5Bstatus%5D=current&filter%5Bcategories%5D=${category}&page%5Blimit%5D=15&sort=-start_date`
+      ),
+      axios.get(
+        `https://kitsu.io/api/edge/trending/anime?limit=15&in_category=true&category=${id}`
+      ),
+      axios.get(
+        `https://kitsu.io/api/edge/anime?filter%5Bcategories%5D=${category}&page%5Blimit%5D=15&sort=-user_count`
+      )
+    ])
+    .then(([newlyReleased, trendingAnime, mostPopularAnimes]) => {
+      returnedObj = {
+        ...returnedObj,
+        trendingAnimes: trendingAnime.data.data,
+        newlyReleased: newlyReleased.data.data,
+        mostPopularAnimes: mostPopularAnimes.data.data,
+        loading: false
+      };
+    })
+    .catch(err => console.log(err));
+
+  return returnedObj;
+}
+
+class AnimeByCategory extends Component {
+  static async getInitialProps({ query: { category } }) {
+    const initProps = await getData({ category });
+    console.log("123", initProps);
+    return { ...initProps, category };
   }
-
-  state = {
-    trendingAnimes: [],
-    topAiring: [],
-    topUpcomingAnimes: [],
-    highestRatedAnimes: [],
-    mostPopularAnimes: [],
-    category: "",
-    loading: true
-  };
-
-  componentDidMount() {
-    this.getData(this.props);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({ loading: true });
-    this.getData(nextProps);
-  }
-
-  getData = props => {
-    const { category } = props;
-    axios
-      .get("https://kitsu.io/api/edge/categories/", {
-        params: {
-          "filter[slug]": category
-        }
-      })
-      .then(({ data }) => {
-        this.setState({ category: data.data[0] });
-        axios
-          .all([
-            axios.get(
-              `https://kitsu.io/api/edge/anime?filter%5Bstatus%5D=current&filter%5Bcategories%5D=${category}&page%5Blimit%5D=15&sort=-start_date`
-            ),
-            axios.get(
-              `https://kitsu.io/api/edge/trending/anime?limit=15&in_category=true&category=${
-                data.data[0].id
-              }`
-            ),
-            axios.get(
-              `https://kitsu.io/api/edge/anime?filter%5Bcategories%5D=${category}&page%5Blimit%5D=15&sort=-user_count`
-            )
-          ])
-          .then(([newlyReleased, trendingAnime, mostPopularAnimes]) => {
-            this.setState({
-              trendingAnimes: trendingAnime.data.data,
-              newlyReleased: newlyReleased.data.data,
-              mostPopularAnimes: mostPopularAnimes.data.data,
-              loading: false
-            });
-          })
-
-          .catch(err => console.log(err));
-      })
-      .catch(err => console.log(err));
-  };
 
   render() {
     const {
       trendingAnimes,
       mostPopularAnimes,
       newlyReleased,
-      category,
+      categoryData,
       loading
-    } = this.state;
+    } = this.props;
+
     if (loading) return <Loading />;
 
     const content = [
       {
-        title: `Newly Released ${category.attributes.title} Anime`,
+        title: `Newly Released ${categoryData.attributes.title} Anime`,
         items: newlyReleased
       },
       {
-        title: `Trending ${category.attributes.title} Anime`,
+        title: `Trending ${categoryData.attributes.title} Anime`,
         items: trendingAnimes
       },
       {
-        title: `Most popular ${category.attributes.title} Anime`,
+        title: `Most popular ${categoryData.attributes.title} Anime`,
         items: mostPopularAnimes
       }
     ];
 
     return (
       <AppWrapper
-        title={category.attributes.title + " Anime - MyMangAnimeList"}
-        description={`Explore newly released ${category.attributes.title.toLowerCase()} anime,  trending ${category.attributes.title.toLowerCase()} anime, most popular newly released ${category.attributes.title.toLowerCase()} anime, Watch online ${category.attributes.title.toLowerCase()} anime,`}
+        title={categoryData.attributes.title + " Anime - MyMangAnimeList"}
+        description={`Explore newly released ${categoryData.attributes.title.toLowerCase()} anime,  trending ${categoryData.attributes.title.toLowerCase()} anime, most popular newly released ${categoryData.attributes.title.toLowerCase()} anime, Watch online ${categoryData.attributes.title.toLowerCase()} anime,`}
         keywords={
           "anime," +
-          category.attributes.title.toLowerCase() +
+          categoryData.attributes.title.toLowerCase() +
           ",watch" +
-          category.attributes.title.toLowerCase() +
+          categoryData.attributes.title.toLowerCase() +
           " anime"
         }
       >
@@ -129,3 +114,5 @@ export default class AnimeByCategory extends Component {
     );
   }
 }
+
+export default AnimeByCategory;

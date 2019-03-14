@@ -59,9 +59,35 @@ const types = [
   }
 ];
 
+async function load({ filers, options }, { type }) {
+  const activeType = types.find(item => item.type === type);
+  const { url, params } = activeType;
+
+  return axios
+    .get(
+      url,
+      type !== "trending" && {
+        params: {
+          "page[limit]": options.limit,
+          "page[offset]": options.skip,
+          ...params
+        }
+      }
+    )
+    .then(({ data }) => {
+      return data.data;
+    })
+    .catch(err => console.log(err));
+}
+
 export default class AnimeList extends Component {
-  static getInitialProps({ query: { type } }) {
-    return { type };
+  static async getInitialProps({ query: { type } }) {
+    const initProps = await load(
+      { filter: {}, options: { limit: 20, skip: 0 } },
+      { type }
+    );
+
+    return { ...initProps, type };
   }
 
   state = {
@@ -70,21 +96,11 @@ export default class AnimeList extends Component {
     loading: true
   };
 
-  componentDidMount() {
-    const { type } = this.props;
-
-    const activeType = types.find(item => item.type === type);
-
-    this.setState({
-      loading: false,
-      activeType
-    });
-  }
-
   load = ({ filters, options }) => {
     const {
       activeType: { type, url, params }
     } = this.state;
+
     return axios
       .get(
         url,
@@ -106,9 +122,10 @@ export default class AnimeList extends Component {
   };
 
   count = filters => {
-    const {
-      activeType: { url }
-    } = this.state;
+    const { type } = this.props;
+    const activeType = types.find(item => item.type === type);
+    const { url } = activeType;
+
     return axios
       .get(url, {
         params: {
@@ -124,11 +141,9 @@ export default class AnimeList extends Component {
   };
 
   render() {
-    const { loading } = this.state;
     const { type } = this.props;
     const activeType = types.find(item => item.type === type);
 
-    if (loading) return <Loading />;
     return (
       <AppWrapper
         title={activeType.text + " Anime - MyMangAnimeList"}
@@ -146,7 +161,10 @@ export default class AnimeList extends Component {
             <div className="main-content anime-view anime-container anime-episodes items">
               <Molecule
                 agents={{
-                  loader: EasyLoaderAgent.factory({ load: this.load }),
+                  loader: EasyLoaderAgent.factory({
+                    load: ({ filters, options }) =>
+                      load({ filters, options }, { type })
+                  }),
                   loadMore: EasyLoadMoreAgent.factory({
                     count: this.count,
                     initialItemsCount: 20,

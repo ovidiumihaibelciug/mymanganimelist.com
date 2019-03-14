@@ -12,16 +12,46 @@ import { Button } from "antd";
 import AppWrapper from "../components/AppWrapper";
 import { seoData } from "../seoData";
 
+async function load({ filters, options }, overwrite = false) {
+  const type = "anime";
+
+  return axios
+    .get(`https://kitsu.io/api/edge/${type}`, {
+      params: {
+        "page[limit]": options.limit,
+        "page[offset]": options.skip,
+        sort: "-userCount"
+      }
+    })
+    .then(({ data }) => {
+      const results = [];
+
+      return {
+        results: overwrite ? data.data : [...results, ...data.data],
+        loadingData: false,
+        loading: false
+      };
+    });
+}
+
 class Search extends Component {
-  state = {
-    selected: false,
-    filterText: "",
-    results: [],
-    loading: true,
-    loadingData: false,
-    type: "anime",
-    skip: 0
-  };
+  static async getInitialProps({ query: { slug } }) {
+    const data = await load(
+      { filters: {}, options: { limit: 20, skip: 0 } },
+      true
+    );
+
+    return { ...data, slug };
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.props,
+      skip: 20
+    };
+  }
 
   onSubmit = data => {
     const { type } = this.state;
@@ -63,7 +93,7 @@ class Search extends Component {
   }
 
   load = ({ filters, options }, overwrite = true) => {
-    const { type } = this.state;
+    const { type = "anime" } = this.state;
 
     axios
       .get(`https://kitsu.io/api/edge/${type}`, {

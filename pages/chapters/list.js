@@ -7,44 +7,41 @@ import Template from "../../components/SecondaryItems/Template";
 import Loading from "../../components/Loading";
 import AppWrapper from "../../components/AppWrapper";
 
+async function getData({ slug }) {
+  let returnedObj = {};
+  await axios
+    .get("https://kitsu.io/api/edge/manga", {
+      params: {
+        "filter[slug]": slug
+      }
+    })
+    .then(({ data }) => {
+      returnedObj = {
+        ...returnedObj,
+        anime: data.data[0],
+        loading: false
+      };
+    })
+    .catch(err => console.log(err));
+  return returnedObj;
+}
+
 export class ChapterList extends Component {
-  static getInitialProps({ query: { slug } }) {
-    return { slug };
+  static async getInitialProps({ query: { slug } }) {
+    const initProps = await getData({ slug });
+
+    return { ...initProps, slug };
   }
 
   state = {
-    anime: "",
     loading: true,
     isFiltering: false,
     filteredItems: [],
     search: false
   };
 
-  componentDidMount() {
-    const { slug } = this.props;
-
-    axios
-      .get("https://kitsu.io/api/edge/manga", {
-        params: {
-          "filter[slug]": slug
-        }
-      })
-      .then(({ data }) => {
-        this.setState({
-          anime: data.data[0],
-          loading: false
-        });
-      })
-      .catch(err => console.log(err));
-  }
-
-  duration = date => {
-    let eventDate = moment(date);
-    return eventDate.fromNow();
-  };
-
   load = ({ filters, options }) => {
-    const { anime } = this.state;
+    const { anime } = this.props;
     const { id } = anime;
 
     let params = {
@@ -64,8 +61,9 @@ export class ChapterList extends Component {
   };
 
   count = filters => {
-    const { anime } = this.state;
+    const { anime } = this.props;
     const { id } = anime;
+
     return axios
       .get(KAPI + "/chapters", {
         params: {
@@ -79,7 +77,7 @@ export class ChapterList extends Component {
   };
 
   onSubmit = (data, molecule) => {
-    const { id } = this.state.anime;
+    const { id } = this.props.anime;
     const filters = data;
     let params = {};
     let ok = 0;
@@ -113,9 +111,8 @@ export class ChapterList extends Component {
   };
 
   render() {
-    let { anime, loading } = this.state;
-    const { slug } = this.props;
-    if (loading) return <Loading />;
+    let { anime, slug } = this.props;
+
     return (
       <AppWrapper
         title={
@@ -138,7 +135,13 @@ export class ChapterList extends Component {
             toggleFilters: this.toggleFilters,
             stopFiltering: this.stopFiltering
           }}
-          data={this.state}
+          data={{ ...this.props, ...this.state }}
+          pageTitle={
+            (anime.attributes.titles.en || anime.attributes.titles.en_jp) +
+            " Manga Chapters"
+          }
+          pageDescription={`Explore new ${anime.attributes.titles.en ||
+            anime.attributes.titles.en_jp} Chapters. `}
           slug={slug}
           schema={FilterSchema}
           itemType={"chapters"}

@@ -1,0 +1,26 @@
+.characters {
+  &__text {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    width: 99%;
+    margin-bottom: 20px;
+    &--no-border {
+      border: none;
+    }
+    &__title {
+      @include mds-font-size(45px);
+      color: $o-color-main;
+      margin-left: 10px;
+      font-weight: bold;
+      margin-bottom: 3px;
+      letter-spacing: 2px;
+    }
+    &__description {
+      @include mds-font-size(22px);
+      margin-bottom: 30px;
+      margin-left: 10px;
+      color: rgba(255, 255, 255, 0.4);
+      font-weight: 100 !important;
+      font-family: Arial !important;
+    }
+  }
+}

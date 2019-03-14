@@ -17,7 +17,8 @@ class Sidebar extends Component {
         "https://kitsu.io/api/edge/categories?page%5Blimit%5D=10&sort=-total_media_count"
       )
       .then(({ data: { data: categories } }) => {
-        this.setState({ categories, loading: false });
+        const {small} = this.props;
+        this.setState({ categories, isSmall: (window.innerWidth < 901 || small),loading: false });
       })
       .catch(err => console.log(err));
   }
@@ -27,16 +28,17 @@ class Sidebar extends Component {
       const { showSidebar } = state;
       return {
         showSidebar: !showSidebar
+
       };
     });
   };
 
   render() {
     const { small, isManga } = this.props;
-    const { categories, showSidebar, loading } = this.state;
+    const { categories, showSidebar, isSmall, loading } = this.state;
 
     const classes = classNames("o-sidebar", {
-      "o-sidebar__hide": !showSidebar && (window.innerWidth < 901 || small)
+      "o-sidebar__hide": !showSidebar && isSmall
     });
 
     const hamburgerClasses = classNames({

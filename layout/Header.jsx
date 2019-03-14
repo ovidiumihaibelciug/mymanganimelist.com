@@ -51,7 +51,8 @@ class Header extends Component {
         .then(({ data }) => {
           this.setState({
             user: data.data[0],
-            loading: false
+            loading: false,
+            isSmall: window.innerWidth < 901
           });
         })
         .catch(err => console.log(err));
@@ -94,11 +95,11 @@ class Header extends Component {
   };
 
   goForward = () => {
-    window.history.forward();
+    Router.back();
   };
 
   render() {
-    let { showInput, user, isVisible, loading } = this.state;
+    let { showInput, user, isVisible, isSmall, loading } = this.state;
 
     const {
       isFixed,
@@ -107,7 +108,9 @@ class Header extends Component {
       showRightSideInfo,
       showRightSideBar
     } = this.props;
+
     const { avatar, name } = user && user.attributes;
+
     const img =
       !loading && avatar
         ? user.avatar.original || loggedUser.avatar.original
@@ -116,8 +119,7 @@ class Header extends Component {
     const wrapperClassNames = classNames({
       "o-header__wrap": isFixed && !isFixedNoBg,
       "o-header__wrap--main-item": isFixedNoBg,
-      "o-header__wrap--no-bg":
-        (!isVisible && window.innerWidth < 901) || showRightSideBar
+      "o-header__wrap--no-bg": (!isVisible && isSmall) || showRightSideBar
     });
 
     return (
@@ -156,11 +158,9 @@ class Header extends Component {
             <div className="right-side">
               <div className="icon">
                 {!showInput ? (
-                  <Link href="/search">
-                    <a className="icon--search">
-                      <i className="fa fa-search" />
-                    </a>
-                  </Link>
+                  <a href="/search" className="icon--search">
+                    <i className="fa fa-search" />
+                  </a>
                 ) : (
                   <div className="o-search">
                     <AutoForm

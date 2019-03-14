@@ -2,46 +2,37 @@ import React, { Component } from "react";
 import axios from "axios";
 import moment from "moment";
 import Template from "../../../components/SecondaryItems/Template";
-import Loading from "../../../components/Loading";
 import AppWrapper from "../../../components/AppWrapper";
 
+async function getData({ slug }) {
+  let returnedObj = {};
+
+  await axios
+    .get("https://kitsu.io/api/edge/anime", {
+      params: {
+        "filter[slug]": slug
+      }
+    })
+    .then(({ data }) => {
+      returnedObj = {
+        ...returnedObj,
+        anime: data.data[0]
+      };
+    })
+    .catch(err => console.log(err));
+  return returnedObj;
+}
+
 export class AnimeCharacterList extends Component {
-  static getInitialProps({ query: { slug } }) {
-    return { slug };
+  static async getInitialProps({ query: { slug } }) {
+    const initProps = await getData({ slug });
+
+    return { ...initProps, slug };
   }
-
-  state = {
-    anime: "",
-    loading: true
-  };
-
-  componentDidMount() {
-    const { slug } = this.props;
-
-    axios
-      .get("https://kitsu.io/api/edge/anime", {
-        params: {
-          "filter[slug]": slug
-        }
-      })
-      .then(({ data }) => {
-        this.setState({
-          anime: data.data[0],
-          loading: false
-        });
-      })
-      .catch(err => console.log(err));
-  }
-
-  duration = date => {
-    let eventDate = moment(date);
-    return eventDate.fromNow();
-  };
 
   load = ({ filters, options }) => {
-    const { anime } = this.state;
+    const { anime } = this.props;
     const { id } = anime;
-    const { slug } = this.props;
 
     return axios
       .get("https://kitsu.io/api/edge/anime-characters", {
@@ -58,8 +49,8 @@ export class AnimeCharacterList extends Component {
       .catch(err => console.log(err));
   };
 
-  count = filters => {
-    const { anime } = this.state;
+  count = () => {
+    const { anime } = this.props;
     const { id } = anime;
 
     return axios
@@ -75,8 +66,8 @@ export class AnimeCharacterList extends Component {
   };
 
   render() {
-    let { anime, loading } = this.state;
-    if (loading) return <Loading />;
+    let { anime } = this.props;
+
     return (
       <AppWrapper
         title={
@@ -96,7 +87,17 @@ export class AnimeCharacterList extends Component {
             load: this.load,
             count: this.count
           }}
-          data={this.state}
+          pageTitle={
+            (anime.attributes.titles.en || anime.attributes.titles.en_jp) +
+            " Characters"
+          }
+          pageDescription={`Best anime characters. Search your favorite ${anime
+            .attributes.titles.en ||
+            anime.attributes.titles
+              .en_jp} character on My Manga Anime List. Explore all ${anime
+            .attributes.titles.en ||
+            anime.attributes.titles.en_jp} characters.`}
+          data={this.props}
           itemType={"characters"}
           isAnime
         />

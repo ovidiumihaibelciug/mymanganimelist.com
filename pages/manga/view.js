@@ -1,33 +1,70 @@
 import React, { Component } from "react";
-
 import axios from "axios";
-
 import { KAPI } from "../../utils";
 import ItemView from "../../components/ItemView";
 import AppWrapper from "../../components/AppWrapper";
-import Loading from "../../components/Loading";
+
+async function getManga({ slug }) {
+  let returnedObj = {};
+
+  await axios
+    .get(KAPI + "/manga", {
+      params: {
+        "filter[slug]": slug,
+        include: "genres,categories,mediaRelationships.destination"
+      }
+    })
+    .then(({ data }) => {
+      const categories =
+        data.included &&
+        data.included.filter(item => item.type === "categories");
+      const franchises =
+        data.included &&
+        data.included.filter(
+          item => item.type === "manga" || item.type === "anime"
+        );
+
+      returnedObj = {
+        ...returnedObj,
+        anime: data.data[0],
+        categories,
+        franchises
+      };
+    })
+    .catch(err => console.log(err));
+
+  await axios
+    .all([
+      axios.get(KAPI + "/chapters", {
+        params: {
+          "filter[mangaId]": returnedObj.anime.id,
+          "page[limit]": 8
+        }
+      }),
+      axios.get(KAPI + `/manga-characters/`, {
+        params: {
+          "filter[mangaId]": returnedObj.anime.id,
+          "page[limit]": 8,
+          include: "character"
+        }
+      })
+    ])
+    .then(([chapterData = false, charactersData = false]) => {
+      returnedObj = {
+        ...returnedObj,
+        chapters: chapterData.data.data,
+        characters: charactersData.data.included
+      };
+    })
+    .catch(err => console.log(err));
+  return returnedObj;
+}
 
 export default class AnimeView extends Component {
-  static getInitialProps({ query: { slug } }) {
-    return { slug };
-  }
+  static async getInitialProps({ query: { slug } }) {
+    const initProps = await getManga({ slug });
 
-  state = {
-    anime: "",
-    genres: [],
-    chapters: [],
-    characters: [],
-    franchises: [],
-    loading: true,
-    isOpen: false
-  };
-
-  componentDidMount() {
-    this.getManga(this.props);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.getManga(nextProps);
+    return { ...initProps, slug };
   }
 
   getManga = props => {
@@ -107,9 +144,8 @@ export default class AnimeView extends Component {
   };
 
   render() {
-    const { anime, loading } = this.state;
-    if (loading) return <Loading />;
-
+    const { anime } = this.props;
+    console.log(this.props);
     return (
       <AppWrapper
         title={`${anime.attributes.titles.en ||
@@ -127,7 +163,7 @@ export default class AnimeView extends Component {
           anime.attributes.titles
             .en_jp} chapters online. Explore related manga`}
       >
-        <ItemView data={this.state} />
+        <ItemView data={this.props} />
       </AppWrapper>
     );
   }
