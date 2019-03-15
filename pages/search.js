@@ -138,7 +138,7 @@ class Search extends Component {
   };
 
   render() {
-    const { results, type, loading, loadingData } = this.state;
+    const { results, type = "anime", loading, loadingData } = this.state;
 
     if (loading) return <Loading />;
 
