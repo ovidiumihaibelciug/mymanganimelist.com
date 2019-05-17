@@ -1,0 +1,94 @@
+{
+  "version": 2,
+  "builds": [{ "src": "next.config.js", "use": "@now/next" }],
+  "routes": [
+    {
+      "src": "/dashboard",
+      "dest": "pages/dashboard.js"
+    },
+    {
+      "src": "/anime/category/(.*)",
+      "dest": "/anime/category.js"
+    },
+    {
+      "src": "/anime/list/(.*)",
+      "dest": "/anime/list.js"
+    },
+    {
+      "src": "/anime",
+      "dest": "/anime/list.js"
+    },
+    {
+      "src": "/anime/(.*)",
+      "dest": "/pages/anime.js"
+    },
+    {
+      "src": "/manga/(.*)",
+      "dest": "/pages/view/manga.js"
+    },
+    {
+      "src": "/manga/slug/(.*)",
+      "dest": "/pages/view/manga.js"
+    },
+    {
+      "src": "/manga/list/(.*)",
+      "dest": "/pages/list/type.js"
+    },
+    {
+      "src": "/episode/(.*)",
+      "dest": "/pages/episode/view.js"
+    },
+    {
+      "src": "/anime/(.*)/characters",
+      "dest": "/pages/characters/anime/list.js"
+    },
+    {
+      "src": "/manga/(.*)/characters",
+      "dest": "/pages/characters/manga/list.js"
+    },
+    {
+      "src": "/characters",
+      "dest": "/pages/characters/list.js"
+    },
+    {
+      "src": "/characters",
+      "dest": "/pages/characters/list.js"
+    },
+    {
+      "src": "/search",
+      "dest": "/pages/search.js"
+    },
+    {
+      "src": "/feed",
+      "dest": "/pages/discussions.js"
+    },
+    {
+      "src": "/manga/(.*)/chapters",
+      "dest": "/pages/chapters/list.js"
+    },
+    {
+      "src": "/my-account",
+      "dest": "/pages/user/my-account.js"
+    },
+    {
+      "src": "/user/(.*)",
+      "dest": "/pages/user/view.js"
+    },
+    {
+      "src": "/login",
+      "dest": "/pages/login.js"
+    },
+    {
+      "src": "/post/(.*)",
+      "dest": "/pages/post.js"
+    },
+    {
+      "src": "/posts/(.*)",
+      "dest": "/pages/post.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/pages/anime.js"
+    }
+  ]
+}
