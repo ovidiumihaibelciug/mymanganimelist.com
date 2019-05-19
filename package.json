@@ -1,5 +1,5 @@
 {
-  "name": "create-next-example-app",
+  "name": "mymanganimelist.com",
   "scripts": {
     "dev": "next start",
     "build": "next build",
@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@svgr/core": "^4.1.0",
+    "@zeit/next-css": "^1.0.1",
     "@zeit/next-sass": "^1.0.1",
     "antd": "^3.13.0",
     "axios": "^0.18.0",
@@ -27,7 +28,7 @@
     "moment": "^2.24.0",
     "next": "^8.1.0",
     "next-routes": "^1.4.2",
-    "node-sass": "^4.11.0",
+    "node-sass": "^4.12.0",
     "react": "^16.7.0",
     "react-chartjs-2": "^2.7.4",
     "react-dom": "^16.7.0",

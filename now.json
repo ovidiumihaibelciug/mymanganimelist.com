@@ -1,94 +1,98 @@
 {
   "version": 2,
-  "builds": [{ "src": "next.config.js", "use": "@now/next" }],
+  "name": "mymanganimelist.com",
+  "builds": [
+    { "src": "next.config.js", "use": "@now/next" }
+  ],
   "routes": [
     {
       "src": "/dashboard",
-      "dest": "pages/dashboard.js"
+      "dest": "dashboard"
     },
     {
       "src": "/anime/category/(.*)",
-      "dest": "/anime/category.js"
+      "dest": "anime/category"
     },
     {
-      "src": "/anime/list/(.*)",
-      "dest": "/anime/list.js"
+      "src": "/anime/list/(?<type>[^/]+)$",
+      "dest": "anime/list?type=$type"
     },
     {
       "src": "/anime",
-      "dest": "/anime/list.js"
+      "dest": "anime/list"
     },
     {
-      "src": "/anime/(.*)",
-      "dest": "/pages/anime.js"
+      "src": "/anime/(?<slug>[^/]+)$",
+      "dest": "anime?slug=$slug"
     },
     {
       "src": "/manga/(.*)",
-      "dest": "/pages/view/manga.js"
+      "dest": "view/manga"
     },
     {
       "src": "/manga/slug/(.*)",
-      "dest": "/pages/view/manga.js"
+      "dest": "view/manga"
     },
     {
       "src": "/manga/list/(.*)",
-      "dest": "/pages/list/type.js"
+      "dest": "list/type"
     },
     {
       "src": "/episode/(.*)",
-      "dest": "/pages/episode/view.js"
+      "dest": "episode/view"
     },
     {
       "src": "/anime/(.*)/characters",
-      "dest": "/pages/characters/anime/list.js"
+      "dest": "characters/anime/list"
     },
     {
       "src": "/manga/(.*)/characters",
-      "dest": "/pages/characters/manga/list.js"
+      "dest": "characters/manga/list"
     },
     {
       "src": "/characters",
-      "dest": "/pages/characters/list.js"
+      "dest": "characters/list"
     },
     {
       "src": "/characters",
-      "dest": "/pages/characters/list.js"
+      "dest": "characters/list"
     },
     {
       "src": "/search",
-      "dest": "/pages/search.js"
+      "dest": "search"
     },
     {
       "src": "/feed",
-      "dest": "/pages/discussions.js"
+      "dest": "discussions"
     },
     {
       "src": "/manga/(.*)/chapters",
-      "dest": "/pages/chapters/list.js"
+      "dest": "chapters/list"
     },
     {
       "src": "/my-account",
-      "dest": "/pages/user/my-account.js"
+      "dest": "user/my-account"
     },
     {
       "src": "/user/(.*)",
-      "dest": "/pages/user/view.js"
+      "dest": "user/view"
     },
     {
       "src": "/login",
-      "dest": "/pages/login.js"
+      "dest": "login"
     },
     {
       "src": "/post/(.*)",
-      "dest": "/pages/post.js"
+      "dest": "post"
     },
     {
       "src": "/posts/(.*)",
-      "dest": "/pages/post.js"
+      "dest": "post"
     },
     {
-      "src": "/(.*)",
-      "dest": "/pages/anime.js"
+      "src": "/",
+      "dest": "dashboard"
     }
   ]
 }
+
