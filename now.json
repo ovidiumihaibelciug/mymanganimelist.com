@@ -46,6 +46,10 @@
       "dest": "characters/anime/list"
     },
     {
+      "src": "/anime/(.*)/episodes",
+      "dest": "episodes/list"
+    },
+    {
       "src": "/manga/(.*)/characters",
       "dest": "characters/manga/list"
     },
