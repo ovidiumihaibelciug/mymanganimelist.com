@@ -29,7 +29,7 @@ export default class extends Document {
             }}
           />
           <!-- PopAds.net Popunder Code for mymanganimelist.com -->
-          <
+          <script
               type="text/javascript"
               data-cfasync="false"
               dangerouslySetInnerHTML={{ __html: `
